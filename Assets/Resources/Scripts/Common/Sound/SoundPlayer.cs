@@ -1,11 +1,12 @@
-﻿/**************************************************************************************/
-/*! @file   SoundPlayer.cs
-***************************************************************************************
-@brief      サウンドを出力するクラス
-***************************************************************************************
-@author     Ryo Sugiyama
-***************************************************************************************/
-
+﻿/**********************************************************************************************/
+/*@file   BaseObject.cs
+*********************************************************************************************
+* @brief      サウンドを出力するクラス
+*********************************************************************************************
+* @author     Ryo Sugiyama
+*********************************************************************************************
+* Copyright © 2017 Ryo Sugiyama All Rights Reserved.
+**********************************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,10 @@ public class SoundPlayer
     BGMPlayer curBGMPlayer;
     BGMPlayer fadeOutBGMPlayer;
     Dictionary<string, AudioClipInfo> audioClips = new Dictionary<string, AudioClipInfo>();
-
+    
+    /// <summary>
+    /// オーディオクリップ関連の宣言とアクセサー
+    /// </summary>
     class AudioClipInfo
     {
         public string resourceName;
@@ -32,12 +36,12 @@ public class SoundPlayer
         }
     }
 
-    /****************************************************************************** 
-    @brief      指定サウンドデータをオーディオクリップに追加する。
-    @note       サウンドデータはResourceフォルダ直下においてください。
-    @note       audioClips.Add("呼び出し時の名前", new AudioClipInfo("サウンドデータのフォルダ面", "呼び出し時の名前"));
-    @return     none
-    */
+    /// <summary>
+    /// @brief      指定サウンドデータをオーディオクリップに追加する。
+    /// @note       サウンドデータはResourceフォルダ直下においてください。
+    /// @note       audioClips.Add("呼び出し時の名前", new AudioClipInfo("サウンドデータのフォルダ名", "管理名"));
+    /// @return     none
+    /// </summary>
     public SoundPlayer()
     {
         audioClips.Add("Sea", new AudioClipInfo("Sound/Sea", "BGM001"));
@@ -52,10 +56,12 @@ public class SoundPlayer
 
     }
 
-    /****************************************************************************** 
-    @brief      追加したサウンドデータを再生する
-    @return     指定のSE名がなければfalse / あれば再生してtrue
-    */
+    /// <summary>
+    /// @brief      追加したサウンドデータを再生する
+    /// </summary>
+    /// <param name="seName"></param>
+    /// <param name="volume"></param>
+    /// <returns>指定のSE名がなければfalse / あれば再生してtrue</returns>
     public bool playSE(string seName, float volume)
     {
 
@@ -83,32 +89,44 @@ public class SoundPlayer
         return true;
     }
 
-    public void playBGM(string bgmName, float fadeTime, bool isLoop)
+    /// <summary>
+    /// @brief 名前、フェードタイム、ループするか、ボリュームを決めてBGMを再生する
+    /// </summary>
+    /// <param name="bgmName"></param>
+    /// <param name="fadeTime"></param>
+    /// <param name="isLoop"></param>
+    /// <param name="volume"></param>
+    public void playBGM(string bgmName, float fadeTime, bool isLoop, float volume = 1.0f)
     {
-        // destory old BGM
+        //　フェードアウト中のBGMがあったら
         if (fadeOutBGMPlayer != null)
+
+            // もともと再生されていたBGMを消去
             fadeOutBGMPlayer.destory();
 
-        // change to fade out for current BGM
+        //　再生中なら
         if (curBGMPlayer != null)
         {
+            //　フェードアウトしながら、新しいBGMを入れる
             curBGMPlayer.stopBGM(fadeTime);
             fadeOutBGMPlayer = curBGMPlayer;
         }
 
-        // play new BGM
+        // サウンドのリストに登録されていなかったら
         if (audioClips.ContainsKey(bgmName) == false)
         {
-            // null BGM
+            // 空のオブジェクトを生成
             curBGMPlayer = new BGMPlayer();
         }
         else
         {
+            //指定された名前のBGMの実態を生成して転送
             curBGMPlayer = new BGMPlayer(audioClips[bgmName].resourceName);
-            curBGMPlayer.playBGM(fadeTime, isLoop);
+            curBGMPlayer.playBGM(fadeTime, isLoop, volume);
         }
     }
 
+    //　再生
     public void playBGM()
     {
         if (curBGMPlayer != null)
@@ -117,6 +135,7 @@ public class SoundPlayer
             fadeOutBGMPlayer.playBGM();
     }
 
+    //ポーズ
     public void pauseBGM()
     {
         if (curBGMPlayer != null)
@@ -125,6 +144,7 @@ public class SoundPlayer
             fadeOutBGMPlayer.pauseBGM();
     }
 
+    //　停止
     public void stopBGM(float fadeTime)
     {
         if (curBGMPlayer != null)

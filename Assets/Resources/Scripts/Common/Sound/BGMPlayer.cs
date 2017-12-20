@@ -1,31 +1,52 @@
-﻿using System.Collections;
+﻿/**********************************************************************************************/
+/*@file   BaseObject.cs
+*********************************************************************************************
+* @brief      すべてのオブジェクトを管理するための基底クラス
+*********************************************************************************************
+* @author     Ryo Sugiyama
+*********************************************************************************************
+* Copyright © 2017 Ryo Sugiyama All Rights Reserved.
+**********************************************************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 class BGMPlayer
 {
+    #region オブジェクトの宣言
+    /****************************************************************************************/
+    GameObject obj;             // @brief 再生するBGMがコンポーネントされているゲームオブジェクト
+    AudioSource source;         // @brief Unity.Engine空間のオーディオ関連
+    State state;                // @brief 状態を格納するStateクラスインスタンス
+    float fadeInTime = 0.0f;    // @brief フェードインタイム
+    float fadeOutTime = 0.0f;   // @brief フェードアウトタイム
+    float volume = 0.0f;        // @brief ボリューム
+
+    #endregion
+
     #region  状態遷移（State）を内部に持って管理するもの
-    // State
+    /****************************************************************************************/
     class State
     {
-        protected BGMPlayer bgmPlayer;
+        protected BGMPlayer bgmPlayer;  // @brief 子クラスで使用可能なインスタンス
+
         public State(BGMPlayer bgmPlayer)
         {
             this.bgmPlayer = bgmPlayer;
         }
+
         public virtual void playBGM() { }
         public virtual void pauseBGM() { }
         public virtual void stopBGM() { }
         public virtual void update() { }
     }
 
-
     #endregion
 
     #region 一時停止の実装
+    /****************************************************************************************/
     class Wait : State
     {
-
         public Wait(BGMPlayer bgmPlayer) : base(bgmPlayer) { }
 
         public override void playBGM()
@@ -40,6 +61,7 @@ class BGMPlayer
     #endregion
 
     #region ポーズの実装
+    /****************************************************************************************/
     class Pause : State
     {
 
@@ -63,9 +85,11 @@ class BGMPlayer
             bgmPlayer.source.Play();
         }
     }
+
     #endregion
 
     #region    再生の実装
+    /****************************************************************************************/
     class Playing : State
     {
 
@@ -73,7 +97,7 @@ class BGMPlayer
         {
             if (bgmPlayer.source.isPlaying == false)
             {
-                bgmPlayer.source.volume = 1.0f;
+                bgmPlayer.source.volume = bgmPlayer.volume;
                 bgmPlayer.source.Play();
             }
         }
@@ -88,9 +112,11 @@ class BGMPlayer
             bgmPlayer.state = new FadeOut(bgmPlayer);
         }
     }
+
     #endregion　
 
     #region    フェードインの実装
+    /****************************************************************************************/
     class FadeIn : State
     {
 
@@ -118,7 +144,7 @@ class BGMPlayer
             bgmPlayer.source.volume = t / bgmPlayer.fadeInTime;
             if (t >= bgmPlayer.fadeInTime)
             {
-                bgmPlayer.source.volume = 1.0f;
+                bgmPlayer.source.volume = bgmPlayer.volume;
                 bgmPlayer.state = new Playing(bgmPlayer);
             }
         }
@@ -126,6 +152,7 @@ class BGMPlayer
     #endregion
 
     #region    フェードアウトの実装
+    /****************************************************************************************/
     class FadeOut : State
     {
         float initVolume;
@@ -144,7 +171,7 @@ class BGMPlayer
         public override void update()
         {
             t += Time.deltaTime;
-            bgmPlayer.source.volume = initVolume * (1.0f - t / bgmPlayer.fadeOutTime);
+            bgmPlayer.source.volume = initVolume * (bgmPlayer.volume - t / bgmPlayer.fadeOutTime);
             if (t >= bgmPlayer.fadeOutTime)
             {
                 bgmPlayer.source.volume = 0.0f;
@@ -155,16 +182,10 @@ class BGMPlayer
     }
     #endregion
 
-    #region オブジェクトの宣言
 
-    GameObject obj;
-    AudioSource source;
-    State state;
-    float fadeInTime = 0.0f;
-    float fadeOutTime = 0.0f;
-    #endregion
 
     #region 静的関数の実装
+    /****************************************************************************************/
     public BGMPlayer() { }
 
     public BGMPlayer(string bgmFileName)
@@ -195,11 +216,14 @@ class BGMPlayer
         }
     }
 
-    public void playBGM(float fadeTime, bool toLoop)
+    public void playBGM(float fadeTime, bool toLoop, float volume)
     {
         if (source != null)
         {
             this.fadeInTime = fadeTime;
+            this.volume = volume;
+            source.volume = this.volume;
+            Debug.Log(source.volume);
             source.loop = toLoop;
             state.playBGM();
         }
