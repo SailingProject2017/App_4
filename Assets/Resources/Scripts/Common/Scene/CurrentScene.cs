@@ -4,12 +4,14 @@
  制作日 :2017.12.1
  内容   :ボタンが飛ばすところとシーンが同じか判断
 　　     シーンが同じだったらボタンを消去する
+         シーンが切り替わる直後ボタンをfalseからtureに。また、flgを変える
       
          SeneReload()→シーンをロード
          CurrentScene→現在のシーン
-
+         flg→ボタンのfalseとtureの管理
 ****************************************************/
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +22,13 @@ public class CurrentScene : BaseObject
 
     private bool flg;
 	void Start () {
-        SceneReload();              
+        
+            SceneReload();
+            
     }
-	
-	
-	void Update () {
+
+    
+    void Update () {
 
     }
 
@@ -36,13 +40,13 @@ public class CurrentScene : BaseObject
         //現在のシーンが同じだったら
         if (CurrentScene == "ModeSelect")//モードセレクト
         {
-            //GameObject.Find("ボタンの名前").SetActive(false);
+           // GameObject.Find("ボタンの名前").SetActive(false);
             //ボタンを非表示にする
-            GameObject.Find("home").SetActive(false);
-            flg = false;
+            //GameObject.Find("home").SetActive(false);
+            //sdflg = false;
         }
 
-        else if (CurrentScene == "Tutorial")//タイトル
+        else if (CurrentScene == "Title")//タイトル
         {       
             GameObject.Find("title").SetActive(false);
             flg = false;    
@@ -75,15 +79,17 @@ public class CurrentScene : BaseObject
         
             base.OnEnd();
         //flgがfalseだったら実行
-            if (flg==false)
-            {
-                // GameObject.Find("home").SetActive(true);
-                GameObject.Find("title").SetActive(true);
-            Debug.Log("さわい");
+        if (flg == false)
+        {
+         //    GameObject.Find("home").SetActive(true);
+            GameObject.Find("title").SetActive(true);
+            //Debug.Log("さわい");
             GameObject.Find("battlerecord").SetActive(true);
             GameObject.Find("credit").SetActive(true);
             GameObject.Find("configuration").SetActive(true);
             GameObject.Find("view").SetActive(true);
+            //flgを最後trueにしてまたシーンを取得する
+            flg = true;
         }
     }
 
