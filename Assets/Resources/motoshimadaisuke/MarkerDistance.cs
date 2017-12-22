@@ -1,13 +1,20 @@
-﻿using System.Collections;
+﻿/***********************************************************************/
+/*! @file   MarkerDistans.cs
+*************************************************************************
+*   @brief  マーカーまでの距離を求めるクラス
+*************************************************************************
+*   @author daisuke motoshima
+*************************************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MarkerDistance : BaseObject {
-    public float PlayerDistans;
+    public float playerDistans;
     [SerializeField]
-    private GameObject[] MarkerObject;
+    private GameObject[] markerObject;
     private int num, i;
-    public int MarkerCnt;
+    public int markerCnt;
     
 	// Use this for initialization
 	void Start () {
@@ -21,23 +28,23 @@ public class MarkerDistance : BaseObject {
         base.OnUpdate();
         Distance();
     }
-    void FindObject()//マーカーを発見しMarkerObjectに入れる
+    void FindObject()//マーカーを発見しmarkerObjectに入れる
     {
-        MarkerObject = new GameObject[num];
+        markerObject = new GameObject[num];
         for (i = 0; i < num; i++)
         {
-            MarkerObject[i] = GameObject.Find("HitMarker" + i);//+iでマーカーの番号を示して要素の数だけFindして見つける
+            markerObject[i] = GameObject.Find("HitMarker" + i);//+iでマーカーの番号を示して要素の数だけFindして見つける
 
-            if (MarkerObject[i] == null)
+            if (markerObject[i] == null)
             {
                 Debug.Log("null");
-                MarkerObject[i] = GameObject.Find("Center");
+                markerObject[i] = GameObject.Find("Center");
             }
-            Debug.Log(MarkerObject[i].transform.position);
+            Debug.Log(markerObject[i].transform.position);
         }
     }
     void Distance()
     {
-        PlayerDistans = ((transform.position.x - MarkerObject[MarkerCnt].transform.position.x) + (transform.position.z - MarkerObject[MarkerCnt].transform.position.z));
+        playerDistans = ((transform.position.x - markerObject[markerCnt].transform.position.x) + (transform.position.z - markerObject[markerCnt].transform.position.z));
     }
 }

@@ -1,14 +1,21 @@
-﻿using System.Collections;
+﻿/***********************************************************************/
+/*! @file   RankManager.cs
+*************************************************************************
+*   @brief  順位を制御するクラス
+*************************************************************************
+*   @author daisuke motoshima
+*************************************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RankManager : BaseObject {
-    public int[] MarkerNum;
+    public int[] markerNum;
     MarkerDistance markerDistance;
-    private GameObject[] EnemyStats;
-    public float[] Distance;
-    public int[] Rank= { 1, 1, 1, 1 };
-    private int PlayerNum;
+    private GameObject[] enemyStats;
+    public float[] distance;
+    public int[] rank= { 1, 1, 1, 1 };
+    private int playerNum;
     // Use this for initialization
     void Start () {
        
@@ -24,42 +31,42 @@ public class RankManager : BaseObject {
     }
     void Judgment()
     {
-        for (int i = 0; i < PlayerNum; i++)
+        for (int i = 0; i < playerNum; i++)
         {
 
-            if (MarkerNum[i] < MarkerNum[i + 1])
+            if (markerNum[i] < markerNum[i + 1])
             {
 
-                Rank[i] += 1;
-                if (Rank[i + 1] > 1)
+                rank[i] += 1;
+                if (rank[i + 1] > 1)
                 {
-                    Rank[i + 1] -= 1;
+                    rank[i + 1] -= 1;
                 }
             }
-            else if (MarkerNum[i] > MarkerNum[i + 1])
+            else if (markerNum[i] > markerNum[i + 1])
             {
-                Rank[i + 1] += 1;
-                if (Rank[i] > 1)
+                rank[i + 1] += 1;
+                if (rank[i] > 1)
                 {
-                    Rank[i] -= 1;
+                    rank[i] -= 1;
                 }
             }
-            else if (MarkerNum[i] == MarkerNum[i + 1])
+            else if (markerNum[i] == markerNum[i + 1])
             {
-                if (Distance[i] < Distance[i + 1])
+                if (distance[i] < distance[i + 1])
                 {
-                    Rank[i] += 1;
-                    if (Rank[i + 1] > 1)
+                    rank[i] += 1;
+                    if (rank[i + 1] > 1)
                     {
-                        Rank[i + 1] -= 1;
+                        rank[i + 1] -= 1;
                     }
                 }
-                else if (Distance[i] > Distance[i + 1])
+                else if (distance[i] > distance[i + 1])
                 {
-                    Rank[i + 1] += 1;
-                    if (Rank[i] > 1)
+                    rank[i + 1] += 1;
+                    if (rank[i] > 1)
                     {
-                        Rank[i] -= 1;
+                        rank[i] -= 1;
                     }
                 }
             }
@@ -68,23 +75,23 @@ public class RankManager : BaseObject {
     }
     void Status()
     {
-        EnemyStats = new GameObject[PlayerNum];
-        MarkerNum = new int[PlayerNum];
-        Distance = new float[PlayerNum];
-        for(int k = 0; k < PlayerNum; k++)
+        enemyStats = new GameObject[playerNum];
+        markerNum = new int[playerNum];
+        distance = new float[playerNum];
+        for(int k = 0; k < playerNum; k++)
         {
-            EnemyStats[k] = GameObject.Find("Enemy");
-            if (EnemyStats == null)
+            enemyStats[k] = GameObject.Find("Enemy");
+            if (enemyStats == null)
             {
-                EnemyStats[k] = GameObject.Find("Player");
+                enemyStats[k] = GameObject.Find("Player");
             }
         }
         
-        for (int i = 0; i < PlayerNum; i++)
+        for (int i = 0; i < playerNum; i++)
         {
-            markerDistance = EnemyStats[i].GetComponent<MarkerDistance>();
-            MarkerNum[i] = markerDistance.MarkerCnt;
-            Distance[i] =markerDistance.PlayerDistans;
+            markerDistance = enemyStats[i].GetComponent<MarkerDistance>();
+            markerNum[i] = markerDistance.markerCnt;
+            distance[i] =markerDistance.playerDistans;
         }
         
     }
