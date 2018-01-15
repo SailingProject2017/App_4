@@ -39,13 +39,13 @@ public class num : BaseObject
 
     public void BackgroundLog()
     {
-        transform.DOLocalMove(new Vector3(169.0f, 2, 0), 0.3f).SetEase(Ease.InOutQuart);
+        transform.DOLocalMove(new Vector3(250.0f, 2, 0), 0.3f).SetEase(Ease.InOutQuart);
         // me.rectTransform.DOAnchorPosX(movedPos.x, 2.0f).SetEase(Ease.InOutBack);
     }
 
     public void BackgroundLogClose()
      {    
-          transform.DOLocalMove(new Vector3(434.0f, 2, 0), 0.3f).SetEase(Ease.InOutQuart);
+          transform.DOLocalMove(new Vector3(850.0f, 2, 0), 0.3f).SetEase(Ease.InOutQuart);
     }
 
 }
