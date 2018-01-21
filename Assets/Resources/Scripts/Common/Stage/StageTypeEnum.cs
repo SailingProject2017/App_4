@@ -15,7 +15,7 @@ using UnityEngine;
 /// @brief ステージの列挙体
 /// @note  選ばれたステージを判断する用
 /// </summary>
-public enum EStageType
+public enum StageType
 {
     TUTORIALSTAGE_SAILING,
     TUTORIALSTAGE_UI,

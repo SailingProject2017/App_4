@@ -21,14 +21,16 @@ public class CurrentScene : BaseObject
 {
 
     private bool flg;
-	void Start () {
-        
-            SceneReload();
-            
+    void Start()
+    {
+
+        SceneReload();
+
     }
 
-    
-    void Update () {
+
+    void Update()
+    {
 
     }
 
@@ -36,30 +38,30 @@ public class CurrentScene : BaseObject
     {
         //現在のシーン名を取得
         string CurrentScene = SceneManager.GetActiveScene().name;
-        
+
         //現在のシーンが同じだったら
         if (CurrentScene == "ModeSelect")//モードセレクト
         {
-           // GameObject.Find("ボタンの名前").SetActive(false);
+            // GameObject.Find("ボタンの名前").SetActive(false);
             //ボタンを非表示にする
             //GameObject.Find("home").SetActive(false);
             //sdflg = false;
         }
 
         else if (CurrentScene == "Title")//タイトル
-        {       
+        {
             GameObject.Find("title").SetActive(false);
-            flg = false;    
+            flg = false;
         }
         else if (CurrentScene == "Battlerecord")//戦績
         {
             GameObject.Find("battlerecord").SetActive(false);
-            flg = false;      
+            flg = false;
         }
         else if (CurrentScene == "Credit")//クレジット
         {
             GameObject.Find("credit").SetActive(false);
-            flg = false;         
+            flg = false;
         }
         else if (CurrentScene == "Configuration")//設定
         {
@@ -67,7 +69,7 @@ public class CurrentScene : BaseObject
             flg = false;
         }
         else if (CurrentScene == "View")//ビュー
-        { 
+        {
             GameObject.Find("view").SetActive(false);
             flg = false;
         }
@@ -76,12 +78,12 @@ public class CurrentScene : BaseObject
 
     public override void OnEnd()
     {
-        
-            base.OnEnd();
+
+        base.OnEnd();
         //flgがfalseだったら実行
         if (flg == false)
         {
-         //    GameObject.Find("home").SetActive(true);
+            //    GameObject.Find("home").SetActive(true);
             GameObject.Find("title").SetActive(true);
             //Debug.Log("さわい");
             GameObject.Find("battlerecord").SetActive(true);

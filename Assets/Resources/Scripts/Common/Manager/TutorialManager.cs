@@ -3,7 +3,7 @@
 *********************************************************************************************
 * @brief      チュートリアルの初期状態を設定してます
 *********************************************************************************************
-* @author     Ryo Sugiyama
+* @author     Ryo Sugiyama　& Yuta Takatsu
 *********************************************************************************************
 * Copyright © 2017 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
@@ -13,8 +13,9 @@ using UnityEngine;
 
 public class TutorialManager : BaseObject
 {
-    private NextScene nextScene;
-    protected string fileName = "C:\\Users\\nwuser.DA\\Desktop\\Sailing2017\\App4\\SailingProject_2017\\obj\\TutorialState.obj";
+    private TutorialState nextScene;
+    private NextTutorial nextTutorial;
+    protected string fileName = "C:\\Users\\nwuser.DA\\Desktop\\createGame's\\WindRacer\\obj\\TutorialState.obj";
 
     protected override void AppendListConstructor()
     {
@@ -32,35 +33,61 @@ public class TutorialManager : BaseObject
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
                 CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
 
-                //次のシーンをModeSelectにする
-                nextScene.AccessNextScene = SCENES.MODESELECT;
                 break;
 
             case eTutorial.eTutorial_ModeSelect: //　モードセレクト画面チュートリアル
-                nextScene.AccessNextScene = SCENES.MODESELECT;
+                
+                //　チュートリアルの状態をセーリング説明のチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_Sailing);
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+
                 break;
 
             case eTutorial.eTutorial_Sailing: //　セーリングについて
-                nextScene.AccessNextScene = SCENES.INTUTORIAL;
+
+                //　チュートリアルの状態をInGameのUI説明チュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_InGameUI);
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+
                 break;
 
             case eTutorial.eTutorial_InGameUI: //　InGameのUI説明のチュートリアル
-                nextScene.AccessNextScene = SCENES.INTUTORIAL;
+
+                //　チュートリアルの状態を前に進もうのチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_Accel);
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+
                 break;
 
             case eTutorial.eTutorial_Accel: //　前に進もうのチュートリアルです
-                nextScene.AccessNextScene = SCENES.INTUTORIAL;
+
+                //　チュートリアルの状態を曲がろうのチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_Curve);
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+
                 break;
 
             case eTutorial.eTutorial_Curve: //　曲がろうのチュートリアルです
-                nextScene.AccessNextScene = SCENES.INTUTORIAL;
+
+                //　チュートリアルの状態をCPUと戦おうのチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_CPU);
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+
                 break;
 
             case eTutorial.eTutorial_CPU: //　CPUと戦おうのチュートリアルです
-                nextScene.AccessNextScene = SCENES.INTUTORIAL;
+
+                //　チュートリアルの状態をユーザーネームを入力してもらうチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_InputUserName);
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+
                 break;
 
             case eTutorial.eTutorial_InputUserName: //　ユーザーネームを入力してもらうチュートリアルです。
+
+                //　チュートリアルの状態を終わりにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
 
                 break;
 
@@ -73,13 +100,9 @@ public class TutorialManager : BaseObject
                 break;
         }
 
-
-        if (CreateSaveData.DoTutorial(fileName, eTutorial.eTutorial_ModeSelect))
-            Debug.Log("チュートリアルはModeSelectです。");
-
-        CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);   
-        CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName); 
+        // デバッグ用
+        CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
+        CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+        Debug.Log("現在のチュートリアルは" + Singleton<TutorialState>.instance.TutorialStatus);
     }
-
-    
 }

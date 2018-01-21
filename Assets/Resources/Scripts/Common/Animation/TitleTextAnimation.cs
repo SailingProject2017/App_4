@@ -17,48 +17,54 @@ public class TitleTextAnimation : BaseObject
 {
 
     [SerializeField]
-    private Image me;                // 画像登録
-    private Vector3 movedPos;        // 座標用
+    private Image me;                // @brief 画像登録
+    private Vector3 movedPos;        // @brief 座標用
 
     [SerializeField]
-    private float durationSecondes;  // 点滅の周期時間
-    private Ease easeType;           // SetEaseのEasingを指定
+    private float durationSecondes;  // @brief 点滅の周期時間
+    private Ease easeType;           // @brief SetEaseのEasingを指定
 
     [SerializeField]
-    private EAnimeType animeType;    // enum判断用
+    private eAnimeType animeType;    // @brief enum判断用
 
-    private CanvasGroup canvasGroup; // 子要素含め扱える
+    private CanvasGroup canvasGroup; // @brief 子要素含め扱える
 
-    /// <summary> どの画像かを判断する用 </summary>
-    public enum EAnimeType
+    /// <summary>
+    /// @brief どの画像かを判断する用
+    /// </summary>
+    public enum eAnimeType
     {
-        TITLE_WIND,
-        TITLE_RASER,
-        TITLE_TEXT
+        eTitle_Wind,
+        eTitle_Raser,
+        eTitle_Text
     }
 
-    /// <summary> 初期座標をセット Typeに応じて最終座標も代入 </summary>
+    /// <summary>
+    /// @brief 初期座標をセット Typeに応じて最終座標も代入 
+    /// </summary>
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
 
-        if (animeType == EAnimeType.TITLE_WIND)
+        if (animeType == eAnimeType.eTitle_Wind)
         {
             movedPos.x = -150.0f;
             me.rectTransform.localPosition = new Vector3(-1200.0f, 200.0f, 0.0f);
         }
-        if (animeType == EAnimeType.TITLE_RASER)
+        if (animeType == eAnimeType.eTitle_Raser)
         {
             movedPos.x = 150.0f;
             me.rectTransform.localPosition = new Vector3(1200.0f, 0.0f, 0.0f);
         }
     }
 
-    /// <summary> movedPosの位置に2.0fで移動 </summary>
+    /// <summary> 
+    /// movedPosの位置に2.0fで移動 
+    /// </summary>
     void Start()
     {
         // テキストの点滅
-        if (animeType == EAnimeType.TITLE_TEXT)
+        if (animeType == eAnimeType.eTitle_Text)
         {
             DOVirtual.DelayedCall(2.5f, () => Text());
         }

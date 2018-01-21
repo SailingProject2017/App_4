@@ -15,222 +15,262 @@ using DG.Tweening;
 public class PopupBase : BaseObject
 {
 
+    [SerializeField]
+    RectTransform popupWindowBase; // @brief 生成するp\Popupを格納
+    RectTransform popupWindow;     // @brief 生成
 
     [SerializeField]
-    RectTransform m_popupWindowBase;
-    RectTransform m_popupWindow;
+    RectTransform popupRoot; // @brief どこに生成するか
 
-    [SerializeField]
-    RectTransform m_popupRoot;
+    PopupButton popupButton; // @brief Popup内のボタン
 
-    PopupButton m_popupButton;
+    private EButtonSet buttonSet = EButtonSet.Set1;  // ボタンの種類 初期はボタン一つのver
+    private System.Action<EButtonId> buttonCallback; // どのボタンを呼ぶかを判断するコールバック
+
+    private Image blackFade; // @brief ポップアップの背景
+
+    /// <summary>
+    /// @brief ポップアップ内のボタンのアクセサー
+    /// </summary>
     public PopupButton PopupButton
     {
-        get { return m_popupButton; }
+        get { return popupButton; }
     }
 
-    Image m_blackFade;
+    /// <summary>
+    /// @brief ポップアップの背景のアクセサー
+    /// </summary>
     public Image BlackFade
     {
-        get { return m_blackFade; }
+        get { return blackFade; }
     }
 
-    private System.Action<EButtonId> m_buttonCallback;
-    public System.Action<EButtonId> mButtonCallback
+    /// <summary>
+    /// @brief Idによってボタンの種類を判断するアクセサー
+    /// </summary>
+    public System.Action<EButtonId> ButtonCallback
     {
         set
         {
-            if (m_popupButton != null)
-                m_popupButton.mOnClickCallback = value;
+            if (popupButton != null)
+                popupButton.OnClickCallback = value;
 
-            m_buttonCallback = value;
+            buttonCallback = value;
         }
     }
 
     class PopupAction
     {
-        public System.Action _begin;
-        public System.Action _run;
-        public System.Action _end;
+        public System.Action begin; // @brief ポップアップを呼び出すとき
+        public System.Action run;   // @brief ポップアップを呼び出し中
+        public System.Action end;   // @brief ポップアップを閉じるとき
     }
 
-    PopupAction m_openAction = new PopupAction();
-    PopupAction m_closeAction = new PopupAction();
+    PopupAction openAction = new PopupAction();
+    PopupAction closeAction = new PopupAction();
 
-    private EButtonSet m_buttonSet = EButtonSet.Set1;
-    public EButtonSet mButtonSet
+    /// <summary>
+    /// @brief ボタンをセットするアクセサー
+    /// </summary>
+    public EButtonSet ButtonSet
     {
-        private get { return m_buttonSet; }
+        private get { return buttonSet; }
         set
         {
-            if (m_popupButton != null)
-                m_popupButton.transform.SetActive(false);
+            if (popupButton != null)
+                popupButton.transform.SetActive(false);
 
             if (value != EButtonSet.SetNone)
             {
-                var root = m_popupWindow.transform.FindInChildren("Popup", false);
+                var root = popupWindow.transform.FindInChildren("Popup", false);
                 var buttonGroup = root.transform.FindInChildren("Button", false);
                 string path = (value == EButtonSet.Set1) ? "ButtonSet1" : "ButtonSet2";
                 var button = buttonGroup.transform.FindInChildren(path, false);
 
-                if (m_popupButton == null || m_popupButton.name != button.name)
+                if (popupButton == null || popupButton.name != button.name)
                 {
-                    m_popupButton = button.GetComponent<PopupButton>();
+                    popupButton = button.GetComponent<PopupButton>();
 
-                    m_popupButton.mOnClickCallback = m_buttonCallback;
+                    popupButton.OnClickCallback = buttonCallback;
                 }
             }
-            if (m_popupButton != null)
-                m_popupButton.transform.SetActive(true);
+            if (popupButton != null)
+                popupButton.transform.SetActive(true);
 
-            m_buttonSet = value;
+            buttonSet = value;
         }
     }
 
-    float m_time = float.NaN;
+    float time = float.NaN;
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
 
-        if (m_popupWindow == null)
+        if (popupWindow == null)
         {
-            m_popupWindow = New(m_popupWindowBase) as RectTransform;
+            popupWindow = New(popupWindowBase) as RectTransform;
         }
-        m_popupWindow.SetParent(m_popupRoot, false);
-        m_popupWindow.transform.localScale = new Vector3(1, 0, 0);
+        popupWindow.SetParent(popupRoot, false);
+        popupWindow.transform.localScale = new Vector3(1, 0);
 
-        if (m_blackFade == null)
+        if (blackFade == null)
         {
-            m_blackFade = m_popupWindow.transform.FindInChildren("BackFade", false).GetComponent<Image>();
-            m_blackFade.transform.SetActive(false);
+            blackFade = popupWindow.transform.FindInChildren("BackFade", false).GetComponent<Image>();
+            blackFade.transform.SetActive(false);
         }
-        m_popupWindow.SetActive(false);
+        popupWindow.SetActive(false);
 
-        mButtonSet = EButtonSet.SetNone;
+        ButtonSet = EButtonSet.SetNone;
         RemoveObjectToList(this);
     }
 
-    public EPopupState mPopupState
+    /// <summary>
+    /// @brief ポップアップの状態を表すアクセサー
+    /// </summary>
+    public EPopupState PopupState
     {
         get;
         private set;
     }
 
-
+    /// <summary>
+    /// @brief ポップアップを開く関数
+    /// </summary>
+    /// <param name="openBeginAction"></param>
+    /// <param name="openning"></param>
+    /// <param name="openEnd"></param>
+    /// <param name="time"></param>
     public virtual void Open(System.Action openBeginAction, System.Action openning = null, System.Action openEnd = null, float time = 0.25f)
     {
 
-        m_popupWindow.SetActive(true);
-        m_popupWindow.transform.localScale = new Vector3(1, 0);
+        popupWindow.SetActive(true);
+        popupWindow.transform.localScale = new Vector3(1, 0);
 
-        m_openAction._begin = openBeginAction;
-        m_openAction._run = openning;
-        m_openAction._end = openEnd;
-        m_time = time;
+        openAction.begin = openBeginAction;
+        openAction.run = openning;
+        openAction.end = openEnd;
+        this.time = time;
 
         OnOpen();
     }
 
+    /// <summary>
+    /// @brief ポップアップを閉じる関数
+    /// </summary>
+    /// <param name="closeBeginAction"></param>
+    /// <param name="closening"></param>
+    /// <param name="closeEnd"></param>
+    /// <param name="time"></param>
     public virtual void Close(System.Action closeBeginAction, System.Action closening = null, System.Action closeEnd = null, float time = 0.25f)
     {
-        m_closeAction._begin = closeBeginAction;
-        m_closeAction._run = closening;
-        m_closeAction._end = closeEnd;
-        m_time = time;
+        closeAction.begin = closeBeginAction;
+        closeAction.run = closening;
+        closeAction.end = closeEnd;
+        this.time = time;
 
-        m_popupWindow.transform.localScale = new Vector3(1, 1);
+        popupWindow.transform.localScale = new Vector3(1,0);
         OnCloseAnimation();
     }
 
+    /// <summary>
+    /// @brief ポップアップを開くアニメーション用関数
+    /// </summary>
     void OnOpen()
     {
-        var tweener = m_popupWindow.DOScale(new Vector3(1f, 1f), m_time).SetEase(Ease.InOutQuart);
+        var tweener = popupWindow.DOScale(new Vector3(1,1), time).SetEase(Ease.InOutQuart);
         tweener
         .OnStart(() =>
         {
-            m_blackFade.transform.SetActive(true);
-            if (m_openAction._begin != null)
+            blackFade.transform.SetActive(true);
+            if (openAction.begin != null)
             {
-                m_openAction._begin.Invoke();
-                m_openAction._begin = null;
+                openAction.begin.Invoke();
+                openAction.begin = null;
             }
-            mPopupState = EPopupState.OpenBegin;
+            PopupState = EPopupState.OpenBegin;
         })
         .OnUpdate(() =>
         {
-            if (m_openAction._run != null)
+            if (openAction.run != null)
             {
-                m_openAction._run.Invoke();
-                m_openAction._run = null;
+                openAction.run.Invoke();
+                openAction.run = null;
             }
-            mPopupState = EPopupState.Openning;
+            PopupState = EPopupState.Openning;
         })
          .OnComplete(() =>
          {
 
-             if (m_openAction._end != null)
+             if (openAction.end != null)
              {
-                 m_openAction._end.Invoke();
-                 m_openAction._end = null;
+                 openAction.end.Invoke();
+                 openAction.end = null;
              }
-             mPopupState = EPopupState.OpenEnd;
-             m_popupButton.transform.SetActive(true);
+             PopupState = EPopupState.OpenEnd;
+             popupButton.transform.SetActive(true);
          });
 
     }
 
+    /// <summary>
+    /// @brief ポップアップを閉じるアニメーション関数
+    /// </summary>
     void OnCloseAnimation()
     {
-        var tweener = m_popupWindow.DOScale(new Vector3(1f, 0f), m_time).SetEase(Ease.InOutQuart);
+        var tweener = popupWindow.DOScale(new Vector3(1, 0), time).SetEase(Ease.InOutQuart);
         tweener.OnStart(() =>
         {
-            if (m_closeAction._begin != null)
+            if (closeAction.begin != null)
             {
-                m_closeAction._begin.Invoke();
-                m_closeAction._begin = null;
+                closeAction.begin.Invoke();
+                closeAction.begin = null;
             }
-            m_popupButton.transform.SetActive(false);
-            mPopupState = EPopupState.CloseBegin;
+            popupButton.transform.SetActive(false);
+            PopupState = EPopupState.CloseBegin;
         })
          .OnUpdate(() =>
          {
-             if (m_closeAction._run != null)
+             if (closeAction.run != null)
              {
-                 m_closeAction._run.Invoke();
-                 m_closeAction._run = null;
+                 closeAction.run.Invoke();
+                 closeAction.run = null;
              }
-             mPopupState = EPopupState.Closing;
+             PopupState = EPopupState.Closing;
          })
          .OnComplete(() =>
          {
 
-             if (m_closeAction._end != null)
+             if (closeAction.end != null)
              {
-                 m_closeAction._end.Invoke();
-                 m_closeAction._end = null;
+                 closeAction.end.Invoke();
+                 closeAction.end = null;
              }
-             m_blackFade.transform.SetActive(false);
-             mPopupState = EPopupState.CloseEnd;
+             blackFade.transform.SetActive(false);
+             PopupState = EPopupState.CloseEnd;
          });
     }
 
 
-
+    /// <summary>
+    /// @brief ポップアップボタンのテキストを指定する関数
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="text"></param>
     public void SetButtonText(EButtonId id, string text)
     {
         switch (id)
         {
             case EButtonId.OK:
-                if (m_popupButton.OkText != null)
+                if (popupButton.OkText != null)
                 {
-                    m_popupButton.OkText.text = text;
+                    popupButton.OkText.text = text;
                 }
                 break;
 
             case EButtonId.Cancel:
-                if (m_popupButton.CancelText != null)
+                if (popupButton.CancelText != null)
                 {
-                    m_popupButton.CancelText.text = text;
+                    popupButton.CancelText.text = text;
                 }
                 break;
         }

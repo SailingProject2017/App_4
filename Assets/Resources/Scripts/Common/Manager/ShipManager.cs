@@ -1,25 +1,34 @@
-﻿using System.Collections;
+﻿/***********************************************************************/
+/*! @file   ShipManager.cs
+*************************************************************************
+*   @brief  船を管理するマネージャークラス
+*************************************************************************
+*   @author yuta takatsu
+*************************************************************************
+*   Copyright © 2017 yuta takatsu All Rights Reserved.
+************************************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipManager : BaseObject {
 
     // 船の状態
-    public enum EShipState
+    public enum ShipState
     {
         STOP, // 止まっている
         START // 動いている
     }
 
     // 船の操作方法
-    public enum EShipController
+    public enum ShipController
     {
         SWIPE, // スワイプ操作
         TILT,  // 傾き操作
     }
 
     // カメラ視点
-    public enum EShipCameraMode
+    public enum ShipCameraMode
     {
         FPS, // 一人称
         TPS  // 三人称
