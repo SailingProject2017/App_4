@@ -14,10 +14,11 @@ using UnityEngine;
 public class SoundPlayer
 {
 
-    GameObject soundPlayerObj;
-    AudioSource audioSource;
-    BGMPlayer curBGMPlayer;
-    BGMPlayer fadeOutBGMPlayer;
+    GameObject soundPlayerObj;  // @brief サウンドプレイヤーオブジェクトを格納する変数
+    AudioSource audioSource;    // @brief Unityのオーディオ設定関連のクラスインスタンス
+    BGMPlayer curBGMPlayer;     // @brief 現在再生しているBGMのオブジェクトを格納する変数
+    BGMPlayer fadeOutBGMPlayer; // @brief フェードアウト中のBGMのオブジェクトを格納する変数
+
     Dictionary<string, AudioClipInfo> audioClips = new Dictionary<string, AudioClipInfo>();
     
     /// <summary>
