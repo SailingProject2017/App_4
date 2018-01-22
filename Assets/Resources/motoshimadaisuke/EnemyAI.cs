@@ -5,35 +5,40 @@
 *************************************************************************
 *   @author daisuke motoshima
 *************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : BaseObject {
-    private enum EenemyStatus {
-        eTURNING,
-        eNORMAL,
-        eACCELERATION,
+public class EnemyAI : BaseObject
+{
+    GetWindParam getwind;//@brief getwindクラスを使うための変数
+    GameObject WindObject;//@brief　GameObject型で GameObject.Find用
+    private enum EenemyStatus//@brief 行動の状態を表す
+    {
+        eTURNING,//旋回
+        eNORMAL,//通常
+        eACCELERATION,//一定いかになったら加速する方向に向く
         NULL
     }
-    private GameObject[] targetObject;// ターゲットとなるオブジェクト
-    GetWindParam getwind;
-    GameObject WindObject;
+    private EenemyStatus type;//@brief状態の変更を表す
+    private GameObject[] targetObject;//@brief ターゲットとなるオブジェクト
+    public string markerObjectName;//@brief当たったオブジェクトの名前を取得したものが入るもの
     const int objectArrayNum = 5;//配列の数
-    private float playerRadian;
-    private float rad = 0, deg = 0;//radはラジアン　degは角度
-    private int num = 0;//配列の番号を示す変数
-    private EenemyStatus type;
-    int i;//無限ループの変数、
-    private Vector3 enemyPosition;
+    private float playerRadian;//@briefプレイヤーの角度
+    private float rad = 0, deg = 0;//@briefradはラジアン　degは角度
+    private int num = 0;//@brief配列の番号を示す変数
+    int i;//@brief無限ループの変数
+
+    private Vector3 enemyPosition;//@brief船の場所を表すもの
     [SerializeField]
-    public Vector3 aISpeed = new Vector3(0.1f, 0, 0.1f);//エネミーのスピード
+    public Vector3 aISpeed = new Vector3(0.1f, 0, 0.1f);//@briefエネミーのスピード
+    /// <summary>
+    /// 最初の処理でオブジェクトを見つけて次のマーカーまでの角度を求める
+    /// </summary>
     void Start()
     {
         FindObject();
         Radian();
-        type = EenemyStatus.eNORMAL;//初期に通常の移動をするようにする
-        transform.rotation = Quaternion.Euler(0, deg, 0);//初期角度を入れる
+        type = EenemyStatus.eNORMAL;
+        transform.rotation = Quaternion.Euler(0, deg, 0);
     }
     public override void OnUpdate()
     {
@@ -51,21 +56,26 @@ public class EnemyAI : BaseObject {
                 break;
         }
     }
-    void OnTriggerEnter(Collider Hit)//当たった時に次のマーカーの場所を示してtype変数に次の行動を表す値を入れる
+    /// <summary>
+    /// 当たった時に次のマーカーの場所を示してtype変数に次の行動を表す値を入れる
+    /// </summary>
+    /// <param name="Hit"></param>
+    void OnTriggerEnter(Collider Hit)
     {
         //Debug.Log(Hit.tag);
         //tagの名前を使ってどのマーカーに当たったかを判断しnumに入れる
-        if (Hit.tag == "first")
-        {  
-                num ++;
+        if (markerObjectName == "HitMarker"+num)
+        {
+            num++;
             type = EenemyStatus.eTURNING;
         }
-        if (Hit.tag == "ship")
-        {
-            Turning(30);
-        }
+       
     }
-    float Radian()//Atan2でラジアン値を求めてラジアン値を角度に戻している
+    /// <summary>
+    /// Atan2でラジアン値を求めてラジアン値を角度に戻している
+    /// </summary>
+    /// <returns></returns>
+    float Radian()
     {
         playerRadian = transform.localEulerAngles.y;
         // ラジアン
@@ -76,9 +86,12 @@ public class EnemyAI : BaseObject {
                 targetObject[num].transform.position.z - transform.position.z,
                 targetObject[num].transform.position.x - transform.position.x);
         deg = rad * Mathf.Rad2Deg + 87;//ラジアン値を角度に変更
-       return deg *= -1;//+-を反転
+        return deg *= -1;//+-を反転
     }
-    void FindObject()//マーカーを発見しtargetObjectに入れる
+    /// <summary>
+    ///マーカーを発見しtargetObjectに入れる
+    /// </summary>
+    void FindObject()
     {
         targetObject = new GameObject[objectArrayNum];
         for (i = 0; i < objectArrayNum; i++)
@@ -86,12 +99,16 @@ public class EnemyAI : BaseObject {
             targetObject[i] = GameObject.Find("HitMarker" + i);//+iでマーカーの番号を示して要素の数だけFindして見つける
             if (targetObject[i] == null)
             {
-                Debug.Log("null");
+                //Debug.Log("null");
                 targetObject[i] = GameObject.Find("Center");
             }
         }
     }
-    void Turning(float deg)//呼び出したときに一回角度を求めてその角度まで旋回する
+    /// <summary>
+    ///引数で角度を渡すとそこまで旋回する
+    /// </summary>
+    /// <param name="deg"></param>
+    void Turning(float deg)
     {
         if (Mathf.DeltaAngle(playerRadian, deg) < 0)//PlayerRからdegまでの最短の角度を求めてそれが一定の値以上なら動く
         {
@@ -108,18 +125,23 @@ public class EnemyAI : BaseObject {
             type = EenemyStatus.eNORMAL;
         }
     }
-    void Move()//Enemyの移動
+    /// <summary>
+    /// 移動
+    /// </summary>
+    void Move()
     {
         enemyPosition = transform.position;
         enemyPosition.x += aISpeed.x * Mathf.Cos(rad);
         enemyPosition.z += aISpeed.z * Mathf.Sin(rad);
         transform.position = enemyPosition;
-    }
+    }/// <summary>
+    /// 風の取得
+    /// </summary>
+    /// <returns></returns>
     float WindSet()
     {
-        WindObject=GameObject.Find("Wind");
+        WindObject = GameObject.Find("Wind");
         getwind = WindObject.GetComponent<GetWindParam>();
         return getwind.valuewind;
     }
 }
-

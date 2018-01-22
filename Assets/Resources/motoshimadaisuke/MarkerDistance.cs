@@ -5,29 +5,30 @@
 *************************************************************************
 *   @author daisuke motoshima
 *************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-public class MarkerDistance : BaseObject {
+public class MarkerDistance : BaseObject
+{
     public float playerDistans;
     [SerializeField]
     private GameObject[] markerObject;
     private int num, i;
     public int markerCnt;
-    
-	// Use this for initialization
-	void Start () {
+  // Use this for initialization
+    void Start()
+    {
         FindObject();
 
     }
 
-    // Update is called once per frame
+   
     public override void OnUpdate()
     {
         base.OnUpdate();
         Distance();
     }
+
     void FindObject()//マーカーを発見しmarkerObjectに入れる
     {
         markerObject = new GameObject[num];
