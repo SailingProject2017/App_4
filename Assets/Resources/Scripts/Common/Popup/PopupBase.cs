@@ -1,4 +1,4 @@
-﻿/**************************************************************************************/
+/**************************************************************************************/
 /*! @file   PopupBase.cs
 ***************************************************************************************
 @brief      PopupWindowの基底クラス
@@ -16,7 +16,7 @@ public class PopupBase : BaseObject
 {
 
     [SerializeField]
-    RectTransform popupWindowBase; // @brief 生成するp\Popupを格納
+    RectTransform popupWindowBase; // @brief 生成するPopupを格納
     RectTransform popupWindow;     // @brief 生成
 
     [SerializeField]
