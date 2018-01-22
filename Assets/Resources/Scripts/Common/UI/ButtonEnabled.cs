@@ -35,13 +35,13 @@ public class ButtonEnabled : BaseObject
 
         if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_End)
         {
-            // 配列内のボタンすべての機能を停止する
+            // 配列内のボタンの内部機能を停止する
             for (int i = 0; i < button.Length; i++)
                 button[i].enabled = false;
         }
         else
         {
-            // 配列内のボタンすべての機能を停止する
+            // 配列内のボタン外部機能を停止する
             for (int i = 0; i < button.Length; i++)
                 button[i].interactable = false;
         }
