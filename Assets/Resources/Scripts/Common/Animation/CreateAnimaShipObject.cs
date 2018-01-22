@@ -14,9 +14,9 @@ using UnityEngine;
 public class CreateAnimaShipObject : BaseObject {
 
     [SerializeField]
-    private GameObject animaShip; // 生成する船を格納
-	
-	void Start () {
+    private GameObject animaShip; // @brief 生成する船を格納
+
+    void Start () {
         GameObject gameObj = New<GameObject>(animaShip); // 生成
     }
 }

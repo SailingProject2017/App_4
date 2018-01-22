@@ -12,18 +12,21 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-// シーンの列挙体
+/// <summary>
+/// @brief シーンの列挙
+/// </summary>
 public enum SCENES
 {
     TITLE,
     MODESELECT,
     TUTORIAL,
     CPUBATTLE,
-    ONLINEBATTLE,
     INTUTORIAL,
     INGAME,
+    ONLINEBATTLE
 }
 
+// SceneManagerがUnityの予約語として登録されているため独自のnamespaceを作成
 namespace Scene
 {
     public static class SceneManager

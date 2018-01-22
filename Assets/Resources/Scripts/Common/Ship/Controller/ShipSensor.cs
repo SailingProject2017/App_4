@@ -1,14 +1,22 @@
-﻿using UnityEngine;
+﻿/***********************************************************************/
+/*! @file   ShipSensor.cs
+*************************************************************************
+*   @brief  傾きセンサーで船を操作するコントローラ
+*************************************************************************
+*   @author yuta takatsu
+*************************************************************************
+*   Copyright © 2017 yuta takatsu All Rights Reserved.
+************************************************************************/
+using UnityEngine;
 using System.Collections;
 
 public class ShipSensor : BaseObject
 {
 
-    private Vector3 acceleration;
+    private Vector3 acceleration; // @brief センサー情報を取得
    
-    private GUIStyle labelStyle;
+    private GUIStyle labelStyle; // @brief フォント
 
-    // Use this for initialization
     void Start()
     {
         //フォント生成
@@ -21,11 +29,13 @@ public class ShipSensor : BaseObject
         base.OnUpdate();
         this.acceleration = Input.acceleration;
 
-        //transform.rotation = Quaternion.Euler(this.acceleration.x * 10, this.acceleration.y * 10, this.acceleration.z * 10);
         transform.Rotate(0,this.acceleration.x,0);
     }
 
-    void OnGUI()
+    /// <summary>
+    /// @brief センサー情報を取得し対象の船を傾ける
+    /// </summary>
+    private void OnGUI()
     {
         if (acceleration != null)
         {
@@ -54,6 +64,7 @@ public class ShipSensor : BaseObject
                         throw new System.InvalidOperationException();
                 }
 
+                /// テキストの更新
                 GUI.Label(new Rect(x, y, w, h), text, this.labelStyle);
             }
         }

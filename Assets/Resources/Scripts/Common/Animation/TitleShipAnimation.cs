@@ -14,7 +14,7 @@ using UnityEngine;
 public class TitleShipAnimation : BaseObject {
 
   
-    private bool animaShipMoveFlag;      // 船が動くかどうか
+    private bool animaShipMoveFlag; // @brief 船が動くかどうか
 
     public void Start()
     {

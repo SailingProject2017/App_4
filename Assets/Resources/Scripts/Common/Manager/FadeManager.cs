@@ -18,11 +18,11 @@ public class FadeManager : BaseObjectSingleton<FadeManager>
 {
 
 
-    private float fadeAlpha = 0; // フェード中の透明度
+    private float fadeAlpha = 0; // @brief フェード中の透明度
 
-    private bool isFading = false; // フェード中かどうか
+    private bool isFading = false; // @brief フェード中かどうか
 
-    public Color fadeColor = Color.black; // フェード色
+    public Color fadeColor = Color.black; // @brief フェード色
 
     protected override void AppendListConstructor()
     {
@@ -42,7 +42,9 @@ public class FadeManager : BaseObjectSingleton<FadeManager>
         }
     }
 
-    /// <summary> 画面遷移 </summary>
+    /// <summary>
+    /// @brief 画面遷移 
+    /// </summary>
     /// <param name="scene"> シーン名 </param>
     /// <param name="interval"> 暗転にかかる時間 </param>
     public void LoadScene(int scene, float interval)
@@ -50,7 +52,9 @@ public class FadeManager : BaseObjectSingleton<FadeManager>
         StartCoroutine(TransScene(scene, interval));
     }
 
-    /// <summary> シーン繊維用コルーチン </summary>
+    /// <summary>
+    /// @brief シーン繊維用コルーチン
+    /// </summary>
     /// <param name="scene"> シーン名 </param>
     /// <param name="interval"> 暗転にかかる時間 </param>
     private IEnumerator TransScene(int scene, float interval)

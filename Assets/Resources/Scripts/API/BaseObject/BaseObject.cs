@@ -190,7 +190,7 @@ public class BaseObject : MonoBehaviour
     static public void AppendSceneObjectToList(BaseObject value)
     {
         currentSceneObjectList.AddLast(value);
-        Debug.Log(value.name);
+        //Debug.Log(value.name);
     }
 
     static public void AppendDontDestroyObject(BaseObject value)

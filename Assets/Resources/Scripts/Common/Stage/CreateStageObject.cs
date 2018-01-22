@@ -13,30 +13,14 @@ using UnityEngine;
 
 public class CreateStageObject : BaseObject
 {
-    // setされたステージをgetする
+
+    [SerializeField]
+    private GameObject[] StageObject; // 生成をしたいステージを格納する配列
    
     public void Start()
     {
-        // setされたステージを判断して生成を行う
-        switch (GameInstance.Instance.StageType)
-        {
-            case EStageType.TUTORIALSTAGE_SAILING:
-                Debug.Log("a");
-                break;
-            case EStageType.TUTORIALSTAGE_UI:
-                break;
-            case EStageType.TUTORIALSTAGE_ACCEL:
-                break;
-            case EStageType.TUTORIALSTAGE_CURVE:
-                break;
-            case EStageType.TUTORIALSTAGE_CPU:
-                break;
-            case EStageType.STAGE_EAGY:
-                break;
-            case EStageType.STAGE_NORMAL:
-                break;
-            case EStageType.STAGE_HARD:
-                break;
-        }
+
+        New(StageObject[(int)GameInstance.Instance.StageType]);// 生成
+        
     }
 }

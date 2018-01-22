@@ -19,20 +19,24 @@ public class NextScene : BaseObject
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
-        //RemoveSceneObject(this);
     }
 
     [SerializeField]
-    private SCENES nextScene; // 次のシーン格納用
+    private SCENES nextScene; // @brief 次のシーン格納用
 
+    /// <summary>
+    /// @brief 次のシーンを判断するアクセサー
+    /// </summary>
     public SCENES AccessNextScene { set; get; }
 
-    public void mOnTap()
+    /// <summary>
+    /// @brief タップされたときに呼ばれる関数
+    /// </summary>
+    public void OnTap()
     {
         //シーン破棄時に実行される関数をオブジェクト分だけ実行
         foreach (var obj in CurrentSceneObjectList)
         {
-           // Debug.Log(obj.gameObject.name);
             obj.OnEnd();
         }
 

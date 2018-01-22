@@ -14,24 +14,20 @@ using UnityEngine;
 public class AppendStageObject : BaseObject
 {
    
-    // 設定された列挙体を格納する
     [SerializeField]
-    private EStageType stageType;
-
- 
+    private StageType stageType; // @brief 設定された列挙体を格納する
+    
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
-        GameInstance.Instance.StageType = EStageType.NULL;
+        GameInstance.Instance.StageType = StageType.NULL;
     }
 
     /// <summary>
-    ///  タップされたときに呼ばれる
+    ///  @brief タップされたときに呼ばれるオブジェクト生成関数
     ///</summary>
     public void OnTap()
     {
         GameInstance.Instance.StageType = stageType;
-        Debug.Log(GameInstance.Instance.StageType);
-     
     }
 }

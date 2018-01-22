@@ -1,38 +1,50 @@
-﻿using UnityEngine;
+﻿/***********************************************************************/
+/*! @file   ShipCamera.cs
+*************************************************************************
+*   @brief  船用のカメラ
+*************************************************************************
+*   @author yuta takatsu
+*************************************************************************
+*   Copyright © 2017 yuta takatsu All Rights Reserved.
+************************************************************************/
+using UnityEngine;
 using System.Collections;
 
 public class ShipCamera : BaseObject
 {
 
-    public enum ECameraMode // 視点を表す列挙
+    /// <summary>
+    /// @brief 視点を表す列挙
+    /// </summary>
+    public enum CameraMode
     {
         FPS,
         TPS
     }
 
     [SerializeField]
-    private GameObject Ship; // 追跡する船
+    private GameObject ship; // @brief 追跡する船
     [SerializeField]
-    private Camera Camera;      // 対象のカメラ
+    private Camera shipCamera;      // @brief 対象のカメラ
     [SerializeField]
-    private ECameraMode cameraPerspective; // 視点
+    private CameraMode cameraPerspective; // @brief 視点
 
-    private int layerMaskShip;  // 船のレイヤー
-    private float distance;     // 船とカメラの距離
-    private float cameraHeight; // カメラの高さ
-    private float followSpeed = 20; // カメラのディレイスピード
+    private int layerMaskShip;  // @brief 船のレイヤー
+    private float distance;     // @brief 船とカメラの距離
+    private float cameraHeight; // @brief カメラの高さ
+    private float followSpeed = 20; // @brief カメラのディレイスピード
     
     void Start()
     {
         layerMaskShip = 1 << LayerMask.NameToLayer("Ship"); // レイヤー情報を取得
 
-        if (cameraPerspective == ECameraMode.FPS)
+        if (cameraPerspective == CameraMode.FPS)
         {
             Camera.main.cullingMask &= ~layerMaskShip;// 非表示
             transform.SetPosY(1);
             transform.SetPosZ(0);
         }
-        if (cameraPerspective == ECameraMode.TPS)
+        if (cameraPerspective == CameraMode.TPS)
         {
             Camera.main.cullingMask |= layerMaskShip; // 表示
             transform.SetPosY(7);
@@ -40,11 +52,11 @@ public class ShipCamera : BaseObject
         }
         //平面(X,Z)での距離を取得
         distance = Vector3.Distance(
-            new Vector3(Ship.transform.position.x, 0, Ship.transform.position.z),
+            new Vector3(ship.transform.position.x, 0, ship.transform.position.z),
             new Vector3(transform.position.x, 0, transform.position.z));
 
         //カメラの高さの差分を取得
-        cameraHeight = transform.position.y - Ship.transform.position.y;
+        cameraHeight = transform.position.y - ship.transform.position.y;
     }
 
     public override void OnLateUpdate()
@@ -52,16 +64,16 @@ public class ShipCamera : BaseObject
         //カメラの位置を高さだけ、ターゲットに合わせて作成
         var current = new Vector3(
             transform.position.x,
-            Ship.transform.position.y,
+            ship.transform.position.y,
             transform.position.z
         );
 
         //チェック用の位置情報を作成(バックした時にカメラが引けるようにdistance分位置を後ろにずらす)
-        var checkCurrent = current + Vector3.Normalize(current - Ship.transform.position) * distance;
+        var checkCurrent = current + Vector3.Normalize(current - ship.transform.position) * distance;
 
         //カメラが到達すべきポイントを計算（もともとのターゲットとの差分から計算します）
         var v = Vector3.MoveTowards(
-            Ship.transform.position,
+            ship.transform.position,
             checkCurrent,
             distance);
 
@@ -72,16 +84,14 @@ public class ShipCamera : BaseObject
             Time.deltaTime * followSpeed
         ) + new Vector3(0, cameraHeight, 0);
 
-
         //カメラの角度を調整
-        var newRotation = Quaternion.LookRotation(Ship.transform.position - transform.position).eulerAngles;
-        if (cameraPerspective == ECameraMode.FPS)
+        var newRotation = Quaternion.LookRotation(ship.transform.position - transform.position).eulerAngles;
+        if (cameraPerspective == CameraMode.FPS)
         {
             newRotation.x = 0;
         }
-        if (cameraPerspective == ECameraMode.TPS)
+        if (cameraPerspective == CameraMode.TPS)
         {
-            
             newRotation.x = 20;
         }
         newRotation.z = 0;

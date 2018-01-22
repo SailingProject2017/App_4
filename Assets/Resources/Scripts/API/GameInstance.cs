@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameInstance : BaseObjectSingleton<GameInstance> {
 
-    private EStageType stageType;
+    private StageType stageType;
 
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
-        StageType = EStageType.NULL;
+        StageType = StageType.NULL;
     }
 
 
@@ -18,7 +18,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
     /// @set    none
     /// @get    入力されたデータを渡す
     /// </summary>
-    public EStageType StageType
+    public StageType StageType
     {
         set { stageType = value; }
         get { return stageType; }
