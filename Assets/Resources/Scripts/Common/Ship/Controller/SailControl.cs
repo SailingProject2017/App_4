@@ -12,11 +12,13 @@ using UnityEngine;
 public class SailControl : BaseObject {
 
     [SerializeField]
-    private GameObject player;
-    private GameObject sail;
-    private GetWindParam getWindParam;
+    private GameObject player;          // @brief 船オブジェクトを格納する変数
+    [SerializeField]
+    private GameObject sail;            // @brief 船のセールオブジェクトを格納する変数
 
-    void Start()
+    private GetWindParam getWindParam;  // @brief スクリプトインスタンス
+
+    private void Start()
     {
         //　風のベクトルをランダムで取得
         getWindParam.Random();

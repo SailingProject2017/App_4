@@ -106,7 +106,7 @@ public class SoundPlayer
         else
         {
             curBGMPlayer = new BGMPlayer(audioClips[bgmName].resourceName);
-            curBGMPlayer.playBGM(fadeTime, isLoop);
+            curBGMPlayer.playBGM(fadeTime, isLoop, audioSource.volume);
         }
     }
 

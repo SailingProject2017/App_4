@@ -15,7 +15,7 @@ public class TutorialManager : BaseObject
 {
     private TutorialState nextScene;
     private NextTutorial nextTutorial;
-    protected string fileName = "C:\\Users\\nwuser.DA\\Desktop\\createGame's\\WindRacer\\obj\\TutorialState.obj";
+    protected string fileName = "C:\\Users\\nwuser.DA\\TutorialState.obj";
 
     protected override void AppendListConstructor()
     {
