@@ -32,38 +32,38 @@ public class GetWindParam : BaseObject
 
     void Start()
     {
-        random();
+        Random();
     }
 
 
     //風ランダムで一つ表示させるための関数
-    void random()
+    public void Random()
     {
-        //0から359までの値をランダムで出す
-        r_Wind = UnityEngine.Random.Range(0, 360);
+        //-180~180までの値をランダムで出す
+        r_Wind = UnityEngine.Random.Range(-180, 180);
         Debug.Log(r_Wind);
+        
+        // 値を制限
+        
+        //180度以上にしない
+        if (r_Wind >= 180)
+        {
+            l_valuewind = r_Wind - 180;
+        }
+        //-180度以下にしない
+        else if (r_Wind < -180)
+        {
+            l_valuewind = 180 + r_Wind;
+        }
+        //そのまま
+        else
+            l_valuewind = r_Wind;
     }
 
-
-    //値を制限
-    public float valuewind
+   
+    public float Valuewind
     {
         get { return l_valuewind; }
-        //360度以上にしない
-        set
-        {
-            if (r_Wind >= 360)
-            {
-                l_valuewind = r_Wind - 360;
-            }
-            //0度以下にしない
-            else if (r_Wind < 0)
-            {
-                l_valuewind = 360 - r_Wind;
-            }
-            //そのまま
-            else
-                l_valuewind = r_Wind;
-        }
+        
     }
 }
