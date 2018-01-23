@@ -10,12 +10,13 @@ using UnityEngine;
 
 public class MarkerDistance : BaseObject
 {
-    public float playerDistans;
+    public float playerDistans;　        //@brief マーカーからプレイヤーの位置までの距離が入ったスクリプト
     [SerializeField]
-    private GameObject[] markerObject;
-    private int num, i;
-    public int markerCnt;
-  // Use this for initialization
+    private GameObject[] markerObject;  //@brief マーカー発見用の配列のオブジェクト
+    private int num = 4;                //@brief 
+    private int i;                      //@brief ループ用
+    public int markerCnt;               //@brief マーカーが通った数を格納する変数
+                                        // Use this for initialization
     void Start()
     {
         FindObject();
@@ -28,8 +29,10 @@ public class MarkerDistance : BaseObject
         base.OnUpdate();
         Distance();
     }
-
-    void FindObject()//マーカーを発見しmarkerObjectに入れる
+    /// <summary>
+    /// マーカーを見つけて配列に格納する関数
+    /// </summary>
+    void FindObject()
     {
         markerObject = new GameObject[num];
         for (i = 0; i < num; i++)
@@ -44,6 +47,9 @@ public class MarkerDistance : BaseObject
             Debug.Log(markerObject[i].transform.position);
         }
     }
+    /// <summary>
+    /// マーカーまでの距離を求める
+    /// </summary>
     void Distance()
     {
         playerDistans = ((transform.position.x - markerObject[markerCnt].transform.position.x) + (transform.position.z - markerObject[markerCnt].transform.position.z));

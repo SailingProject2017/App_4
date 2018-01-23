@@ -9,25 +9,25 @@ using UnityEngine;
 
 public class EnemyAI : BaseObject
 {
-    GetWindParam getwind;//@brief getwindクラスを使うための変数
-    GameObject WindObject;//@brief　GameObject型で GameObject.Find用
-    private enum EenemyStatus//@brief 行動の状態を表す
+    GetWindParam getwind;       //@brief getwindクラスを使うための変数
+    GameObject WindObject;      //@brief　GameObject型で GameObject.Find用
+    private enum EenemyStatus   //@brief 行動の状態を表す
     {
-        eTURNING,//旋回
-        eNORMAL,//通常
-        eACCELERATION,//一定いかになったら加速する方向に向く
+        eTURNING,               //旋回
+        eNORMAL,                //通常
+        eACCELERATION,          //一定いかになったら加速する方向に向く
         NULL
     }
-    private EenemyStatus type;//@brief状態の変更を表す
-    private GameObject[] targetObject;//@brief ターゲットとなるオブジェクト
-    public string markerObjectName;//@brief当たったオブジェクトの名前を取得したものが入るもの
-    const int objectArrayNum = 5;//配列の数
-    private float playerRadian;//@briefプレイヤーの角度
-    private float rad = 0, deg = 0;//@briefradはラジアン　degは角度
-    private int num = 0;//@brief配列の番号を示す変数
-    int i;//@brief無限ループの変数
+    private EenemyStatus type;          //@brief状態の変更を表す
+    private GameObject[] targetObject;  //@brief ターゲットとなるオブジェクト
+    public string markerObjectName;     //@brief当たったオブジェクトの名前を取得したものが入るもの
+    const int objectArrayNum = 5;       //配列の数
+    private float playerRadian;         //@briefプレイヤーの角度
+    private float rad = 0, deg = 0;     //@briefradはラジアン　degは角度
+    private int num = 0;                //@brief配列の番号を示す変数
+    int i;                              //@brief無限ループの変数
 
-    private Vector3 enemyPosition;//@brief船の場所を表すもの
+    private Vector3 enemyPosition;      //@brief船の場所を表すもの
     [SerializeField]
     public Vector3 aISpeed = new Vector3(0.1f, 0, 0.1f);//@briefエネミーのスピード
     /// <summary>
@@ -110,15 +110,15 @@ public class EnemyAI : BaseObject
     /// <param name="deg"></param>
     void Turning(float deg)
     {
-        if (Mathf.DeltaAngle(playerRadian, deg) < 0)//PlayerRからdegまでの最短の角度を求めてそれが一定の値以上なら動く
+        if (Mathf.DeltaAngle(playerRadian, deg) < 0)                    //PlayerRからdegまでの最短の角度を求めてそれが一定の値以上なら動く
         {
-            transform.Rotate(new Vector3(0f, -1f, 0f));//一定の速度で角度を加算する
-            transform.position += transform.forward * -(aISpeed.z);//向いてる方向に進む
+            transform.Rotate(new Vector3(0f, -1f, 0f));                 //一定の速度で角度を加算する
+            transform.position += transform.forward * -(aISpeed.z);     //向いてる方向に進む
         }
-        else if (Mathf.DeltaAngle(playerRadian, deg) > 1)//PlayerRからdegまでの最短の角度を求めてそれが一定の値以上なら動く
+        else if (Mathf.DeltaAngle(playerRadian, deg) > 1)               //PlayerRからdegまでの最短の角度を求めてそれが一定の値以上なら動く
         {
-            transform.Rotate(new Vector3(0f, -1f, 0f));//一定の速度で角度を加算する
-            transform.position += transform.forward * -(aISpeed.z);//向いてる方向に進む
+            transform.Rotate(new Vector3(0f, -1f, 0f));                 //一定の速度で角度を加算する
+            transform.position += transform.forward * -(aISpeed.z);     //向いてる方向に進む
         }
         else
         {

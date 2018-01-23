@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/***********************************************************************/
+/*! @file   GoalJudge.cs
+*************************************************************************
+*   @brief  船のゴール判定を行うスクリプト
+*************************************************************************
+*   @author daisuke motoshima
+*************************************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +13,11 @@ using Scene;
 
 public class GoalJudge : BaseObject
 {
-    private int num;//@briefマーカーの通った数
-    const byte  makerNum=4;//@briefマーカーの数
-    public string markerName;
+    private GameObject markerdistance;  //@briefMarkerDistance型の取得用のオブジェクト
+    MarkerDistance markerDistance;      //@briefMarkerDistance型の取得用の変数
+    private int num;                    //@briefマーカーの通った数
+    const byte makerNum = 4;            //@briefマーカーの数
+    public string markerName;           //@briefもらったマーカーの名前を格納する変数
     [SerializeField]
     SCENES nextScene;
     /// <summary>
@@ -19,7 +28,7 @@ public class GoalJudge : BaseObject
     {
         if (markerName == "HitMarker" + num)
             {
-                num++;
+            markerDistance.markerCnt++;
 
             }
         //Debug.Log("hit");
@@ -27,5 +36,13 @@ public class GoalJudge : BaseObject
         {
             SceneManager.SceneMove(nextScene);
         }
+    }
+    /// <summary>
+    /// 変数の取得
+    /// </summary>
+    void Start()
+    {
+        markerdistance = GameObject.Find("Player");
+        markerDistance = markerdistance.GetComponent<MarkerDistance>();
     }
 }

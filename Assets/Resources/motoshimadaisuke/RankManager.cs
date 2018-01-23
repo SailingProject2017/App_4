@@ -5,30 +5,33 @@
 *************************************************************************
 *   @author daisuke motoshima
 *************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RankManager : BaseObject {
-    public int[] markerNum;
-    MarkerDistance markerDistance;
-    private GameObject[] enemyStats;
-    public float[] distance;
-    public int[] rank= { 1, 1, 1, 1 };
-    private int playerNum;
+public class RankManager : BaseObject
+{
+    MarkerDistance markerDistance;                  //@brief MarkerDistance型の取得
+    private GameObject[] enemyStats;                //@brief MarkerDistance型の取得に必要なオブジェクト
+    public float[] distance;                        //@brief マーカーからプレイヤーまでの距離を求めたものが入った配列
+    public int[] rank = { 1, 1, 1, 1 };             //@brief 順位の判定をする用の配列
+    public int[] markerNum;                         //@brief 通ったマーカーの数が入った配列
+    private int playerNum=4;                        //@brief プレイヤーの数
     // Use this for initialization
-    void Start () {
-       
-        
+    void Start()
+    {
+
+
     }
 
     // Update is called once per frame
     public override void OnUpdate()
     {
-        base.OnUpdate();       
+        base.OnUpdate();
         Status();
         Judgment();
     }
+    /// <summary>
+    /// 順位の判定
+    /// </summary>
     void Judgment()
     {
         for (int i = 0; i < playerNum; i++)
@@ -71,14 +74,17 @@ public class RankManager : BaseObject {
                 }
             }
         }
-        
+
     }
+    /// <summary>
+    ///  値をほかのスクリプトを参照して値を取得する
+    /// </summary>
     void Status()
     {
         enemyStats = new GameObject[playerNum];
         markerNum = new int[playerNum];
         distance = new float[playerNum];
-        for(int k = 0; k < playerNum; k++)
+        for (int k = 0; k < playerNum; k++)
         {
             enemyStats[k] = GameObject.Find("Enemy");
             if (enemyStats == null)
@@ -86,13 +92,13 @@ public class RankManager : BaseObject {
                 enemyStats[k] = GameObject.Find("Player");
             }
         }
-        
+
         for (int i = 0; i < playerNum; i++)
         {
             markerDistance = enemyStats[i].GetComponent<MarkerDistance>();
             markerNum[i] = markerDistance.markerCnt;
-            distance[i] =markerDistance.playerDistans;
+            distance[i] = markerDistance.playerDistans;
         }
-        
+
     }
 }
