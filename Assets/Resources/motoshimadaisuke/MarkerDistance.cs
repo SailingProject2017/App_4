@@ -13,9 +13,9 @@ public class MarkerDistance : BaseObject
     public float playerDistans;　        //@brief マーカーからプレイヤーの位置までの距離が入ったスクリプト
     [SerializeField]
     private GameObject[] markerObject;  //@brief マーカー発見用の配列のオブジェクト
-    private int num = 4;                //@brief 
+    private int num = 5;                //@brief 配列の要素数
     private int i;                      //@brief ループ用
-    public int markerCnt;               //@brief マーカーが通った数を格納する変数
+    public int markerCnt = 0;           //@brief マーカーが通った数を格納する変数
                                         // Use this for initialization
     void Start()
     {

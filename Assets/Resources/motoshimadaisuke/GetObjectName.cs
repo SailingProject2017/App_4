@@ -36,7 +36,7 @@ public class GetObjectName :BaseObject{
                 enemyAI.markerObjectName = transform.name;
                 Debug.Log(enemyAI.markerObjectName);
         }
-        if (name.tag == "Player")
+        if (name.tag == "Ship")
         {
             goalJudge.markerName = transform.name;
             Debug.Log(enemyAI.markerObjectName);
@@ -50,7 +50,7 @@ public class GetObjectName :BaseObject{
         markerObjject = GameObject.Find("Enemy");
         playerMarker = GameObject.Find("Player");
         enemyAI = markerObjject.GetComponent<EnemyAI>();
-        goalJudge = markerObjject.GetComponent<GoalJudge>();
+        goalJudge = playerMarker.GetComponent<GoalJudge>();
 
     }
 }
