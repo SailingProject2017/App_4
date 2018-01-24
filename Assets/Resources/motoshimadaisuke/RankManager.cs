@@ -12,7 +12,7 @@ public class RankManager : BaseObject
     MarkerDistance markerDistance;                  //@brief MarkerDistance型の取得
     private GameObject[] enemyStats;                //@brief MarkerDistance型の取得に必要なオブジェクト
     public float[] distance;                        //@brief マーカーからプレイヤーまでの距離を求めたものが入った配列
-    public int[] rank = { 1, 1, 1, 1 };             //@brief 順位の判定をする用の配列
+    public int[] rank = { 1, 1, 1, 1 };             //@brief 順位の判定をする用の配列 
     public int[] markerNum;                         //@brief 通ったマーカーの数が入った配列
     private int playerNum=4;                        //@brief プレイヤーの数
     // Use this for initialization

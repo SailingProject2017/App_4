@@ -1,5 +1,4 @@
-
-﻿/***********************************************************************/
+/***********************************************************************/
 /*! @file   EnemyAI.cs
 *************************************************************************
 *   @brief  敵の行動を制御するクラス
@@ -11,7 +10,7 @@ using UnityEngine;
 public class EnemyAI : BaseObject
 {
     GetWindParam getwind;       //@brief getwindクラスを使うための変数
-    GameObject WindObject;      //@brief　GameObject型で GameObject.Find用
+    GameObject WindObject;      //@brief　GameObject型で GameObject.Find用 
     private enum EenemyStatus   //@brief 行動の状態を表す
     {
         eTURNING,               //旋回
