@@ -10,13 +10,13 @@
 
 public class GameInstance : BaseObjectSingleton<GameInstance> {
 
-    private StageType stageType;    // @brief ステージタイプを格納する変数
+    private EStageType stageType;   // @brief ステージタイプを格納する変数
     private bool isShipMove;        // @brief 船が動けるかどうかの状態を格納する変数
 
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
-        StageType = StageType.NULL;
+        StageType = EStageType.Null;
         isShipMove = false;
     }
 
@@ -43,7 +43,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
     /// @set    none
     /// @get    入力されたデータを渡す
     /// </summary>
-    public StageType StageType
+    public EStageType StageType
     {
         set { stageType = value; }
         get { return stageType; }
