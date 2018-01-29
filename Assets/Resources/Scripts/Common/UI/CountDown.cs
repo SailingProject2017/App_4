@@ -15,11 +15,11 @@ using UnityEngine.UI;
 public class CountDown : BaseObject {
 
     [SerializeField]
-    private Text countDownText;                // @brief 
+    private Text countDownText;                 // @brief Textのインスタンス 
+     
+    private ClosePopupAnimation closeAmimation; // @brief ClosePopupAnimationのインスタンス
 
-    private ClosePopupAnimation closeAmimation; // @brief 
-
-    public bool shipMoveFlag;                   // @brief 
+    public bool shipMoveFlag;                   // @brief 船が動けるかどうかのフラグ
 
     private bool isCallOnce;                    // @brief 一度だけ呼ばれたか調べるフラグ
 
@@ -42,10 +42,14 @@ public class CountDown : BaseObject {
         }
     }
 
+    /// <summary>
+    /// @brief カウントダウンをスタートさせる関数
+    /// </summary>
     public void StartCountDown()
     {
         StartCoroutine(CountDownCoroutine());
     }
+
     /// <summary>
     /// @brief カウントダウンの処理
     /// @note コルーチンを使用
