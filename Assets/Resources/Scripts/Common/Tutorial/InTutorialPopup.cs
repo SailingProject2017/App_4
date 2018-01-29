@@ -7,10 +7,7 @@
 ***************************************************************************************
 * Copyright © 2016 Yuta Takatsu All Rights Reserved.
 ***************************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InTutorialPopup : PopupBase {
 

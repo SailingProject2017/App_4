@@ -7,8 +7,6 @@
 ***************************************************************************************
 * Copyright © 2017 yuta takatsu All Rights Reserved.
 ***************************************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TutorialSceneTutorial : PopupBase {

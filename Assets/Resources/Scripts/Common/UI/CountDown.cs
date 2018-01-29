@@ -1,5 +1,5 @@
 ﻿/**********************************************************************************************/
-/*@file   BaseObject.cs
+/*@file       CountDown.cs
 *********************************************************************************************
 * @brief      すべてのオブジェクトを管理するための基底クラス
 *********************************************************************************************
@@ -8,7 +8,6 @@
 * Copyright © 2017 Yuta Takatsu and Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,30 +15,11 @@ public class CountDown : BaseObject {
 
     [SerializeField]
     private Text countDownText;                 // @brief Textのインスタンス 
-     
-    private ClosePopupAnimation closeAmimation; // @brief ClosePopupAnimationのインスタンス
-
-    public bool shipMoveFlag;                   // @brief 船が動けるかどうかのフラグ
-
+    
     private bool isCallOnce;                    // @brief 一度だけ呼ばれたか調べるフラグ
 
-
     void Start () {
-        closeAmimation = GetComponent<ClosePopupAnimation>();
         countDownText.text = "";
-        isCallOnce = false;
-    }
-
-    public override void OnUpdate()
-    {
-        //　直前のポップアップが閉じられていてかつまだ一度も呼ばれていない時
-        if (!isCallOnce && closeAmimation.ClosePop)
-        {
-            // 船を動かないようにし、カウントダウン開始
-            shipMoveFlag = false;
-            StartCountDown();
-            isCallOnce = true;
-        }
     }
 
     /// <summary>
@@ -79,9 +59,6 @@ public class CountDown : BaseObject {
         Singleton<SoundPlayer>.instance.playSE("4", 0.8f);
         Singleton<SoundPlayer>.instance.playBGM("Wind", 0.0f, true);
         Singleton<SoundPlayer>.instance.playBGM("Water", 0.0f, true);
-
-        //船が動けるようになる
-        shipMoveFlag = true;
 
         yield return new WaitForSeconds(1.0f);
 
