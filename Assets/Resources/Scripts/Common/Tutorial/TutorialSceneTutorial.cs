@@ -40,9 +40,6 @@ public class TutorialSceneTutorial : PopupBase {
             case eTutorial.eTutorial_Curve:
                 tutorialType[3].SetActive(true);
                 break;
-            case eTutorial.eTutorial_CPU:
-                tutorialType[4].SetActive(true);
-                break;
         }
     }
     // 閉じ終わったらfalseにし非表示にする
@@ -62,9 +59,6 @@ public class TutorialSceneTutorial : PopupBase {
                 break;
             case eTutorial.eTutorial_Curve:
                 tutorialType[3].SetActive(false);
-                break;
-            case eTutorial.eTutorial_CPU:
-                tutorialType[4].SetActive(false);
                 break;
         }
     }
