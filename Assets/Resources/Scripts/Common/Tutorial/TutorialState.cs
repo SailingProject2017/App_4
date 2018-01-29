@@ -43,7 +43,6 @@ public enum eTutorial
     eTutorial_InGameUI,
     eTutorial_Accel,
     eTutorial_Curve,
-    eTutorial_CPU,
     eTutorial_InputUserName,
     eTutorial_End
 }

@@ -69,14 +69,6 @@ public class TutorialManager : BaseObject
 
             case eTutorial.eTutorial_Curve: //　曲がろうのチュートリアルです
 
-                //　チュートリアルの状態をCPUと戦おうのチュートリアルにして保存する
-                CreateSaveData.NextTutorialState(eTutorial.eTutorial_CPU);
-                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-
-                break;
-
-            case eTutorial.eTutorial_CPU: //　CPUと戦おうのチュートリアルです
-
                 //　チュートリアルの状態をユーザーネームを入力してもらうチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_InputUserName);
                 CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
