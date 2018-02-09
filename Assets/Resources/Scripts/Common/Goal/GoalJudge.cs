@@ -15,7 +15,7 @@ public class GoalJudge : BaseObject
 {
     private GameObject markerdistance;  // @brief MarkerDistance型の取得用のオブジェクト
     MarkerDistance markerDistance;      // @brief MarkerDistance型の取得用の変数 
-    const byte makerNum = 4;            // @brief マーカーの数
+    const byte makerNum = 4;            // @brief マーカーの数 
     public string markerName;           // @brief もらったマーカーの名前を格納する変数
     [SerializeField]
     SCENES nextScene;
