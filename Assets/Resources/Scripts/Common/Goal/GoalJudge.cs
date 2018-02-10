@@ -20,7 +20,7 @@ public class GoalJudge : BaseObject
     [SerializeField]
     SCENES nextScene;
     /// <summary>
-    /// ゴールの判定をするスクリプト
+    /// @brief ゴールの判定をするスクリプト
     /// </summary>
     /// <param name="other"></param>
     void OnTriggerEnter(Collider other)
@@ -37,7 +37,7 @@ public class GoalJudge : BaseObject
         }
     }
     /// <summary>
-    /// 変数の取得
+    /// @brief 変数の取得
     /// </summary>
     void Start()
     {
