@@ -68,13 +68,16 @@ public class TutorialEvent : BaseObject {
     /// </summary>
     public void BeginEvent()
     {
-       
+        Singleton<GameInstance>.instance.IsShipMove = false;
     }
     /// <summary>
     /// @brief イベント終了時の処理
     /// </summary>
     public void ExitEvent()
     {
-        
+        Debug.Log("aee");
+        Singleton<CountDown>.instance.StartCountDown();
+        Debug.Log("eee");
+        Singleton<GameInstance>.instance.IsShipMove = true;
     }
 }

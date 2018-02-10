@@ -1,7 +1,7 @@
 ﻿/**********************************************************************************************/
-/*@file   BaseObject.cs
+/*@file       BGMPlayer.cs
 *********************************************************************************************
-* @brief      すべてのオブジェクトを管理するための基底クラス
+* @brief      BGMを再生するためするためのクラス
 *********************************************************************************************
 * @author     Ryo Sugiyama
 *********************************************************************************************
@@ -11,8 +11,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class BGMPlayer
+class BGMPlayer : BaseObject
 {
+
+    protected override void AppendListConstructor()
+    {
+        base.AppendListConstructor();
+    }
+
     #region オブジェクトの宣言
     /****************************************************************************************/
     GameObject obj;             // @brief 再生するBGMがコンポーネントされているゲームオブジェクト
@@ -20,7 +26,7 @@ class BGMPlayer
     State state;                // @brief 状態を格納するStateクラスインスタンス
     float fadeInTime = 0.0f;    // @brief フェードインタイム
     float fadeOutTime = 0.0f;   // @brief フェードアウトタイム
-    float volume = 0.0f;        // @brief ボリューム
+    float maxBGMVolume = 0.0f;  // @brief ボリューム
 
     #endregion
 
@@ -97,7 +103,7 @@ class BGMPlayer
         {
             if (bgmPlayer.source.isPlaying == false)
             {
-                bgmPlayer.source.volume = bgmPlayer.volume;
+                bgmPlayer.source.volume = bgmPlayer.maxBGMVolume;
                 bgmPlayer.source.Play();
             }
         }
@@ -140,11 +146,12 @@ class BGMPlayer
 
         public override void update()
         {
+            Debug.Log("unko");
             t += Time.deltaTime;
             bgmPlayer.source.volume = t / bgmPlayer.fadeInTime;
             if (t >= bgmPlayer.fadeInTime)
             {
-                bgmPlayer.source.volume = bgmPlayer.volume;
+                bgmPlayer.source.volume = bgmPlayer.maxBGMVolume;
                 bgmPlayer.state = new Playing(bgmPlayer);
             }
         }
@@ -171,7 +178,7 @@ class BGMPlayer
         public override void update()
         {
             t += Time.deltaTime;
-            bgmPlayer.source.volume = initVolume * (bgmPlayer.volume - t / bgmPlayer.fadeOutTime);
+            bgmPlayer.source.volume = initVolume * (bgmPlayer.maxBGMVolume - t / bgmPlayer.fadeOutTime);
             if (t >= bgmPlayer.fadeOutTime)
             {
                 bgmPlayer.source.volume = 0.0f;
@@ -181,8 +188,6 @@ class BGMPlayer
         }
     }
     #endregion
-
-
 
     #region 静的関数の実装
     /****************************************************************************************/
@@ -216,13 +221,13 @@ class BGMPlayer
         }
     }
 
-    public void playBGM(float fadeTime, bool toLoop, float volume)
+    public void playBGM(float fadeTime, bool toLoop)
     {
         if (source != null)
         {
             this.fadeInTime = fadeTime;
-            this.volume = volume;
-            source.volume = this.volume;
+            this.maxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume;
+            source.volume = this.maxBGMVolume;
             Debug.Log(source.volume);
             source.loop = toLoop;
             state.playBGM();
@@ -249,5 +254,12 @@ class BGMPlayer
         if (source != null)
             state.update();
     }
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        update();
+    }
+
     #endregion
 }

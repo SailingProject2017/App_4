@@ -15,7 +15,7 @@ public class TutorialSound : BaseObject
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.playSE("Bottun2", 0.8f);
+            Singleton<SoundPlayer>.instance.playSE("Bottun2");
             callOnce = !callOnce;
         }
     }

@@ -66,7 +66,6 @@ public class BaseObject : MonoBehaviour
         private set { currentSceneObjectList = value; }
     }
 
-
     /// <summary>
     /// @brief 消去時実行関数が一度だけ呼ばれることを保証するための変数
     /// </summary>
@@ -91,9 +90,9 @@ public class BaseObject : MonoBehaviour
     /*****************************************************************************************/
     /// <summary>
     /// @brief インスタンスが生成されて場に出てくるときに実行される関数
-    /// @note すべてのオブジェクトに対してAwakeが実行される順番は未定義なので、
-    ///       Awakeが完了していることを前提とした他オブジェクトのメソッド呼び出しなどはしないでください
-    ///       また、Awake()は基本的にオーバーライドせず、AppendListConstructor()を使ってください
+    /// @note  すべてのオブジェクトに対してAwakeが実行される順番は未定義なので、
+    ///        Awakeが完了していることを前提とした他オブジェクトのメソッド呼び出しなどはしないでください
+    ///        また、Awake()は基本的にオーバーライドせず、AppendListConstructor()を使ってください
     /// </summary>
     public virtual void Awake()
     {
@@ -104,28 +103,35 @@ public class BaseObject : MonoBehaviour
 
     /// <summary>
     /// @brief フレーム毎に、マネージャクラスの更新を実行する関数
-    /// @note この関数の呼び出し回数はプロセッサに依存します
+    /// @note  この関数の呼び出し回数はプロセッサに依存します
     /// </summary>
     public virtual void OnFastUpdate() { return; }
 
     /// <summary>
     /// @brief フレーム毎に、アニメーションがレンダリングされる前に実行される関数
-    /// @note この関数の呼び出し回数はプロセッサに依存します
+    /// @note  この関数の呼び出し回数はプロセッサに依存します
     /// </summary>
     public virtual void OnUpdate() { return; }
 
     /// <summary>
     /// @brief Update()が呼ばれた後に実行されるUpdate関数
-    /// @note オブジェクトのカメラ追従などに使用してください
+    /// @note  オブジェクトのカメラ追従などに使用してください
     /// </summary>
     public virtual void OnLateUpdate() { return; }
 
     /// <summary>
     /// @brief 物理挙動の更新の直前に固定フレームレートで呼ばれる更新関数
-    /// @note Update()はフレーム毎の呼び出し回数がプロセッサに依存するので、
-    ///       物理処理などはここに記述してください
+    /// @note  Update()はフレーム毎の呼び出し回数がプロセッサに依存するので、
+    ///        物理処理などはここに記述してください
     /// </summary>
     public virtual void OnFixedUpdate() { return; }
+
+    /// <summary>
+    /// @brief ポーズ中にのみ実行される更新関数
+    /// @note  ポーズ中はこの更新関数以外は実行されないので、
+    ///        必要ならばこの関数を実装してください。
+    /// </summary>
+    public virtual void OnPorseUpdate() { return; }
 
     /// <summary>
     /// @brief シーンの最後に呼ばれる関数
@@ -270,7 +276,7 @@ public class BaseObject : MonoBehaviour
 
     /// <summary>
     /// @brief オブジェクト消去用　消去に若干のディレイがある
-    /// @note Destroy()は使わずこちらを使ってください
+    /// @note  Destroy()は使わずこちらを使ってください
     /// </summary>
     /// <param name="delete"></param>
     static public void Delete(BaseObject delete)
@@ -292,7 +298,7 @@ public class BaseObject : MonoBehaviour
 
     /// <summary>
     /// @brief オブジェクト即時消去用　
-    /// @note 消去に即時性が求められる場合はこちらを使ってください
+    /// @note  消去に即時性が求められる場合はこちらを使ってください
     /// </summary>
     /// <param name="delete"></param>
     static public void DeteleImmediate(BaseObject delete)

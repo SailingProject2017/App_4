@@ -66,9 +66,11 @@ public static class CreateSaveData
         }
         catch (FileNotFoundException e)
         {
+
+#if DEBUG
             Debug.Log("ファイル" + e.FileName + "が見つからないので作ります。");
             Debug.Log("初回起動です");
-
+#endif
             // 新しく生成
             CreateBineryFile(path);
             return null;
