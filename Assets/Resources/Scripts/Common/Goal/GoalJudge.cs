@@ -37,7 +37,7 @@ public class GoalJudge : BaseObject
         }
     }
     /// <summary>
-    /// @brief 変数の取得
+    /// @brief 変数の取得 
     /// </summary>
     void Start()
     {

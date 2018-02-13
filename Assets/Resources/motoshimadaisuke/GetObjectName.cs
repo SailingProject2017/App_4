@@ -43,7 +43,7 @@ public class GetObjectName :BaseObject{
         }
     }
     /// <summary>
-    /// @brief オブジェクトを見つける
+    /// @brief オブジェクトを見つける s
     /// </summary>
     void FindObject()
     {

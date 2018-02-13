@@ -110,9 +110,9 @@ public class EnemyAI : BaseObject
             }
         }
     }
-   
+
     /// <summary>
-    /// 移動
+    /// @brief 移動
     /// </summary>
     void Move()
     {
@@ -121,9 +121,9 @@ public class EnemyAI : BaseObject
         enemyPosition.z += aISpeed.z * Mathf.Sin(rad);
         transform.position = enemyPosition;
     }/// <summary>
-    /// 風の取得
-    /// </summary>
-    /// <returns></returns>
+     /// @brief 風の取得
+     /// </summary>
+     /// <returns></returns>
     float WindSet()
     {
         WindObject = GameObject.Find("Wind");
