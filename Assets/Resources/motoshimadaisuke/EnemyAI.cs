@@ -31,7 +31,7 @@ public class EnemyAI : BaseObject
     [SerializeField]
     public Vector3 aISpeed = new Vector3(0.1f, 0, 0.1f);// @briefエネミーのスピード
     /// <summary>
-    /// 最初の処理でオブジェクトを見つけて次のマーカーまでの角度を求める
+    /// @brief 最初の処理でオブジェクトを見つけて次のマーカーまでの角度を求める
     /// </summary>
     void Start()
     {
@@ -57,7 +57,7 @@ public class EnemyAI : BaseObject
         }
     }
     /// <summary>
-    /// 引数で角度を渡すとそこまで旋回する
+    /// @brief 引数で角度を渡すとそこまで旋回する
     /// </summary>
     /// <param name="deg"></param>
     void Turning(float deg)
@@ -78,7 +78,7 @@ public class EnemyAI : BaseObject
         }
     }
     /// <summary>
-    /// Atan2でラジアン値を求めてラジアン値を角度に戻している
+    /// @brief Atan2でラジアン値を求めてラジアン値を角度に戻している
     /// </summary>
     /// <returns></returns>
     float Radian()
@@ -95,7 +95,7 @@ public class EnemyAI : BaseObject
         return deg *= -1; // +-を反転
     }
     /// <summary>
-    ///マーカーを発見しtargetObjectに入れる
+    /// @brief マーカーを発見しtargetObjectに入れる
     /// </summary>
     void FindObject()
     {
@@ -131,7 +131,7 @@ public class EnemyAI : BaseObject
         return getwind.valuewind;
     }
     /// <summary>
-    /// 当たった時に次のマーカーの場所を示してtype変数に次の行動を表す値を入れる
+    /// @brief 当たった時に次のマーカーの場所を示してtype変数に次の行動を表す値を入れる
     /// </summary>
     /// <param name="Hit"></param>
     void OnTriggerEnter(Collider Hit)

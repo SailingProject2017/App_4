@@ -25,7 +25,7 @@ public class GetObjectName :BaseObject{
 
     }
     /// <summary>
-    /// 当たったオブジェクトに名前を渡す
+    ///  @brief 当たったオブジェクトに名前を渡す
     /// </summary>
     /// <param name="name"></param>
     void OnTriggerEnter(Collider name)
@@ -43,7 +43,7 @@ public class GetObjectName :BaseObject{
         }
     }
     /// <summary>
-    /// オブジェクトを見つける
+    /// @brief オブジェクトを見つける
     /// </summary>
     void FindObject()
     {

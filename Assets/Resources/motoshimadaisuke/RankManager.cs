@@ -30,7 +30,7 @@ public class RankManager : BaseObject
         Judgment();
     }
     /// <summary>
-    /// 順位の判定
+    /// @brief 順位の判定
     /// </summary>
     void Judgment()
     {
@@ -77,7 +77,7 @@ public class RankManager : BaseObject
 
     }
     /// <summary>
-    ///  値をほかのスクリプトを参照して値を取得する
+    ///  @brief 値をほかのスクリプトを参照して値を取得する
     /// </summary>
     void Status()
     {

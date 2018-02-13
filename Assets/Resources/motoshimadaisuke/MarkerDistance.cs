@@ -30,7 +30,7 @@ public class MarkerDistance : BaseObject
         Distance();
     }
     /// <summary>
-    /// マーカーを見つけて配列に格納する関数
+    /// @brief マーカーを見つけて配列に格納する関数
     /// </summary>
     void FindObject()
     {
@@ -48,7 +48,7 @@ public class MarkerDistance : BaseObject
         }
     }
     /// <summary>
-    /// マーカーまでの距離を求める
+    /// @brief マーカーまでの距離を求める
     /// </summary>
     void Distance()
     {
