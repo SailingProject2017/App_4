@@ -2,7 +2,9 @@
  * ! @file PopUpBackground
  * ****************************************************
  * @brief ポップアップが表示、非表示するスクリプト
- *        スペースキーで表示、zキーで非表示
+ *        flgで管理
+ *        false→開く
+ *        true→閉じる
  * ****************************************************
  * @author reina sawai
  ****************************************************/
@@ -14,28 +16,31 @@ using DG.Tweening;
 
 public class PopUpBackground : BaseObject
 {
-  
-
-    void Update()
+    private bool Pushflg;
+    void Start()
     {
-        ButtonDown();
+        Pushflg = true;
+        OnTap();
 
     }
     /// summary 
-    /// @brief ボタンが押された時の処理
-    public void ButtonDown(){
-    if (Input.GetKeyDown("space"))
+    /// @brief ボタンが押された時の処理 
+    public void OnTap()
+    {
+        
+        if (Pushflg == false)
         {
             BackgroundLog();
-
+            Pushflg = true;
         }
-
-        if ( Input.GetKeyDown("z"))
+        else if (Pushflg == true)
         {
             BackgroundLogClose();
+            Pushflg = false;
 
         }
-    }
+    }  
+   
     /// summary 
     /// @brief ポップアップが表示
     public void BackgroundLog()
