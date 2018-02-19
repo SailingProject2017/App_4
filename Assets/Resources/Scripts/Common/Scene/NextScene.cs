@@ -34,15 +34,24 @@ public class NextScene : BaseObject
     /// </summary>
     public void OnTap()
     {
+
         //シーン破棄時に実行される関数をオブジェクト分だけ実行
         foreach (var obj in CurrentSceneObjectList)
         {
             obj.OnEnd();
         }
 
-        //現在のシーンのオブジェクトをすべて消去
-        //RemoveSceneObjectAll();
-
         SceneManager.SceneMove(nextScene); // SceneManagerを呼び出す 引数は次のシーン
+    }
+
+    /// <summary>
+    /// @brief 次のチュートリアルに変える
+    /// </summary>
+    public void NextTutorialState()
+    {
+        TutorialManager tutorialManager = new TutorialManager();
+
+        // チュートリアルの状態を次の状態に変える
+        tutorialManager.TutorialState = Singleton<TutorialState>.instance.TutorialStatus;
     }
 }
