@@ -83,7 +83,7 @@ public class RankManager : BaseObject {
         for (int i = 0; i < PlayerNum; i++)
         {
             markerDistance = EnemyStats[i].GetComponent<MarkerDistance>();
-            MarkerNum[i] = markerDistance.MarkerCnt;
+            MarkerNum[i] = markerDistance.markerCnt;
             Distance[i] =markerDistance.PlayerDistans;
         }
         
