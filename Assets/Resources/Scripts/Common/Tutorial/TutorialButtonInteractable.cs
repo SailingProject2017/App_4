@@ -42,8 +42,19 @@ public class TutorialButtonInteractable : BaseObject
         {
             state = Singleton<TutorialState>.instance.TutorialStatus;
         }
-        
-        // 指定したボタンを有効化
-        setButton[(int)state - 1].interactable = true;
+
+        if (setButton.Length >=(int) state)
+        {
+            // 指定したボタンを有効化
+            setButton[(int)state - 1].interactable = true;
+        }
+        else
+        {
+            // 配列にいるすべてのボタンの機能を有効化する
+            for (int i = 0; i < setButton.Length; i++)
+            {
+                setButton[i].interactable = true;
+            }
+        }
     }
 }

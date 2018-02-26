@@ -177,6 +177,7 @@ public class PopupBase : BaseObject
     /// </summary>
     void OnOpen()
     {
+        
         var tweener = popupWindow.DOScale(new Vector3(1,1), time).SetEase(Ease.InOutQuart);
         tweener
         .OnStart(() =>

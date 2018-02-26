@@ -12,10 +12,14 @@ using UnityEngine;
 public class ShipController : BaseObject
 {
 
-
+    public void Start()
+    {
+        
+    }
     public override void OnUpdate()
     {
-        transform.position += transform.forward * -0.2f;
+        
+
         if (Input.GetKey("right"))
         {
             transform.Rotate(0, 1, 0);
