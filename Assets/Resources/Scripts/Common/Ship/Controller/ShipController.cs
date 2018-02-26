@@ -12,23 +12,13 @@ using UnityEngine;
 public class ShipController : BaseObject
 {
 
-    bool flag;
-
     public void Start()
     {
-        flag = false;
+        
     }
     public override void OnUpdate()
     {
-        if (flag)
-        {
-            transform.position += transform.forward * -0.2f;
-        }
-        if (Input.GetKey("a"))
-        {
-            flag = true;
-        }
-
+        
 
         if (Input.GetKey("right"))
         {
