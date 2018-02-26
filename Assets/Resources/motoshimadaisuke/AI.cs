@@ -52,6 +52,7 @@ public class AI : BaseObject
         SpeedControl();
         if (cnt > 100)
         {
+            cnt = 0;
             Speedchange();
         }
         base.OnUpdate();
@@ -163,7 +164,6 @@ public class AI : BaseObject
     {
 
         speedRandom = Random.Range(0, 11);
-        cnt = 0;
 
     }
     /// <summary>
