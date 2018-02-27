@@ -13,11 +13,9 @@ using UnityEngine;
 public class GetWindParam : BaseObject
 {
     
-    private int wind;  //@brief 風の乱数入れる箱
-
-    // -180~180まで
-    [Range(-180, 180)]
-    private float valuewind = 0;　   //@brief 風の方向
+    // 0~360まで
+    [Range(0, 360)]
+    private float valueWind = 0;　   //@brief 風の方向
 
     /// <summary>
     /// @brief 例外処理
@@ -27,43 +25,27 @@ public class GetWindParam : BaseObject
         throw new NotImplementedException();
     }
 
-    void Start()
-    {
-        Random();
-    }
-
     /// <summary>
-    /// @brief 風ランダムで一つ表示させるための関数
+    /// @brief 風向きを出すアクセサー
     /// </summary>
-    public void Random()
+    public float ValueWind
     {
-        //-180~180までの値をランダムで出す
-        wind = UnityEngine.Random.Range(-180, 180);
-        Debug.Log(wind);
-        
-        // 値を制限
-        
-        //180度以上にしない
-        if (wind >= 180)
+        get { return valueWind; }
+        set
         {
-            valuewind = wind - 180;
+            // 風向きを0~360の中に指定する
+            if(value > 360)
+            {
+                valueWind = value - 360;
+            }
+            else if (value < 0)
+            {
+                valueWind = 360 - value;
+            }
+            else
+            {
+                valueWind = value;
+            }
         }
-        //-180度以下にしない
-        else if (wind < -180)
-        {
-            valuewind = 180 + wind;
-        }
-        //そのまま
-        else
-            valuewind = wind;
-    }
-
-   /// <summary>
-   /// @brief 変数アクセサ
-   /// </summary>
-    public float Valuewind
-    {
-        get { return valuewind; }
-        
     }
 }

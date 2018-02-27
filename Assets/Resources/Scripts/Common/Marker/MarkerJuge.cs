@@ -4,59 +4,43 @@ using UnityEngine;
 using Scene;
 public class MarkerJuge : BaseObject
 {
+
     [SerializeField]
-    SCENES nextScene;
-    private bool firstHit;//1番目のヒット判定
-    private bool secondHit;//2番目のヒット判定
-    private int Hitcnt;//ヒットした数を数える
+    private GameObject resultPopup; // @brief Resultのインスタンス化
 
-    private GameObject Line;
+    [SerializeField]
+    private GameObject[] markerArray; // @brief ステージ上のマーカーを登録する
+    private int nuwArrayNumver; // @brief 現在の配列番号
 
-    void Start()
+    private void Start()
     {
-        firstHit = false;
-        secondHit = false;
-        Hitcnt = 0;
-
-        Line = GameObject.Find("Line");
+        nuwArrayNumver = 0;
     }
 
-
-    void OnTriggerEnter(Collider other)
+    /// <summary>
+    /// @brief あたり判定用メソッド
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("hit");
-        if (other.tag == "first" && Hitcnt == 0)//firstのところにあたり判定のtagの名前を入れる
+
+        // goalタグのオブジェクトに接触したときに走る命令
+        if (other.tag == "Goal")
         {
-               firstHit = true;
-        }
-        if (other.tag == "second" && Hitcnt == 1)//firstのところにあたり判定のtagの名前を入れる
-        {
-            firstHit = true;
-        }
-        if (other.tag == " third" && Hitcnt == 2)//firstのところにあたり判定のtagの名前を入れる
-        {
-            firstHit = true;
-        }
-        if (other.tag == "through")//secondのところにあたり判定の名前を入れる
-        {
-            if (firstHit == true)
+            if (Singleton<TutorialState>.instance.TutorialStatus != eTutorial.eTutorial_End)
             {
-                secondHit = true;
+                PopupResult result = resultPopup.GetComponent<PopupResult>();
+                result.Open();
+
+                //SceneManager.SceneMove(nextScene);
+
             }
         }
-        if (firstHit == true && secondHit == true)
-        {
-            Hitcnt += 1;
-            firstHit = false;
-            secondHit = false;
-            Debug.Log(Hitcnt);
-            Line.tag = "goal";
 
-
-        }
-        if (other.tag == "goal" && Hitcnt == 3)
+        // markerに当たったとき次のmarkerを指すようにする
+        if (markerArray[nuwArrayNumver] == other)
         {
-            SceneManager.SceneMove(nextScene);
-        }
+            nuwArrayNumver++;
+        }       
     }
 }

@@ -1,7 +1,7 @@
 ﻿/**************************************************************************************/
 /*! @file   PopupResult.cs
 ***************************************************************************************
-@brief      PopupWindowのボタンを制御するクラス
+@brief      リザルト画面を表示させるクラス
 ***************************************************************************************
 @author     yuta takatsu
 ***************************************************************************************
@@ -14,7 +14,7 @@ public class PopupResult : PopupBase
 {
 
     [SerializeField]
-    private GameObject contents; //@brief リザルト画面を格納
+    private GameObject contents; // @brief リザルト画面を格納
 
 
     /// <summary>
@@ -23,13 +23,14 @@ public class PopupResult : PopupBase
     public void Open()
     {
         base.ButtonSet = EButtonSet.SetNone; // 基底クラスのButtonSetに対応するボタンを指定
-        base.Open(null, null, PopupOpenEnd); // 基底クラスのOpenメソッドを呼び出す
+        base.Open(null, null, ResultPopupOpen); // 基底クラスのOpenメソッドを呼び出す
+        ResultPopupOpen();
     }
 
     /// <summary>
     /// @brief チュートリアル終了時、リザルト用ポップアップを表示させる
     /// </summary>
-    private void PopupOpenEnd()
+    private void ResultPopupOpen()
     {
         contents.SetActive(true); // 非表示だったリザルト画面を表示
     }
