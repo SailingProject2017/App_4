@@ -11,7 +11,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CountDown : BaseObject {
+public class CountDown : BaseObjectSingleton<CountDown> {
 
     [SerializeField]
     private Text countDownText;                 // @brief Textのインスタンス 
@@ -27,6 +27,7 @@ public class CountDown : BaseObject {
     /// </summary>
     public void StartCountDown()
     {
+        Debug.Log("aee");
         StartCoroutine(CountDownCoroutine());
     }
 
@@ -36,27 +37,28 @@ public class CountDown : BaseObject {
     /// </summary>
     public IEnumerator CountDownCoroutine()
     {
+        Debug.Log("aee");
         //　カウントダウンテキストの表示
         countDownText.gameObject.SetActive(true);
         
         // 3
         countDownText.text = "3";
-        Singleton<SoundPlayer>.instance.playSE("0", 0.8f);
+        Singleton<SoundPlayer>.instance.playSE("0");
         yield return new WaitForSeconds(1.0f);
 
         // 2
         countDownText.text = "2";
-        Singleton<SoundPlayer>.instance.playSE("0", 0.8f);
+        Singleton<SoundPlayer>.instance.playSE("0");
         yield return new WaitForSeconds(1.0f);
 
         // 1
         countDownText.text = "1";
-        Singleton<SoundPlayer>.instance.playSE("0", 0.8f);
+        Singleton<SoundPlayer>.instance.playSE("0");
         yield return new WaitForSeconds(1.0f);
 
         // GO
         countDownText.text = "GO!";
-        Singleton<SoundPlayer>.instance.playSE("4", 0.8f);
+        Singleton<SoundPlayer>.instance.playSE("4");
         Singleton<SoundPlayer>.instance.playBGM("Wind", 0.0f, true);
         Singleton<SoundPlayer>.instance.playBGM("Water", 0.0f, true);
 

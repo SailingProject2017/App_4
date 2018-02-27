@@ -12,9 +12,10 @@ using UnityEngine;
 public class BaseObjectUpdater : BaseObject
 {
 
-    
     #region MonoBehavaiourの実装
     /***************************************************************************************/
+
+    /* @note ポーズ中は OnPorseUpdate() のみ走ります。*/
 
     /// <summary>
     /// @brief このソリューション唯一のUpdate関数
@@ -22,18 +23,27 @@ public class BaseObjectUpdater : BaseObject
     /// </summary>
     void Update()
     {
-        foreach (var obj in BaseObjectManagerList)
+        if (!Singleton<GameInstance>.instance.IsPorse)
         {
-            if (obj.IsPresence())
-                obj.OnFastUpdate();
+            foreach (var obj in BaseObjectManagerList)
+            {
+                if (obj.IsPresence())
+                    obj.OnFastUpdate();
+            }
+            foreach (var obj in BaseObjectList)
+            {
+                if (obj.IsPresence())
+                    obj.OnUpdate();
+            }
         }
-
-        foreach (var obj in BaseObjectList)
+        else
         {
-            if (obj.IsPresence())
-                obj.OnUpdate();
+            foreach (var obj in BaseObjectList)
+            {
+                if (obj.IsPresence())
+                    obj.OnPorseUpdate();
+            }
         }
-
     }
 
     /// <summary>
@@ -42,10 +52,13 @@ public class BaseObjectUpdater : BaseObject
     /// </summary>
     void LateUpdate()
     {
-        foreach (var obj in BaseObjectList)
+        if (!Singleton<GameInstance>.instance.IsPorse)
         {
-            if (obj.IsPresence())
-                obj.OnLateUpdate();
+            foreach (var obj in BaseObjectList)
+            {
+                if (obj.IsPresence())
+                    obj.OnLateUpdate();
+            }
         }
     }
 
@@ -55,10 +68,13 @@ public class BaseObjectUpdater : BaseObject
     /// </summary>
     void FixedUpdate()
     {
-        foreach (var obj in BaseObjectList)
+        if (!Singleton<GameInstance>.instance.IsPorse)
         {
-            if (obj.IsPresence())
-                obj.OnFixedUpdate();
+            foreach (var obj in BaseObjectList)
+            {
+                if (obj.IsPresence())
+                    obj.OnFixedUpdate();
+            }
         }
     }
     #endregion

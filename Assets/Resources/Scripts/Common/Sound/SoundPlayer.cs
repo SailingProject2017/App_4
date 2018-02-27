@@ -2,9 +2,12 @@
 /*! @file   SoundPlayer.cs
 ***************************************************************************************
 @brief      サウンドを出力するクラス
-***************************************************************************************
-@author     Ryo Sugiyama
-***************************************************************************************/
+*********************************************************************************************
+* @author     Ryo Sugiyama
+*********************************************************************************************
+* Copyright © 2017 Ryo Sugiyama All Rights Reserved.
+**********************************************************************************************/
+
 
 using System.Collections;
 using System.Collections.Generic;
@@ -57,7 +60,7 @@ public class SoundPlayer
     @brief      追加したサウンドデータを再生する
     @return     指定のSE名がなければfalse / あれば再生してtrue
     */
-    public bool playSE(string seName, float volume)
+    public bool playSE(string seName)
     {
 
         if (audioClips.ContainsKey(seName) == false)
@@ -76,7 +79,7 @@ public class SoundPlayer
         }
 
         //ボリュームの設定
-        audioSource.volume = volume;
+        audioSource.volume = BaseObjectSingleton<GameInstance>.Instance.MaxSEVolume;
         audioSource.loop = false;
         //再生
         audioSource.PlayOneShot(info.clip);
@@ -86,18 +89,18 @@ public class SoundPlayer
 
     public void playBGM(string bgmName, float fadeTime, bool isLoop)
     {
-        // destory old BGM
+        // 現在のBGMを消去
         if (fadeOutBGMPlayer != null)
             fadeOutBGMPlayer.destory();
 
-        // change to fade out for current BGM
+        // 現在のBGMをフェードアウト
         if (curBGMPlayer != null)
         {
             curBGMPlayer.stopBGM(fadeTime);
             fadeOutBGMPlayer = curBGMPlayer;
         }
 
-        // play new BGM
+        // 新しいBGMを再生
         if (audioClips.ContainsKey(bgmName) == false)
         {
             // null BGM
@@ -106,7 +109,7 @@ public class SoundPlayer
         else
         {
             curBGMPlayer = new BGMPlayer(audioClips[bgmName].resourceName);
-            curBGMPlayer.playBGM(fadeTime, isLoop, audioSource.volume);
+            curBGMPlayer.playBGM(fadeTime, isLoop);
         }
     }
 

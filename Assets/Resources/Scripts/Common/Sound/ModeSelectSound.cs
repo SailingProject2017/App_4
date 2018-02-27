@@ -22,7 +22,7 @@ public class ModeSelectSound : BaseObject
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.playSE("Bottun", 0.8f);
+            Singleton<SoundPlayer>.instance.playSE("Bottun");
             callOnce = !callOnce;
         }
     }

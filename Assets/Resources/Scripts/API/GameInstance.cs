@@ -1,7 +1,7 @@
 ﻿/**********************************************************************************************/
 /*@file       GameInstance.cs
 *********************************************************************************************
-* @brief      すべてのオブジェクトを管理するための基底クラス
+* @brief      保持する必要のあるすべてのクラスインスタンスを管理するためのクラス
 *********************************************************************************************
 * @author     Ryo Sugiyama
 *********************************************************************************************
@@ -10,33 +10,26 @@
 
 public class GameInstance : BaseObjectSingleton<GameInstance> {
 
-    private EStageType stageType;   // @brief ステージタイプを格納する変数
-    private bool isShipMove;        // @brief 船が動けるかどうかの状態を格納する変数
+    /* inGame関連 */
+    private EStageType stageType = EStageType.Null;     // @brief ステージタイプを格納する変数
+    private bool isShipMove = false;                    // @brief 船が動けるかどうかの状態を格納する変数
+    private bool isPorse    = false;                    // @brief ポーズ中かどうか判別する変数
+
+    /* サウンド関連 */
+    private float maxBGMVolume;
+    private float maxSEVolume;
 
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
         StageType = EStageType.Null;
-        isShipMove = false;
+
+        maxBGMVolume = 1.0f;
+        maxBGMVolume = 1.0f;
     }
 
-    /// <summary>
-    /// @brief 船が動けるかどうかの状態を変化させる関数
-    /// </summary>
-    /// <param name="active"></param>
-    public void ShipSetActive(bool active)
-    {
-        isShipMove = active;
-    }
-
-    /// <summary>
-    /// @brief 変数アクセサー
-    /// </summary>
-    public bool IsShipMove
-    {
-        get { return isShipMove; }
-    }
-
+    #region 読み込むステージの判定
+    /********************************************************************************************/
 
     /// <summary>
     /// @brief  読み込むステージを判断する変数のアクセサー
@@ -48,5 +41,64 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
         set { stageType = value; }
         get { return stageType; }
     }
+    #endregion
 
+    #region 船が動けるかの判定
+    /********************************************************************************************/
+   
+    /// <summary>
+    /// @brief isShipMoveの変数アクセサー
+    /// </summary>
+    public bool IsShipMove
+    {
+        set { isShipMove = value; }
+        get { return isShipMove; }
+    }
+    #endregion
+
+    #region ポーズ判定
+    /********************************************************************************************/
+ 
+    /// <summary>
+    /// @brief isPorseの変数アクセサー
+    /// </summary>
+    public bool IsPorse
+    {
+        set { isPorse = value; }
+        get { return isPorse; }
+    }
+    #endregion
+
+    #region サウンド関連
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief maxBGMVolumeの変数アクセサー
+    /// </summary>
+    public float MaxBGMVolume
+    {
+        set
+        {
+            if (value < 0.0f || value > 1.0f)         
+                return;
+            maxBGMVolume = value;           
+        }
+        get { return maxBGMVolume; }
+    }
+
+    /// <summary>
+    /// @brief maxSEVolumeの変数アクセサー
+    /// </summary>
+    public float MaxSEVolume
+    {
+        set
+        {
+            if (value < 0.0f || value > 1.0f)
+                return;
+            maxSEVolume = value;
+        }
+        get { return maxSEVolume; }
+    }
+
+    #endregion
 }
