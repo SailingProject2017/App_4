@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +7,7 @@ public class MarkerDistance : BaseObject {
     [SerializeField]
     private GameObject[] MarkerObject;
     private int num, i;
-    //ほかの作業が終了次第privateにする
+    ///TODO: ほかの作業が終了次第privateにする
     public int markerCnt;
     
 	// Use this for initialization
