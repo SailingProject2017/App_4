@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +7,8 @@ public class MarkerDistance : BaseObject {
     [SerializeField]
     private GameObject[] MarkerObject;
     private int num, i;
-    public int MarkerCnt;
+    ///TODO: ほかの作業が終了次第privateにする
+    public int markerCnt;
     
 	// Use this for initialization
 	void Start () {
@@ -38,6 +39,6 @@ public class MarkerDistance : BaseObject {
     }
     void Distance()
     {
-        PlayerDistans = ((transform.position.x - MarkerObject[MarkerCnt].transform.position.x) + (transform.position.z - MarkerObject[MarkerCnt].transform.position.z));
+        PlayerDistans = ((transform.position.x - MarkerObject[markerCnt].transform.position.x) + (transform.position.z - MarkerObject[markerCnt].transform.position.z));
     }
 }
