@@ -2,7 +2,6 @@
  * ! @file PopUpBackground
  * ****************************************************
  * @brief ポップアップが表示、非表示するスクリプト
- *        スペースキーで表示、zキーで非表示
  * ****************************************************
  * @author reina sawai
  ****************************************************/
@@ -14,37 +13,45 @@ using DG.Tweening;
 
 public class PopUpBackground : BaseObject
 {
-  
-
-    void Update()
+    /// <summary>
+    /// @brief ポップアップの開くボタンが押されたかどうか
+    /// </summary>
+    private bool isScreenTap;
+    void Start()
     {
-        ButtonDown();
+        isScreenTap = true; //@true 閉じている状態
+        OnTap(); // @brief ボタンが押された時の処理 
 
     }
-    /// summary 
-    /// @brief ボタンが押された時の処理
-    public void ButtonDown(){
-    if (Input.GetKeyDown("space"))
+    /// <summary>
+    /// @brief ボタンが押された時の処理 
+    /// </summary>
+    public void OnTap()
+    {
+        
+        if (isScreenTap == false) //@false 開いている状態かどうか
         {
-            BackgroundLog();
-
+            BackgroundLog(); //@brief ポップアップが表示
+            isScreenTap = true;
         }
-
-        if ( Input.GetKeyDown("z"))
+        else if (isScreenTap == true) //@true 閉じている状態かどうか
         {
-            BackgroundLogClose();
+            BackgroundLogClose(); //@brief ポップアップが非表示
+            isScreenTap = false;
 
         }
     }
-    /// summary 
+    /// <summary>
     /// @brief ポップアップが表示
+    /// </summary>
     public void BackgroundLog()
     {
         transform.DOLocalMove(new Vector3(1250.0f, 2, 0), 0.3f).SetEase(Ease.InOutQuart);//指定された座標まで移動
        
     }
-    /// summary 
+    /// <summary>
     /// @brief ポップアップが非表示
+    /// </summary>
     public void BackgroundLogClose()
      {    
           transform.DOLocalMove(new Vector3(2250, 2, 0), 0.3f).SetEase(Ease.InOutQuart);//指定された座標まで移動
