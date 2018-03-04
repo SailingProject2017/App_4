@@ -2,9 +2,6 @@
  * ! @file PopUpBackground
  * ****************************************************
  * @brief ポップアップが表示、非表示するスクリプト
- *        flgで管理
- *        false→開く
- *        true→閉じる
  * ****************************************************
  * @author reina sawai
  ****************************************************/
@@ -16,40 +13,45 @@ using DG.Tweening;
 
 public class PopUpBackground : BaseObject
 {
-    private bool Pushflg;
+    /// <summary>
+    /// @brief ポップアップの開くボタンが押されたかどうか
+    /// </summary>
+    private bool isScreenTap;
     void Start()
     {
-        Pushflg = true;
-        OnTap();
+        isScreenTap = true; //@true 閉じている状態
+        OnTap(); // @brief ボタンが押された時の処理 
 
     }
-    /// summary 
+    /// <summary>
     /// @brief ボタンが押された時の処理 
+    /// </summary>
     public void OnTap()
     {
         
-        if (Pushflg == false)
+        if (isScreenTap == false) //@false 開いている状態かどうか
         {
-            BackgroundLog();
-            Pushflg = true;
+            BackgroundLog(); //@brief ポップアップが表示
+            isScreenTap = true;
         }
-        else if (Pushflg == true)
+        else if (isScreenTap == true) //@true 閉じている状態かどうか
         {
-            BackgroundLogClose();
-            Pushflg = false;
+            BackgroundLogClose(); //@brief ポップアップが非表示
+            isScreenTap = false;
 
         }
-    }  
-   
-    /// summary 
+    }
+    /// <summary>
     /// @brief ポップアップが表示
+    /// </summary>
     public void BackgroundLog()
     {
         transform.DOLocalMove(new Vector3(1250.0f, 2, 0), 0.3f).SetEase(Ease.InOutQuart);//指定された座標まで移動
        
     }
-    /// summary 
+    /// <summary>
     /// @brief ポップアップが非表示
+    /// </summary>
     public void BackgroundLogClose()
      {    
           transform.DOLocalMove(new Vector3(2250, 2, 0), 0.3f).SetEase(Ease.InOutQuart);//指定された座標まで移動
