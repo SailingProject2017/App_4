@@ -21,13 +21,13 @@ public class SailControl : BaseObject {
     private void Start()
     {
         //　風のベクトルをランダムで取得
-        getWindParam.Random();
+        //getWindParam.Random();
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-        SailRotate(getWindParam.Valuewind, player.transform.localEulerAngles.y);     
+        //SailRotate(getWindParam.Valuewind, player.transform.localEulerAngles.y);     
     }
 
     /// <summary>
