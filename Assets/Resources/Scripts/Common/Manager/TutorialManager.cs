@@ -15,11 +15,18 @@ public class TutorialManager : BaseObject
 {
     private TutorialState nextScene;
     private NextTutorial nextTutorial;
-    protected string fileName = "C:\\Users\\nwuser.DA\\TutorialState.obj";
+
+
+    protected string fileName;
+    ///"Android\\data\\com.Sailing.WindRaser\\obj\\TutorialState.obj";
+
 
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
+ 
+        /// Android 4.4以上動作
+        fileName = Application.persistentDataPath + ".xml";
 
         // チュートリアルの情報を取得
         Singleton<TutorialState>.instance = (TutorialState)CreateSaveData.LoadFromBinaryFile(fileName);

@@ -27,7 +27,7 @@ public class SailControl : BaseObject {
     public override void OnUpdate()
     {
         base.OnUpdate();
-       // SailRotate(getWindParam.Valuewind, player.transform.localEulerAngles.y);     
+        //SailRotate(getWindParam.Valuewind, player.transform.localEulerAngles.y);     
     }
 
     /// <summary>
