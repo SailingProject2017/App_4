@@ -16,8 +16,6 @@ public class TutorialButtonInteractable : BaseObject
     [SerializeField]
     private Button[] setButton; // @brief TutorialStateによってinteractableを切り替えるボタンを登録しておく
 
-    private eTutorial state; // @brief チュートリアルの状態を表す
-   
     void Start()
     {
 
@@ -26,9 +24,6 @@ public class TutorialButtonInteractable : BaseObject
         {
             setButton[i].interactable = false;
         }
-
-        // 現在の状態を取得し値をSetButtonに渡す
-        state = Singleton<TutorialState>.instance.TutorialStatus;
         SetButton();
     }
 
@@ -37,16 +32,11 @@ public class TutorialButtonInteractable : BaseObject
     /// </summary>
     void SetButton()
     {
-        // 状態が切り替わっていた場合stateに現在の状態を代入
-        if(state != Singleton<TutorialState>.instance.TutorialStatus)
-        {
-            state = Singleton<TutorialState>.instance.TutorialStatus;
-        }
-
-        if (setButton.Length >=(int) state)
+        
+        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_ModeSelect)
         {
             // 指定したボタンを有効化
-            setButton[(int)state - 1].interactable = true;
+            setButton[0].interactable = true;
         }
         else
         {

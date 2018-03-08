@@ -41,31 +41,31 @@ public class ShipCamera : BaseObject
         if (cameraPerspective == CameraMode.FPS)
         {
             Camera.main.cullingMask &= ~layerMaskShip;// 非表示
-            transform.SetPosY(1);
-            transform.SetPosZ(0);
+            shipCamera.transform.SetPosY(1);
+            shipCamera.transform.SetPosZ(0);
         }
         if (cameraPerspective == CameraMode.TPS)
         {
             Camera.main.cullingMask |= layerMaskShip; // 表示
-            transform.SetPosY(7);
-            transform.SetPosZ(9);
+            shipCamera.transform.SetPosY(7);
+            shipCamera.transform.SetPosZ(9);
         }
         //平面(X,Z)での距離を取得
         distance = Vector3.Distance(
             new Vector3(ship.transform.position.x, 0, ship.transform.position.z),
-            new Vector3(transform.position.x, 0, transform.position.z));
+            new Vector3(shipCamera.transform.position.x, 0, shipCamera.transform.position.z));
 
         //カメラの高さの差分を取得
-        cameraHeight = transform.position.y - ship.transform.position.y;
+        cameraHeight = shipCamera.transform.position.y - ship.transform.position.y;
     }
 
     public override void OnLateUpdate()
     {
         //カメラの位置を高さだけ、ターゲットに合わせて作成
         var current = new Vector3(
-            transform.position.x,
+            shipCamera.transform.position.x,
             ship.transform.position.y,
-            transform.position.z
+            shipCamera.transform.position.z
         );
 
         //チェック用の位置情報を作成(バックした時にカメラが引けるようにdistance分位置を後ろにずらす)
@@ -78,14 +78,14 @@ public class ShipCamera : BaseObject
             distance);
 
         //カメラ位置移動(位置計算後にカメラの高さを修正）
-        transform.position = Vector3.Lerp(
+        shipCamera.transform.position = Vector3.Lerp(
             current,
             v,
             Time.deltaTime * followSpeed
         ) + new Vector3(0, cameraHeight, 0);
 
         //カメラの角度を調整
-        var newRotation = Quaternion.LookRotation(ship.transform.position - transform.position).eulerAngles;
+        var newRotation = Quaternion.LookRotation(ship.transform.position - shipCamera.transform.position).eulerAngles;
         if (cameraPerspective == CameraMode.FPS)
         {
             newRotation.x = 0;
@@ -95,6 +95,6 @@ public class ShipCamera : BaseObject
             newRotation.x = 20;
         }
         newRotation.z = 0;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(newRotation), 1);
+        shipCamera.transform.rotation = Quaternion.Slerp(shipCamera.transform.rotation, Quaternion.Euler(newRotation), 1);
     }
 }

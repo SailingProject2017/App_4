@@ -19,7 +19,7 @@ public class TutorialEvent : BaseObject {
     [SerializeField]
     List<GameObject> animations; // @brief 一つのイベント内のデータをリストで管理
 
-    private bool used = false; // フラグ格納
+    private bool isCallOnce = false; // @brief フラグ格納
 
     /// <summary>
     /// @brief アニメーションIDのアクセサー
@@ -55,11 +55,11 @@ public class TutorialEvent : BaseObject {
     private void OnTriggerEnter(Collider other)
     {
         
-        if((!used && isOneTimeOnly))
+        if((!isCallOnce && isOneTimeOnly))
         {
             EventCallback.Invoke(eventId);
 
-            used = isOneTimeOnly ? true : false;
+            isCallOnce = isOneTimeOnly ? true : false;
         }
     }
 
@@ -69,15 +69,16 @@ public class TutorialEvent : BaseObject {
     public void BeginEvent()
     {
         Singleton<GameInstance>.instance.IsShipMove = false;
+        BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
+        BaseObjectSingleton<GameInstance>.Instance.IsBack = false;
     }
     /// <summary>
     /// @brief イベント終了時の処理
     /// </summary>
     public void ExitEvent()
     {
-        Debug.Log("aee");
-        Singleton<CountDown>.instance.StartCountDown();
-        Debug.Log("eee");
-        Singleton<GameInstance>.instance.IsShipMove = true;
+        BaseObjectSingleton<GameInstance>.Instance.IsCountDown = true;
+        BaseObjectSingleton<GameInstance>.Instance.IsBack = true;
+        Debug.Log("flag:"+Singleton<GameInstance>.instance.IsShipMove);
     }
 }
