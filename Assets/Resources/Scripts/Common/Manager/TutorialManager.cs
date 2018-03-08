@@ -15,11 +15,22 @@ public class TutorialManager : BaseObject
 {
     private TutorialState nextScene;
     private NextTutorial nextTutorial;
-    protected string fileName = "C:\\Users\\nwuser.DA\\TutorialState.obj";
+ 
+    protected string fileName;
 
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
+
+        // Windowsのとき
+#if  UNITY_EDITOR_WIN
+        fileName = "C:\\Users\\nwuser.DA\\TutorialState.obj";
+#endif
+
+        // Androidのとき
+#if UNITY_ANDROID
+        fileName = Application.persistentDataPath + "\\saveData" + ".xml";
+#endif
 
         // チュートリアルの情報を取得
         Singleton<TutorialState>.instance = (TutorialState)CreateSaveData.LoadFromBinaryFile(fileName);
@@ -33,7 +44,7 @@ public class TutorialManager : BaseObject
         }   
         
         // デバッグ用
-        CreateSaveData.NextTutorialState(eTutorial.eTutorial_InputUserName);
+        CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
         CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
         Debug.Log("現在のチュートリアルは" + Singleton<TutorialState>.instance.TutorialStatus);
     }

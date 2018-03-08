@@ -22,6 +22,7 @@ public class PopupResult : PopupBase
     /// </summary>
     public void Open()
     {
+        Singleton<GameInstance>.instance.IsShipMove = false;
         base.ButtonSet = EButtonSet.SetNone; // 基底クラスのButtonSetに対応するボタンを指定
         base.Open(null, null, ResultPopupOpen); // 基底クラスのOpenメソッドを呼び出す
         ResultPopupOpen();

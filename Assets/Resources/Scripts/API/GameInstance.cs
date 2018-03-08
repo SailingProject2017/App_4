@@ -12,12 +12,14 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
 
     /* inGame関連 */
     private EStageType stageType = EStageType.Null;     // @brief ステージタイプを格納する変数
-    private bool isShipMove = false;                    // @brief 船が動けるかどうかの状態を格納する変数
-    private bool isPorse    = false;                    // @brief ポーズ中かどうか判別する変数
-
+    private bool isShipMove  = false;                   // @brief 船が動けるかどうかの状態を格納する変数
+    private bool isPorse     = false;                   // @brief ポーズ中かどうか判別する変数
+    private bool isCountDown = false;                   // @brief カウントダウンを始めるかどうか判別する変数
+    private bool isGoal      = false;                   // @brief ゴールしたかの確認
+    private bool isBack      = false;                   // @brief inGameで戻るボタンを使えるかの判断をする
     /* サウンド関連 */
-    private float maxBGMVolume;
-    private float maxSEVolume;
+    private float maxBGMVolume = 1.0f;
+    private float maxSEVolume = 1.0f;
 
     protected override void AppendListConstructor()
     {
@@ -67,6 +69,48 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
         set { isPorse = value; }
         get { return isPorse; }
     }
+    #endregion
+
+    #region カウントダウンの判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isCountDownの変数アクセサー
+    /// </summary>
+    public bool IsCountDown
+    {
+        set { isCountDown = value; }
+        get { return isCountDown; }
+    }
+
+    #endregion
+
+    #region ゴールの判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isGoalの変数アクセサー
+    /// </summary>
+    public bool IsGoal
+    {
+        set { isGoal = value; }
+        get { return isGoal; }
+    }
+
+    #endregion
+
+    #region 戻るの判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isGoalの変数アクセサー
+    /// </summary>
+    public bool IsBack
+    {
+        set { isBack = value; }
+        get { return isBack; }
+    }
+
     #endregion
 
     #region サウンド関連

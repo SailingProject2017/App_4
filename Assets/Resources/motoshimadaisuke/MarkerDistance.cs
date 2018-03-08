@@ -1,18 +1,22 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scene;
 
 public class MarkerDistance : BaseObject {
     public float PlayerDistans;
     [SerializeField]
     private GameObject[] MarkerObject;
-    private int num, i;
-    public int MarkerCnt;
-    
-	// Use this for initialization
-	void Start () {
-        FindObject();
+    private int num=5, i;
+    ///TODO: ほかの作業が終了次第privateにする
+    public int markerCnt=0;
 
+    [SerializeField]
+    private SCENES nextScene; // @brief 次のシーン格納用
+
+    // Use this for initialization
+    void Start () {
+        FindObject();
     }
 
     // Update is called once per frame
@@ -27,7 +31,7 @@ public class MarkerDistance : BaseObject {
         for (i = 0; i < num; i++)
         {
             MarkerObject[i] = GameObject.Find("HitMarker" + i);//+iでマーカーの番号を示して要素の数だけFindして見つける
-
+            Debug.Log(MarkerObject[i]+ " MarkerDistance");
             if (MarkerObject[i] == null)
             {
                 Debug.Log("null");
@@ -38,6 +42,18 @@ public class MarkerDistance : BaseObject {
     }
     void Distance()
     {
-        PlayerDistans = ((transform.position.x - MarkerObject[MarkerCnt].transform.position.x) + (transform.position.z - MarkerObject[MarkerCnt].transform.position.z));
+        PlayerDistans = (transform.position - MarkerObject[markerCnt].transform.position).magnitude;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "first")
+        {
+            markerCnt++;
+            Debug.Log("cnt"+markerCnt);
+        }
+        if(other.tag == "goal" && markerCnt == 4 && this.tag == "Ship")
+        {
+            SceneManager.SceneMove(nextScene); // SceneManagerを呼び出す 引数は次のシーン
+        }
     }
 }

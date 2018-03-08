@@ -16,7 +16,8 @@ public class ModeSelectTutorialPopUp : PopupBase {
    
     public void Start()
     {
-        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_ModeSelect)
+        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_ModeSelect ||
+            Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_Sailing)
             Open();
     }
     /// <summary>

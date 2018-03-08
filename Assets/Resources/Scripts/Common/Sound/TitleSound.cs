@@ -10,9 +10,9 @@ public class TitleSound : BaseObject {
 
     BGMPlayer player;
 
-    void Start()
+    public void OnTap()
     {
-        Singleton<SoundPlayer>.instance.playBGM("Title", fadeTime, true);
+        Singleton<SoundPlayer>.instance.playSE("Bottun");
     }
 
 }

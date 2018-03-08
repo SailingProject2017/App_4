@@ -18,7 +18,12 @@ public class ShipController : BaseObject
     }
     public override void OnUpdate()
     {
-        
+
+        if (Singleton<GameInstance>.instance.IsShipMove)
+        {
+           transform.position += transform.forward * -0.3f;
+        }
+
 
         if (Input.GetKey("right"))
         {
