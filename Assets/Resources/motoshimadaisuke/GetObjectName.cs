@@ -9,7 +9,6 @@
 using UnityEngine;
 
 public class GetObjectName :BaseObject{
-    GoalJudge goalJudge;                // @brief GoalJuge型のオブジェクト取得
     private GameObject markerObjject;   // @brief 取得に必要なオブジェクト宣言
     private GameObject playerMarker;    // @brief 取得に必要なオブジェクト宣言
     private int i = 0;                  // @brief ループ用の変数
@@ -31,8 +30,7 @@ public class GetObjectName :BaseObject{
     {
         if (name.tag == "Player")
         {
-            goalJudge.markerName = transform.name;
-            Debug.Log(goalJudge.markerName);
+           
         }
     }
     /// <summary>
@@ -41,7 +39,7 @@ public class GetObjectName :BaseObject{
     void FindObject()
     {
         playerMarker = GameObject.Find("Player");
-        goalJudge = markerObjject.GetComponent<GoalJudge>();
+      
 
     }
 }

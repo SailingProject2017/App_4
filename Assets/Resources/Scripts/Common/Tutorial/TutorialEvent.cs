@@ -70,7 +70,7 @@ public class TutorialEvent : BaseObject {
     {
         Singleton<GameInstance>.instance.IsShipMove = false;
         BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
-        BaseObjectSingleton<GameInstance>.Instance.IsBack = false;
+       
     }
     /// <summary>
     /// @brief イベント終了時の処理
@@ -78,7 +78,7 @@ public class TutorialEvent : BaseObject {
     public void ExitEvent()
     {
         BaseObjectSingleton<GameInstance>.Instance.IsCountDown = true;
-        BaseObjectSingleton<GameInstance>.Instance.IsBack = true;
+     
         Debug.Log("flag:"+Singleton<GameInstance>.instance.IsShipMove);
     }
 }

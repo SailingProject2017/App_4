@@ -65,7 +65,7 @@ public class AI : BaseObject
                 Turning(Radian());
                 break;
             case EenemyStatus.eACCELERATION:
-                Turning(WindSet());
+                //Turning(WindSet());
                 break;
         }
     }
@@ -151,12 +151,12 @@ public class AI : BaseObject
      /// 風の取得
      /// </summary>
      /// <returns></returns>
-    float WindSet()
-    {
-        WindObject = GameObject.Find("Wind");
-        getwind = WindObject.GetComponent<GetWindParam>();
-        return getwind.valuewind;
-    }
+    //float WindSet()
+    //{
+    //    WindObject = GameObject.Find("Wind");
+    //    getwind = WindObject.GetComponent<GetWindParam>();
+    //    return getwind.valuewind;
+    //}
     /// <summary>
     /// スピード変化用の乱数を発生させてcntを初期化する
     /// </summary>
