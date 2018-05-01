@@ -40,7 +40,7 @@ public class TutorialManager : BaseObject
         }   
         
         // デバッグ用
-        CreateSaveData.NextTutorialState(eTutorial.eTutorial_InputUserName);
+        CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
         CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
         Debug.Log("現在のチュートリアルは" + Singleton<TutorialState>.instance.TutorialStatus);
     }
