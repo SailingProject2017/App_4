@@ -8,13 +8,12 @@
 * Copyright © 2017 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
 
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Collections;
-public class SoundPlayer
-{
+
+public class SoundPlayer {
 
     GameObject soundPlayerObj;  // @brief サウンドプレイヤーオブジェクトを格納する変数
     AudioSource audioSource;    // @brief Unityのオーディオ設定関連のクラスインスタンス
@@ -23,14 +22,12 @@ public class SoundPlayer
 
     Dictionary<string, AudioClipInfo> audioClips = new Dictionary<string, AudioClipInfo>();
 
-    class AudioClipInfo
-    {
+    class AudioClipInfo {
         public string resourceName;
         public string name;
         public AudioClip clip;
 
-        public AudioClipInfo(string resourceName, string name)
-        {
+        public AudioClipInfo(string resourceName, string name) {
             this.resourceName = resourceName;
             this.name = name;
         }
@@ -42,8 +39,7 @@ public class SoundPlayer
     @note       audioClips.Add("呼び出し時の名前", new AudioClipInfo("サウンドデータのフォルダ面", "呼び出し時の名前"));
     @return     none
     */
-    public SoundPlayer()
-    {
+    public SoundPlayer() {
         audioClips.Add("Sea", new AudioClipInfo("Sound/Sea", "BGM001"));
         audioClips.Add("ModeSelect", new AudioClipInfo("Sound/Title", "BGM002"));
         audioClips.Add("Wind", new AudioClipInfo("Sound/wind", "BGM003"));
@@ -60,20 +56,19 @@ public class SoundPlayer
     @brief      追加したサウンドデータを再生する
     @return     指定のSE名がなければfalse / あれば再生してtrue
     */
-    public bool playSE(string seName)
-    {
+    public bool playSE(string seName) {
 
-        if (audioClips.ContainsKey(seName) == false)
+        if(audioClips.ContainsKey(seName) == false) {
             return false;
+        }
 
         AudioClipInfo info = audioClips[seName];
 
         //なければロード
-        if (info.clip == null)
+        if(info.clip == null)
             info.clip = (AudioClip)Resources.Load(info.resourceName);
 
-        if (soundPlayerObj == null)
-        {
+        if(soundPlayerObj == null) {
             soundPlayerObj = new GameObject("SoundPlayer");
             audioSource = soundPlayerObj.AddComponent<AudioSource>();
         }
@@ -83,57 +78,66 @@ public class SoundPlayer
         audioSource.loop = false;
         //再生
         audioSource.PlayOneShot(info.clip);
+        Debug.Log("SoundPlayer" + info.clip);
 
         return true;
     }
 
-    public void playBGM(string bgmName, float fadeTime, bool isLoop)
-    {
+    public void playBGM(string bgmName, float fadeTime, bool isLoop) {
         // 現在のBGMを消去
-        if (fadeOutBGMPlayer != null)
+        if(fadeOutBGMPlayer != null) {
+            Debug.Log("BGM消去");
             fadeOutBGMPlayer.destory();
+        }
 
         // 現在のBGMをフェードアウト
-        if (curBGMPlayer != null)
-        {
+        if(curBGMPlayer != null) {
             curBGMPlayer.stopBGM(fadeTime);
             fadeOutBGMPlayer = curBGMPlayer;
+            Debug.Log("フェードアウト");
         }
 
         // 新しいBGMを再生
-        if (audioClips.ContainsKey(bgmName) == false)
-        {
+        if(audioClips.ContainsKey(bgmName) == false) {
             // null BGM
             curBGMPlayer = new BGMPlayer();
-        }
-        else
-        {
+            Debug.Log("curBGMPlayer = NULL");
+        } else {
             curBGMPlayer = new BGMPlayer(audioClips[bgmName].resourceName);
             curBGMPlayer.playBGM(fadeTime, isLoop);
+            Debug.Log("curBGMPlayer" + audioClips[bgmName]);
         }
     }
 
-    public void playBGM()
-    {
-        if (curBGMPlayer != null)
+    public void playBGM() {
+        if(curBGMPlayer != null) {
             curBGMPlayer.playBGM();
-        if (fadeOutBGMPlayer != null)
+            Debug.Log("SoundPlayer.playBGM");
+        }
+
+        if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.playBGM();
+        }
     }
 
-    public void pauseBGM()
-    {
-        if (curBGMPlayer != null)
+    public void pauseBGM() {
+        if(curBGMPlayer != null) {
             curBGMPlayer.pauseBGM();
-        if (fadeOutBGMPlayer != null)
+        }
+
+        if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.pauseBGM();
+        }
     }
 
-    public void stopBGM(float fadeTime)
-    {
-        if (curBGMPlayer != null)
+    public void stopBGM(float fadeTime) {
+        if(curBGMPlayer != null) {
             curBGMPlayer.stopBGM(fadeTime);
-        if (fadeOutBGMPlayer != null)
+        }
+
+        if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.stopBGM(fadeTime);
+        }
     }
+
 }
