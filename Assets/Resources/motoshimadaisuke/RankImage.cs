@@ -27,7 +27,7 @@ public class RankImage : BaseObject {
     }
     void RankChange()
     {
-        switch (rankmanager.Rank[3])
+        switch (rankmanager.rankImage[3])
         {
             case 1:
                 no[0].SetActive(true) ;
