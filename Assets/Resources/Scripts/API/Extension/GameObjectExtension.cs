@@ -108,6 +108,7 @@ public static class GameObjectExtension
             GetParent(ob.gameObject, ref allParent);
         }
     }
+
     /// <summary>
     /// @brief 子要素を取得してリストに追加
     public static void GetChildren(GameObject obj, ref List<GameObject> allChildren)
