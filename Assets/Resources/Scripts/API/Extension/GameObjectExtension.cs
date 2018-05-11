@@ -108,6 +108,7 @@ public static class GameObjectExtension
             GetParent(ob.gameObject, ref allParent);
         }
     }
+
     /// <summary>
     /// @brief 子要素を取得してリストに追加
     public static void GetChildren(GameObject obj, ref List<GameObject> allChildren)
@@ -125,7 +126,27 @@ public static class GameObjectExtension
         }
     }
 
-    /// <summary>
+	/// <summary>
+	/// 指定した名前の子オブジェクトを全て取得する。
+	/// </summary>
+	/// <param name="obj">Object.</param>
+	public static void GetChildren(GameObject obj, string objName)
+	{
+		List<GameObject> gameObjects = new List<GameObject>();
+		Transform children = obj.GetComponentInChildren<Transform>();
+
+		if (children.childCount == 0) return;
+
+		foreach (Transform childObj in children)
+		{
+			if(childObj.name == objName)
+			{
+				gameObjects.Add(obj.gameObject);
+				GetChildren(childObj.gameObject, ref gameObjects);
+			}
+		}
+	}
+		/// <summary>
     /// @brief GameObjectという名前のみリストに格納する
     /// </summary>>
     public static void GetGameObject(GameObject obj, ref List<GameObject> allGameObject)
