@@ -7,24 +7,23 @@ public class SeaSound : BaseObject {
 
     private string audioClipName = "";
     [SerializeField]
-    private float fadeTime = 0.0f;
+    private float fadeTime = 0.5f;
 
 
     private bool callOnce = false;
 
     void Start() {
-        Singleton<SoundPlayer>.instance.playBGM("Sea", fadeTime, true);
-        Debug.Log("SeaSound");
+        Singleton<SoundPlayer>.instance.PlayBGM("Sea", fadeTime, true);
+        Debug.Log("SeaSoundPlay!");
     }
 
     public void OnTap() {
-        if(Singleton<SoundPlayer>.instance != null) {
-            Singleton<SoundPlayer>.instance.stopBGM(1.0f);
-            Debug.Log("OnTap");
-        }
+
+        Singleton<SoundPlayer>.instance.StopBGM(fadeTime);
+        Debug.Log("OnTap");
 
         if(!callOnce) {
-            Singleton<SoundPlayer>.instance.playSE("Bottun");
+            Singleton<SoundPlayer>.instance.PlaySE("Bottun");
             callOnce = !callOnce;
         }
     }

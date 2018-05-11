@@ -14,7 +14,7 @@ public class ModeSelectSound : BaseObject
 
     void Start()
     {
-        Singleton<SoundPlayer>.instance.playBGM("ModeSelect", fadeTime, true);
+        Singleton<SoundPlayer>.instance.PlayBGM("ModeSelect", fadeTime, true);
 
     }
 
@@ -22,7 +22,7 @@ public class ModeSelectSound : BaseObject
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.playSE("Bottun");
+            Singleton<SoundPlayer>.instance.PlaySE("Bottun");
             callOnce = !callOnce;
         }
     }

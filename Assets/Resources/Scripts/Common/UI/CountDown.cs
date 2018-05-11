@@ -67,22 +67,22 @@ public class CountDown : BaseObject
 
         // 3
         countDownText.text = "3";
-        Singleton<SoundPlayer>.instance.playSE("0");
+        Singleton<SoundPlayer>.instance.PlaySE("0");
         yield return new WaitForSeconds(1.0f);
 
         // 2
         countDownText.text = "2";
-        Singleton<SoundPlayer>.instance.playSE("0");
+        Singleton<SoundPlayer>.instance.PlaySE("0");
         yield return new WaitForSeconds(1.0f);
 
         // 1
         countDownText.text = "1";
-        Singleton<SoundPlayer>.instance.playSE("0");
+        Singleton<SoundPlayer>.instance.PlaySE("0");
         yield return new WaitForSeconds(1.0f);
 
         // GO
         countDownText.text = "GO!";
-        Singleton<SoundPlayer>.instance.playSE("4");
+        Singleton<SoundPlayer>.instance.PlaySE("4");
 
         // 船の移動許可
         Singleton<GameInstance>.instance.IsShipMove = true;

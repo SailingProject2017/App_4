@@ -56,7 +56,7 @@ public class SoundPlayer {
     @brief      追加したサウンドデータを再生する
     @return     指定のSE名がなければfalse / あれば再生してtrue
     */
-    public bool playSE(string seName) {
+    public bool PlaySE(string seName) {
 
         if(audioClips.ContainsKey(seName) == false) {
             return false;
@@ -78,65 +78,73 @@ public class SoundPlayer {
         audioSource.loop = false;
         //再生
         audioSource.PlayOneShot(info.clip);
-        Debug.Log("SoundPlayer" + info.clip);
 
         return true;
     }
 
-    public void playBGM(string bgmName, float fadeTime, bool isLoop) {
-        // 現在のBGMを消去
+    public void PlayBGM(string bgmName, float fadeTime, bool isLoop) {
+      // 現在のBGMを消去
         if(fadeOutBGMPlayer != null) {
-            Debug.Log("BGM消去");
             fadeOutBGMPlayer.destory();
+            Debug.Log("fadeOutBGMPlayer Destory");
         }
-
-        // 現在のBGMをフェードアウト
+       // 現在のBGMをフェードアウト
         if(curBGMPlayer != null) {
-            curBGMPlayer.stopBGM(fadeTime);
+            curBGMPlayer.StopBGM(fadeTime);
             fadeOutBGMPlayer = curBGMPlayer;
-            Debug.Log("フェードアウト");
+            Debug.Log("FadeOut");
         }
-
         // 新しいBGMを再生
         if(audioClips.ContainsKey(bgmName) == false) {
             // null BGM
             curBGMPlayer = new BGMPlayer();
-            Debug.Log("curBGMPlayer = NULL");
+            Debug.Log("NULL");
         } else {
             curBGMPlayer = new BGMPlayer(audioClips[bgmName].resourceName);
-            curBGMPlayer.playBGM(fadeTime, isLoop);
-            Debug.Log("curBGMPlayer" + audioClips[bgmName]);
+            Debug.Log("3");
+            curBGMPlayer.PlayBGM(fadeTime, isLoop);
         }
+
+        if(curBGMPlayer == null) {
+            Debug.Log("なんでNULL返ってくるん？");
+        }
+
     }
 
-    public void playBGM() {
+    public void PlayBGM() {
         if(curBGMPlayer != null) {
-            curBGMPlayer.playBGM();
-            Debug.Log("SoundPlayer.playBGM");
+            curBGMPlayer.PlayBGM();
+            Debug.Log("curBGMPlayer.PlayBGM");
         }
 
         if(fadeOutBGMPlayer != null) {
-            fadeOutBGMPlayer.playBGM();
+            fadeOutBGMPlayer.PlayBGM();
         }
     }
 
-    public void pauseBGM() {
+    public void PauseBGM() {
         if(curBGMPlayer != null) {
-            curBGMPlayer.pauseBGM();
+            curBGMPlayer.PauseBGM();
         }
 
         if(fadeOutBGMPlayer != null) {
-            fadeOutBGMPlayer.pauseBGM();
+            fadeOutBGMPlayer.PauseBGM();
         }
     }
 
-    public void stopBGM(float fadeTime) {
+    public void StopBGM(float fadeTime) {
         if(curBGMPlayer != null) {
-            curBGMPlayer.stopBGM(fadeTime);
+            curBGMPlayer.StopBGM(fadeTime);
+            Debug.Log("curBGMPlayer.StopBGM");
+        } else {
+            Debug.Log("curBGMPlayer NULL!!");
         }
 
         if(fadeOutBGMPlayer != null) {
-            fadeOutBGMPlayer.stopBGM(fadeTime);
+            fadeOutBGMPlayer.StopBGM(fadeTime);
+            Debug.Log("fadeOutBGMPlayer.StopBGM");
+        } else {
+            Debug.Log("fadeOutBGMPlayer NULL!!");
         }
     }
 
