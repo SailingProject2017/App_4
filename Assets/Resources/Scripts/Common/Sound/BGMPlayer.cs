@@ -12,9 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class BGMPlayer {
-
-
+class BGMPlayer{
 
     #region オブジェクトの宣言
     /****************************************************************************************/
@@ -50,14 +48,12 @@ class BGMPlayer {
         //停止
         public Wait(BGMPlayer bgmPlayer) : base(bgmPlayer) {
 
-            Debug.Log("2");
             Debug.Log("now state Wait");
 
         }
 
         //再生
         public override void PlayBGM() {
-            Debug.Log("5");
             Debug.Log("fadeInTime = " + bgmPlayer.fadeInTime);
 
             if(bgmPlayer.fadeInTime > 0.0f) {
@@ -76,11 +72,11 @@ class BGMPlayer {
 
         State preState;
 
-        public Pause(BGMPlayer bgmPlayer, State preState) : base(bgmPlayer) {
+        public Pause(BGMPlayer bgmPlayer, State argPreState) : base(bgmPlayer) {
 
             Debug.Log("now state Pause");
 
-            this.preState = preState;
+            preState = argPreState;
             bgmPlayer.source.Pause();
             
         }
@@ -94,6 +90,7 @@ class BGMPlayer {
             bgmPlayer.state = preState;
             bgmPlayer.source.Play();
         }
+
     }
 
     #endregion
@@ -103,7 +100,6 @@ class BGMPlayer {
     class Playing : State {
 
         public Playing(BGMPlayer bgmPlayer) : base(bgmPlayer) {
-            Debug.Log("6");
             Debug.Log("now state Playing");
 
             if(bgmPlayer.source.isPlaying == false) {
@@ -203,10 +199,10 @@ class BGMPlayer {
     public BGMPlayer() { }
 
     public BGMPlayer(string bgmFileName) {
-        Debug.Log("1");
         AudioClip clip = (AudioClip)Resources.Load(bgmFileName);
 
         if(clip != null) {
+            //BaseObjectを継承していたせいでnullになっていた
             obj = new GameObject("BGMPlayer");
             source = obj.AddComponent<AudioSource>();
             source.clip = clip;
@@ -226,12 +222,10 @@ class BGMPlayer {
     public void PlayBGM() {
         if(source != null) {
             state.PlayBGM();
-            Debug.Log("state.palyBGM");
         }
     }
 
     public void PlayBGM(float fadeTime, bool toLoop) {
-        Debug.Log("4");
         if(source != null) {
             this.fadeInTime = fadeTime;
             Debug.Log("set fadeInTime = " + fadeInTime);

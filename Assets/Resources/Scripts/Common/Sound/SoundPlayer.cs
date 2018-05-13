@@ -23,6 +23,7 @@ public class SoundPlayer {
     Dictionary<string, AudioClipInfo> audioClips = new Dictionary<string, AudioClipInfo>();
 
     class AudioClipInfo {
+
         public string resourceName;
         public string name;
         public AudioClip clip;
@@ -31,6 +32,7 @@ public class SoundPlayer {
             this.resourceName = resourceName;
             this.name = name;
         }
+
     }
 
     /****************************************************************************** 
@@ -40,6 +42,7 @@ public class SoundPlayer {
     @return     none
     */
     public SoundPlayer() {
+
         audioClips.Add("Sea", new AudioClipInfo("Sound/Sea", "BGM001"));
         audioClips.Add("ModeSelect", new AudioClipInfo("Sound/Title", "BGM002"));
         audioClips.Add("Wind", new AudioClipInfo("Sound/wind", "BGM003"));
@@ -83,17 +86,19 @@ public class SoundPlayer {
     }
 
     public void PlayBGM(string bgmName, float fadeTime, bool isLoop) {
-      // 現在のBGMを消去
+        // 現在のBGMを消去
         if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.destory();
             Debug.Log("fadeOutBGMPlayer Destory");
         }
-       // 現在のBGMをフェードアウト
+
+        // 現在のBGMをフェードアウト
         if(curBGMPlayer != null) {
             curBGMPlayer.StopBGM(fadeTime);
             fadeOutBGMPlayer = curBGMPlayer;
-            Debug.Log("FadeOut");
+            Debug.Log("curBGMPlayer.StopBGM");
         }
+
         // 新しいBGMを再生
         if(audioClips.ContainsKey(bgmName) == false) {
             // null BGM
@@ -101,28 +106,29 @@ public class SoundPlayer {
             Debug.Log("NULL");
         } else {
             curBGMPlayer = new BGMPlayer(audioClips[bgmName].resourceName);
-            Debug.Log("3");
             curBGMPlayer.PlayBGM(fadeTime, isLoop);
-        }
-
-        if(curBGMPlayer == null) {
-            Debug.Log("なんでNULL返ってくるん？");
         }
 
     }
 
     public void PlayBGM() {
+
+        Debug.Log("SoundPlayer.PlayBGM");
+
         if(curBGMPlayer != null) {
             curBGMPlayer.PlayBGM();
-            Debug.Log("curBGMPlayer.PlayBGM");
         }
 
         if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.PlayBGM();
         }
+
     }
 
     public void PauseBGM() {
+
+        Debug.Log("SoundPlayer.PauseBGM");
+
         if(curBGMPlayer != null) {
             curBGMPlayer.PauseBGM();
         }
@@ -130,22 +136,35 @@ public class SoundPlayer {
         if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.PauseBGM();
         }
+
     }
 
     public void StopBGM(float fadeTime) {
+
+        Debug.Log("SoundPlayer.StopBGM");
+
         if(curBGMPlayer != null) {
             curBGMPlayer.StopBGM(fadeTime);
-            Debug.Log("curBGMPlayer.StopBGM");
-        } else {
-            Debug.Log("curBGMPlayer NULL!!");
         }
 
         if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.StopBGM(fadeTime);
-            Debug.Log("fadeOutBGMPlayer.StopBGM");
-        } else {
-            Debug.Log("fadeOutBGMPlayer NULL!!");
         }
+
+    }
+
+    public void Update() {
+
+        Debug.Log("SoundPlayer.Update");
+
+        if(curBGMPlayer != null) {
+            curBGMPlayer.Update();
+        }
+
+        if(fadeOutBGMPlayer != null) {
+            fadeOutBGMPlayer.Update();
+        } 
+
     }
 
 }
