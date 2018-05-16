@@ -146,11 +146,11 @@ class BGMPlayer{
         }
 
         public override void Update() {
-            Debug.Log("フェードイン");
 
             time += Time.deltaTime;
 
             bgmPlayer.source.volume = time / bgmPlayer.fadeInTime;
+            Debug.Log("volume = " + bgmPlayer.source.volume);
 
             if(time >= bgmPlayer.fadeInTime) {
                 bgmPlayer.source.volume = bgmPlayer.maxBGMVolume;
@@ -164,15 +164,17 @@ class BGMPlayer{
     #region    フェードアウトの実装
     /****************************************************************************************/
     class FadeOut : State {
+
         private float initVolume;
         private float time = 0.0f;
 
         public FadeOut(BGMPlayer bgmPlayer) : base(bgmPlayer) {
 
             Debug.Log("now state FadeOut");
-
-            initVolume = bgmPlayer.source.volume;
             
+            initVolume = bgmPlayer.source.volume;
+            Debug.Log("initVolume = " + initVolume);
+
         }
 
         public override void PauseBGM() {
@@ -180,8 +182,8 @@ class BGMPlayer{
         }
 
         public override void Update() {
-            time += Time.deltaTime;
 
+            time += Time.deltaTime;
             bgmPlayer.source.volume = initVolume * (bgmPlayer.maxBGMVolume - time / bgmPlayer.fadeOutTime);
             Debug.Log("volume = " + bgmPlayer.source.volume);
 
@@ -190,6 +192,7 @@ class BGMPlayer{
                 bgmPlayer.source.Stop();
                 bgmPlayer.state = new Wait(bgmPlayer);
             }
+
         }
     }
     #endregion
@@ -245,7 +248,7 @@ class BGMPlayer{
 
     public void StopBGM(float fadeTime) {
         if(source != null) {
-            fadeOutTime = fadeTime;
+            this.fadeOutTime = fadeTime;
             state.StopBGM();
         }
     }
@@ -257,4 +260,5 @@ class BGMPlayer{
     }
 
     #endregion
+
 }

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Collections;
 
-public class SoundPlayer {
+public class SoundPlayer{
 
     GameObject soundPlayerObj;  // @brief サウンドプレイヤーオブジェクトを格納する変数
     AudioSource audioSource;    // @brief Unityのオーディオ設定関連のクラスインスタンス
@@ -153,6 +153,16 @@ public class SoundPlayer {
 
     }
 
+    public void Pause(bool argPlaySound) {
+
+        if(argPlaySound) {
+            PauseBGM();
+        } else {
+            PlayBGM();
+        }
+
+    }
+
     public void Update() {
 
         Debug.Log("SoundPlayer.Update");
@@ -163,7 +173,7 @@ public class SoundPlayer {
 
         if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.Update();
-        } 
+        }
 
     }
 

@@ -10,18 +10,24 @@ public class SeaSound : BaseObject {
     private float fadeTime = 1.0f;
     private bool playSound = true;
 
-
     private bool callOnce = false;
 
     void Start() {
+        //fadeTime = 1.0f;
         Singleton<SoundPlayer>.instance.PlayBGM("Sea", fadeTime, true);
         Debug.Log("SeaSoundPlay!");
     }
 
-    public void OnTap() {
+    public override void OnUpdate() {
+        base.OnUpdate();
 
-        Singleton<SoundPlayer>.instance.StopBGM(fadeTime);
+        Debug.Log("SeaSound OnUpdate");
         Singleton<SoundPlayer>.instance.Update();
+
+    }
+
+    public void OnTap() {
+        Singleton<SoundPlayer>.instance.StopBGM(fadeTime);
         Debug.Log("OnTap");
 
         if(!callOnce) {
@@ -31,12 +37,8 @@ public class SeaSound : BaseObject {
     }
 
     public void PauseBGM() {
-
-        if(playSound) {
-            Singleton<SoundPlayer>.instance.PauseBGM();
-        } else {
-            Singleton<SoundPlayer>.instance.PlayBGM();
-        }
+        
+        Singleton<SoundPlayer>.instance.Pause(playSound);
 
         Debug.Log(playSound);
         playSound = !playSound;
