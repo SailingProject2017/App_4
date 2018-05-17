@@ -4,84 +4,105 @@ using UnityEngine;
 using System;
 public class RankManager : BaseObject
 {
-    private List<GameObject> shipObject=new List<GameObject>();             //@brief 船を格納するgameobject型のリスト
-    private List<MarkerDistance> shipDistance=new List<MarkerDistance>();   //@brief 変数を取得する用のMarkerDistance型のリスト
+    private List<GameObject> shipObject = new List<GameObject>();             //@brief 船を格納するgameobject型のリスト
+    private List<MarkerDistance> shipDistance = new List<MarkerDistance>();   //@brief 変数を取得する用のMarkerDistance型のリスト
     [SerializeField]
     private int[] rank;                                                     //@brief ランク判別用の配列
-    public int[] rankImage;                                                 //@brief 判別したランクをRankImageへ渡すための配列
-    private int  arrayNum;                                                  //@brief rankの配列の中にかぶりがないか判別する用の変数
+    private int[] rankImage;                                                 //@brief 判別したランクをRankImageへ渡すための配列
+    private int arrayNum;                                                  //@brief rankの配列の中にかぶりがないか判別する用の変数
     private int exceptionNum;                                               //@brief rankの配列に同じ数字がはいっていたときにそれを正す時に使用する変数
 
     // Use this for initializatio
     void Start()
     {
         //初期化
-        exceptionNum = 4;       
+        
         rankImage = new int[4];
         rank = new int[4];
-        //ほかのスクリプトから変数を取得を可能にする関数
         Status();
+        //ほかのスクリプトから変数を取得を可能にする関数
     }
     // Update is called once per frame
     public override void OnUpdate()
     {
         base.OnUpdate();
-        //順位判定
         Judgment();
-      
+
     }
-    /// <summary>
-    ///  プレイヤーのオブジェクトを取得してそれをもとにMarkerDistanceにアクセスしている
-    /// </summary>
     void Status()
     {
-        for(int i=0;i<4;i++)
+        for (int i = 0; i < 4; i++)
         {
             if (GameObject.Find("Enemy" + i) != null)
             {
                 shipObject.Add(GameObject.Find("Enemy" + i));// enemyの取得
-            }else { 
+            }
+            else
+            {
                 shipObject.Add(GameObject.Find("Player"));// Playerの取得
             }
-            
+
         }
-        for(int j=0;j<4;j++)
-        shipDistance.Add(shipObject[j].GetComponent<MarkerDistance>());// 取得したものを使ってMarkerDistanceにアクセスする
+        for (int j = 0; j < 4; j++)
+            shipDistance.Add(shipObject[j].GetComponent<MarkerDistance>());// 取得したものを使ってMarkerDistanceにアクセスする
     }
+
     /// <summary>
-    /// 順位判定　例外処理を行っている
+    /// 順位判定
     /// </summary>
     void Judgment()
     {
-        
-        for(int i = 0; i < 4; i++)
+        for(int i=0;i<4; i++)
         {
-            for(int j=1; j < 4; j++)
+            rank[i] = 1;
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j =i+ 1; j < 4; j++)
             {
-                if (shipDistance[i].markerCnt > shipDistance[j].markerCnt)//マーカーの数の判別
+                if (shipDistance[i].MarkerCnt > shipDistance[j].MarkerCnt)//マーカーの数の判別
                 {
                     rank[j] += 1;
                 }
-                else if (shipDistance[i].markerCnt < shipDistance[j].markerCnt)//マーカーの数の判別
+                else if (shipDistance[i].MarkerCnt < shipDistance[j].MarkerCnt)//マーカーの数の判別
                 {
                     rank[i] += 1;
 
                 }
-                else if (shipDistance[i].markerCnt == shipDistance[j].markerCnt)//マーカーの数の判別
+                else if (shipDistance[i].MarkerCnt == shipDistance[j].MarkerCnt)//マーカーの数の判別
                 {
-                    if (shipDistance[i].PlayerDistans > shipDistance[j].PlayerDistans)//距離の判別
+                    if (shipDistance[i].Distans > shipDistance[j].Distans)//距離の判別
                     {
                         rank[i] += 1;
                     }
-                   else if (shipDistance[i].PlayerDistans < shipDistance[j].PlayerDistans)//距離の判別
+                    else if (shipDistance[i].Distans < shipDistance[j].Distans)//距離の判別
                     {
                         rank[j] += 1;
                     }
                 }
             }
         }
-        // 例外処理
-        for(int i = 0; i < 4; i++)
+       
+        ExceptionRank();
+        for (int i = 0; i < 4; i++)
+        {
+            rankImage[i] = rank[i];
+        }
+    }/// <summary>
+    /// 描画用の変数を渡すアクセサー
+    /// </summary>
+   
+    public int imageRank
+    {
+        get { return rankImage[3]; }
+    }
+    /// <summary>
+    /// 例外処理
+    /// </summary>
+    void ExceptionRank()
+    {
+        exceptionNum = 4;
+        for (int i = 0; i < 4; i++)
         {
             if (rank[i] > exceptionNum)// 一定の数以上で突入
             {
@@ -91,16 +112,9 @@ public class RankManager : BaseObject
                 {
                     exceptionNum--;
                     rank[arrayNum] = exceptionNum;//見つけた値に重なった数の１個すくない値を入れる
-                    
+
                 }
             }
         }
-        exceptionNum = 4;//処理が終わったら元の値に戻す
-        for(int i = 0; i < 4; i++)//判別したランクをRankImageへ渡すために代入している
-        {
-            rankImage[i] = rank[i];
-            rank[i] = 1;//代入し終わったら初期化
-        }
     }
 }
-

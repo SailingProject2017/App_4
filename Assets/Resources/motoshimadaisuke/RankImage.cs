@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class RankImage : BaseObject {
     private GameObject rank;
     [SerializeField]
@@ -12,7 +11,6 @@ public class RankImage : BaseObject {
         Find();
         
 	}
-
     // Update is called once per frame
     public override void OnUpdate()
     {
@@ -27,7 +25,7 @@ public class RankImage : BaseObject {
     }
     void RankChange()
     {
-        switch (rankmanager.rankImage[3])
+        switch (rankmanager.imageRank)
         {
             case 1:
                 no[0].SetActive(true) ;
@@ -52,6 +50,8 @@ public class RankImage : BaseObject {
                 no[1].SetActive(false);
                 no[2].SetActive(false);
                 no[3].SetActive(true);
+                break;
+            default:
                 break;
         }
     }
