@@ -132,25 +132,14 @@ public static class GameObjectExtension
 			}
 		}
 	}
-
-	/// <summary>
-    /// @brief GameObjectという名前のオブジェクトのみを取得する
-    /// </summary>>
-    public static List<GameObject> GetGameObject(this GameObject obj)
-    {
-
-        List<GameObject> allGameObject = new List<GameObject>();
-        GetGameObject(obj, ref allGameObject);
-        return allGameObject;
-    }
-        
+    
     /// <summary>
     /// @brief 指定した名前のオブジェクトを取得する
     /// </summary>
     /// <param name="obj">Object.</param>
     /// <param name="allGameObject">All game object.</param>
 	/// <param name="str">デフォルト引数：指定しない場合「GameObject」固定</param>
-    public static void GetGameObject(GameObject obj, ref List<GameObject> allGameObject, string str = "GameObject")
+    public static void GetGameObject(GameObject obj, ref List<GameObject> allGameObject, string str)
     {
         Transform gameObject = obj.GetComponentInParent<Transform>();
         
@@ -167,14 +156,14 @@ public static class GameObjectExtension
             {
                 allGameObject.Add(ob.gameObject);
             }
-            GetGameObject(ob.gameObject, ref allGameObject);
+            GetGameObject(ob.gameObject, ref allGameObject, str);
         }
     }
     
 	/// <summary>
     /// @brief GameObjectという名前のみリストに格納する
     /// </summary>>
-	public static List<GameObject> GetGameObject(GameObject obj, string str)
+	public static List<GameObject> GetGameObject(GameObject obj, string str = "GameObject")
 	{
 		List<GameObject> allGameObject = new List<GameObject>();
         GetGameObject(obj, ref allGameObject, str);
