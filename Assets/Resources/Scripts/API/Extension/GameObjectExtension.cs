@@ -3,9 +3,9 @@
 *********************************************************************************************
 * @brief      GameObjectの拡張メソッド
 *********************************************************************************************
-* @author     Yuta Takatsu
+* @author     Yuta Takatsu & Ryo Sugiyama
 *********************************************************************************************
-* Copyright © 2018 Yuta Takatsu All Rights Reserved.
+* Copyright © 2018 Yuta Takatsu & Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +13,6 @@ using UnityEngine;
 
 public static class GameObjectExtension
 {
-
-    static int objectNum = 0;
-
     /// <summary> 
     /// @brief 親や子オブジェクトも含めた範囲から指定のコンポーネントを取得する 
     /// </summary> 
@@ -74,18 +71,7 @@ public static class GameObjectExtension
         return allParent;
     }
 
-
-    /// <summary>
-    /// @brief GameObjectという名前のオブジェクトのみを取得する
-    /// </summary>>
-    public static List<GameObject> GetGameObject(this GameObject obj)
-    {
-
-        List<GameObject> allGameObject = new List<GameObject>();
-        GetGameObject(obj, ref allGameObject);
-        return allGameObject;
-    }
-
+       
     /// <summary>
     /// @brief 親要素を取得してリストに追加
     /// </summary>>
@@ -146,10 +132,25 @@ public static class GameObjectExtension
 			}
 		}
 	}
-		/// <summary>
-    /// @brief GameObjectという名前のみリストに格納する
+
+	/// <summary>
+    /// @brief GameObjectという名前のオブジェクトのみを取得する
     /// </summary>>
-    public static void GetGameObject(GameObject obj, ref List<GameObject> allGameObject)
+    public static List<GameObject> GetGameObject(this GameObject obj)
+    {
+
+        List<GameObject> allGameObject = new List<GameObject>();
+        GetGameObject(obj, ref allGameObject);
+        return allGameObject;
+    }
+        
+    /// <summary>
+    /// @brief 指定した名前のオブジェクトを取得する
+    /// </summary>
+    /// <param name="obj">Object.</param>
+    /// <param name="allGameObject">All game object.</param>
+	/// <param name="str">デフォルト引数：指定しない場合「GameObject」固定</param>
+    public static void GetGameObject(GameObject obj, ref List<GameObject> allGameObject, string str = "GameObject")
     {
         Transform gameObject = obj.GetComponentInParent<Transform>();
         
@@ -162,13 +163,30 @@ public static class GameObjectExtension
                 return;
             }
 
-            if (ob.gameObject.name == "GameObject")
+            if (ob.gameObject.name == str)
             {
-                ob.gameObject.name = (objectNum).ToString(); ;
                 allGameObject.Add(ob.gameObject);
-                objectNum++;
             }
             GetGameObject(ob.gameObject, ref allGameObject);
         }
     }
+    
+	/// <summary>
+    /// @brief GameObjectという名前のみリストに格納する
+    /// </summary>>
+	public static List<GameObject> GetGameObject(GameObject obj, string str)
+	{
+		List<GameObject> allGameObject = new List<GameObject>();
+        GetGameObject(obj, ref allGameObject, str);
+        return allGameObject;
+    }
+
+    /// <summary>
+    /// @brief 子要素の総数を返す関数
+    /// </summary>
+	/// <value>子要素の総数</value>
+	public static int ObjectNum
+    {
+		get { return ObjectNum; }
+	}
 }
