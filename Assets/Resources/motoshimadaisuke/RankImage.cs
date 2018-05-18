@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/***********************************************************************/
+/*! @file   RankImage.cs
+*************************************************************************
+*   @brief  変動した順位を描画に
+*************************************************************************
+*   @author motoshimadaisuke
+************************************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class RankImage : BaseObject {
@@ -18,11 +26,17 @@ public class RankImage : BaseObject {
         base.OnUpdate();
         RankChange();
     }
+    /// <summary>
+    /// 描画に必要な変数の取得
+    /// </summary>
     void Find()
     {
         rank = GameObject.Find("RankManager");
         rankmanager = rank.GetComponent<RankManager>();
     }
+    /// <summary>
+    /// 描画の切り替え
+    /// </summary>
     void RankChange()
     {
         switch (rankmanager.imageRank)

@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/***********************************************************************/
+/*! @file  RankManager.cs
+*************************************************************************
+*   @brief  順位をコントロールしてRankImageに情報を渡すクラス
+*************************************************************************
+*   @author daisuke motoshima
+*************************************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -16,7 +24,7 @@ public class RankManager : BaseObject
     void Start()
     {
         //初期化
-        
+
         rankImage = new int[4];
         rank = new int[4];
         Status();
@@ -52,13 +60,13 @@ public class RankManager : BaseObject
     /// </summary>
     void Judgment()
     {
-        for(int i=0;i<4; i++)
+        for (int i = 0; i < 4; i++)
         {
             rank[i] = 1;
         }
         for (int i = 0; i < 4; i++)
         {
-            for (int j =i+ 1; j < 4; j++)
+            for (int j =i+1; j < 4; j++)
             {
                 if (shipDistance[i].MarkerCnt > shipDistance[j].MarkerCnt)//マーカーの数の判別
                 {
@@ -82,16 +90,16 @@ public class RankManager : BaseObject
                 }
             }
         }
-       
+
         ExceptionRank();
         for (int i = 0; i < 4; i++)
         {
             rankImage[i] = rank[i];
         }
     }/// <summary>
-    /// 描画用の変数を渡すアクセサー
-    /// </summary>
-   
+     /// 描画用の変数を渡すアクセサー
+     /// </summary>
+
     public int imageRank
     {
         get { return rankImage[3]; }
