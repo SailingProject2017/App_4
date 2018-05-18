@@ -8,14 +8,14 @@ public class TutorialSound : BaseObject
 
     void Start()
     {
-        Singleton<SoundPlayer>.instance.playBGM("TT", 0.0f, true);
+        Singleton<SoundPlayer>.instance.PlayBGM("TT", 0.0f, true);
     }
 	
     public void OnTap()
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.playSE("Bottun2");
+            Singleton<SoundPlayer>.instance.PlaySE("Bottun2");
             callOnce = !callOnce;
         }
     }

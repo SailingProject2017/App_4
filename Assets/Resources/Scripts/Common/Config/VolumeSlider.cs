@@ -27,7 +27,7 @@ public class VolumeSlider : BaseObject {
     public void BGMValueChanged()
     {
         BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume = slider.value / 6;
-        Singleton<SoundPlayer>.instance.playBGM("0", 0.0f, false);
+        Singleton<SoundPlayer>.instance.PlayBGM("0", 0.0f, false);
     }
 
     /// <summary>
@@ -36,6 +36,6 @@ public class VolumeSlider : BaseObject {
     public void SEValueChanged()
     {
             BaseObjectSingleton<GameInstance>.Instance.MaxSEVolume = slider.value / 6;
-            Singleton<SoundPlayer>.instance.playSE("0");       
+            Singleton<SoundPlayer>.instance.PlaySE("0");       
     }
 }
