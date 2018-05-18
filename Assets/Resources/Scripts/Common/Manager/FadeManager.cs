@@ -8,78 +8,97 @@
 *   Copyright © 2017 yuta takatsu All Rights Reserved.
 ************************************************************************/
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FadeManager : BaseObjectSingleton<FadeManager>
+public class FadeManager : BaseObject
 {
 
+    #region Singleton 
 
-    private float fadeAlpha = 0; // @brief フェード中の透明度
 
-    private bool isFading = false; // @brief フェード中かどうか
+    private static FadeManager _instance;
 
-    public Color fadeColor = Color.black; // @brief フェード色
 
-    protected override void AppendListConstructor()
+    public static FadeManager instance
     {
-        base.AppendListConstructor();
-    }
-
-    public void OnGUI()
-    {
-
-        // Fade
-        if (this.isFading)
+        get
         {
-            // 色と透明度を更新して白テクスチャを描画 .
-            this.fadeColor.a = this.fadeAlpha;
-            GUI.color = this.fadeColor;
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
+            if (_instance == null)
+            {
+                _instance = (FadeManager)FindObjectOfType(typeof(FadeManager));
+
+                if (_instance == null)
+                {
+                    Debug.LogError(typeof(FadeManager) + "is nothing");
+                }
+            }
+
+            return _instance;
         }
     }
 
-    /// <summary>
-    /// @brief 画面遷移 
-    /// </summary>
-    /// <param name="scene"> シーン名 </param>
-    /// <param name="interval"> 暗転にかかる時間 </param>
-    public void LoadScene(int scene, float interval)
+ 	#endregion Singleton 
+
+
+    [SerializeField]
+    private Image fade; // @brief 黒い画像
+
+    private Color fadeColor = Color.black; // @brief フェードの色を指定
+
+    private const float FADETIME = 1f; // @brief フェードにかける時間を定義
+
+    void Awake()
     {
-        StartCoroutine(TransScene(scene, interval));
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void Start()
+    {
+        fade.raycastTarget = false;
     }
 
     /// <summary>
-    /// @brief シーン繊維用コルーチン
+    /// @brief フェードをさせるコルーチン呼び出し
     /// </summary>
-    /// <param name="scene"> シーン名 </param>
-    /// <param name="interval"> 暗転にかかる時間 </param>
-    private IEnumerator TransScene(int scene, float interval)
+    public void Load(int scene)
     {
-        // だんだん暗く .
-        this.isFading = true;
-        float time = 0;
-        while (time <= interval)
-        {
-            this.fadeAlpha = Mathf.Lerp(0f, 1f, time / interval);
-            time += Time.deltaTime;
-            yield return 0;
-        }
+        FadeManager.instance.StartCoroutine(SceneLoad(scene));
+    }
 
-        // シーン切替 .
+    /// <summary>
+    /// @brief フェードを行うコルーチン
+    /// </summary>
+    IEnumerator SceneLoad(int scene)
+    {
+        Debug.Log("aaaaaaaaaaaa");
+        fade.raycastTarget = true;
+        fade.color = new Color(0, 0, 0, 0);
+
+        // フェードイン
+        while (fade.color.a < 1)
+        {
+            fade.color += new Color(0, 0, 0, 1f * (FADETIME * Time.deltaTime));
+            yield return null;
+        }
+        fade.color = new Color(0, 0, 0, 1);
+
+        yield return null;
+
         SceneManager.LoadScene(scene);
 
-        // だんだん明るく .
-        time = 0;
-        while (time <= interval)
+        // フェードアウト
+        while (fade.color.a > 0)
         {
-            this.fadeAlpha = Mathf.Lerp(1f, 0f, time / interval);
-            time += Time.deltaTime;
-            yield return 0;
+            fade.color -= new Color(0, 0, 0, 1f * (FADETIME * Time.deltaTime));
+            yield return null;
         }
-        this.isFading = false;
+
+        fade.color = new Color(0, 0, 0, 0);
+        fade.raycastTarget = false;
     }
 }
