@@ -15,14 +15,13 @@ using UnityEngine;
 /// @brief ステージの列挙体
 /// @note  選ばれたステージを判断する用
 /// </summary>
-public enum EStageType
+public enum eStageType
 {
-    TutorialStage_Sailing,
-    TutorialStage_UI,
-    TutorialStage_Accel,
-    TutorialStage_Curve,
-    Stage_Easy,
-    Stage_Normal,
-    Stage_Hard,
+    eTutorialStage_Sail,
+    eTutorialStage_Markar,
+    eTutorialStage_TimeAttack,
+    eStage_Easy,
+    eStage_Normal,
+    eStage_Hard,
     Null
 }

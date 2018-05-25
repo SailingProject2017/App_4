@@ -11,7 +11,7 @@
 public class GameInstance : BaseObjectSingleton<GameInstance> {
 
     /* inGame関連 */
-    private EStageType stageType = EStageType.Null;     // @brief ステージタイプを格納する変数
+    private eStageType stageType = eStageType.Null;     // @brief ステージタイプを格納する変数
     private bool isShipMove  = false;                   // @brief 船が動けるかどうかの状態を格納する変数
     private bool isPorse     = false;                   // @brief ポーズ中かどうか判別する変数
     private bool isCountDown = false;                   // @brief カウントダウンを始めるかどうか判別する変数
@@ -24,7 +24,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
-        StageType = EStageType.Null;
+        StageType = eStageType.Null;
 
         maxBGMVolume = 1.0f;
         maxBGMVolume = 1.0f;
@@ -38,7 +38,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
     /// @set    none
     /// @get    入力されたデータを渡す
     /// </summary>
-    public EStageType StageType
+    public eStageType StageType
     {
         set { stageType = value; }
         get { return stageType; }

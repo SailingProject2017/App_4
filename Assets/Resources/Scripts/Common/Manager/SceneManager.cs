@@ -22,6 +22,7 @@ public enum SCENES
     MODESELECT,
     TUTORIAL,
     CPUBATTLE,
+    ONLINE,
     INTUTORIAL,
     INGAME,
     ONLINEBATTLE

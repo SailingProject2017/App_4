@@ -29,11 +29,11 @@ public class CreateStageObject : BaseObject
     /// @brief ステージの生成関数
     /// </summary>
     /// <param name="eStageType"></param>
-    private void CreateStage(EStageType eStageType)
+    private void CreateStage(eStageType eStageType)
     {
         if(New(StageObject[(int)eStageType]) == null)
         {
-            New(StageObject[(int)EStageType.TutorialStage_Sailing]);
+            New(StageObject[(int)eStageType.eTutorialStage_Sail]);
         }
     }
 
