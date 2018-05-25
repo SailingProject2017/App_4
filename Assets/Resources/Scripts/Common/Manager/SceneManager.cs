@@ -38,7 +38,7 @@ namespace Scene
         {
 
             // FadeManagerを呼び出す
-            FadeManager.instance.Load((int)NextScene);
+            FadeManager.Instance.Load((int)NextScene);
         }
     }
 }

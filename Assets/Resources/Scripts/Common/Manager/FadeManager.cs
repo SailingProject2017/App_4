@@ -15,35 +15,8 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FadeManager : BaseObject
+public class FadeManager : BaseObjectSingleton<FadeManager>
 {
-
-    #region Singleton 
-
-
-    private static FadeManager _instance;
-
-
-    public static FadeManager instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = (FadeManager)FindObjectOfType(typeof(FadeManager));
-
-                if (_instance == null)
-                {
-                    Debug.LogError(typeof(FadeManager) + "is nothing");
-                }
-            }
-
-            return _instance;
-        }
-    }
-
- 	#endregion Singleton 
-
 
     [SerializeField]
     private Image fade; // @brief 黒い画像
@@ -52,10 +25,6 @@ public class FadeManager : BaseObject
 
     private const float FADETIME = 1f; // @brief フェードにかける時間を定義
 
-    void Awake()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
 
     public void Start()
     {
@@ -67,7 +36,7 @@ public class FadeManager : BaseObject
     /// </summary>
     public void Load(int scene)
     {
-        FadeManager.instance.StartCoroutine(SceneLoad(scene));
+        FadeManager.Instance.StartCoroutine(SceneLoad(scene));
     }
 
     /// <summary>
@@ -75,7 +44,6 @@ public class FadeManager : BaseObject
     /// </summary>
     IEnumerator SceneLoad(int scene)
     {
-        Debug.Log("aaaaaaaaaaaa");
         fade.raycastTarget = true;
         fade.color = new Color(0, 0, 0, 0);
 
