@@ -5,7 +5,7 @@
 *********************************************************************************************
 * @author     Shun Tsuchida
 *********************************************************************************************
-* Copyright © 2017 Shun Tsuchida All Rights Reserved.
+* Copyright © 2018 Shun Tsuchida All Rights Reserved.
 **********************************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -13,15 +13,13 @@ using UnityEngine;
 
 public class SwipeShipControl : BaseObject
 {
-	// ※ 動作確認のため、変数すべてにSerializeFieldをつけています。不要な場合はなくても大丈夫です。
-
 	// private:
 	[SerializeField] private Vector2 touchStartPos;		// @brief タッチされた位置
 	[SerializeField] private Vector2 touchPos;			// @brief タッチしている位置
 	[SerializeField] private Vector2 touchEndPos;		// @brief タッチをやめた位置
 	[SerializeField] private float touchDiscrepancy;    // @brief スワイプした距離
 	[SerializeField] private bool onTouch;              // @brief タッチしているかのフラグ
-	[SerializeField] private bool useSwipe;              // @brief スワイプ操作を使用するかどうかのフラグ
+	[SerializeField] private bool useSwipe;             // @brief スワイプ操作を使用するかどうかのフラグ
 
 	// Accessor
 	[SerializeField] private string fripDir;        // @brief スワイプの方向
@@ -66,13 +64,15 @@ public class SwipeShipControl : BaseObject
 	/// <retrun>void</retrun>
 	override public void OnUpdate()
 	{
+		// スワイプ操作がオンの場合。タッチの処理を有効にする。
 		if(useSwipe) Touch();
+
+		// タッチされた場合。以下のスワイプの処理を行う。
 		if (onTouch)
 		{
-			SwipeRangeCalculation();
-			SetDirection();
-			AccessorMoveAcceleration = touchDiscrepancy;
-			Move();	// Test
+			SwipeRangeCalculation();					// スワイプの長さを計算
+			SetDirection();								// スワイプの方向を取得
+			AccessorMoveAcceleration = touchDiscrepancy;// スワイプの長さから移動量を計算してセット
 		}
 	}
 
@@ -125,25 +125,6 @@ public class SwipeShipControl : BaseObject
 		if (touchDiscrepancy < 0)
 		{
 			AccessorFripDir = "Right";
-		}
-	}
-
-	/// <summary>
-	/// @brief Test：移動確認（本来は角度）
-	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
-	private void Move()
-	{
-		switch (AccessorFripDir)
-		{
-			case "Left":
-				this.transform.position += new Vector3(0.1f * AccessorMoveAcceleration, 0.0f, 0.0f);
-				break;
-
-			case "Right":
-				this.transform.position -= new Vector3(0.1f * AccessorMoveAcceleration, 0.0f, 0.0f);
-				break;
 		}
 	}
 }
