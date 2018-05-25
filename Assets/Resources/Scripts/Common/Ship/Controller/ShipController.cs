@@ -12,7 +12,7 @@ using UnityEngine;
 public class ShipController : BaseObject
 {
 
-    private float moveSpeed = 11.0f; // @brief プレイヤーの進むスピード
+    private float moveSpeed = 20.0f; // @brief プレイヤーの進むスピード
     Ray ray; // @brief レイの宣言
    
 

@@ -19,7 +19,7 @@ public class GameManager : BaseObject
     public bool ActiveMode
     {
         get{ return _activeMode; }
-        set { _activeMode = true; }
+        set { _activeMode = value; }
     }
 
     // ゲームオブジェクトを止めるかの判断を行う
