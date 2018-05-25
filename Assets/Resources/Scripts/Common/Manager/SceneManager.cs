@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// @brief シーンの列挙
@@ -31,10 +32,13 @@ namespace Scene
 {
     public static class SceneManager
     {
+        
+
         public static void SceneMove(SCENES NextScene)
         {
+
             // FadeManagerを呼び出す
-            FadeManager.Instance.LoadScene((int)NextScene, 1.0f);
+            FadeManager.Instance.Load((int)NextScene);
         }
     }
 }
