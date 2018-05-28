@@ -37,6 +37,9 @@ public class RankManager : BaseObject
         Judgment();
 
     }
+    /// <summary>
+    /// 変数取得用のlistに情報を見つけて格納する関数
+    /// </summary>
     void Status()
     {
         for (int i = 0; i < 4; i++)
