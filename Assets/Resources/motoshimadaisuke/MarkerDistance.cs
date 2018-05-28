@@ -11,9 +11,9 @@ using UnityEngine;
 using Scene;
 public class MarkerDistance : BaseObject
 {
-    private float PlayerDistans;                //@briefマーカーまでの距離を格納する変数
+    private float playerDistans;                //@briefマーカーまでの距離を格納する変数
     [SerializeField]
-    private List<GameObject> MarkerObject;      //@briefマーカーを格納するリスト
+    private List<GameObject> markerObject;      //@briefマーカーを格納するリスト
     private int num = 5;                        //@briefマーカーの数                 
     ///TODO: ほかの作業が終了次第privateにする
     private int markerCnt = 0;                  //@briefマーカーを通った数を格納するクラス
@@ -32,21 +32,21 @@ public class MarkerDistance : BaseObject
         Distance();
     }
     /// <summary>
-    /// マーカーを発見しMarkerObjectに入れる
+    /// マーカーを発見しmarkerObjectに入れる
     /// </summary>
     void FindObject()
     {
        
         for (int i = 0; i < num; i++)
         {
-            MarkerObject.Add ( GameObject.Find("HitMarker" + i));//+iでマーカーの番号を示して要素の数だけFindして見つける
-            Debug.Log(MarkerObject[i] + " MarkerDistance");
-            if (MarkerObject[i] == null)
+            markerObject.Add ( GameObject.Find("HitMarker" + i));//+iでマーカーの番号を示して要素の数だけFindして見つける
+            Debug.Log(markerObject[i] + " MarkerDistance");
+            if (markerObject[i] == null)
             {
                 Debug.Log("null");
-                MarkerObject.Add(GameObject.Find("Center"));
+                markerObject.Add(GameObject.Find("Center"));
             }
-            Debug.Log(MarkerObject[i].transform.position);
+            Debug.Log(markerObject[i].transform.position);
         }
     }
     /// <summary>
@@ -54,7 +54,7 @@ public class MarkerDistance : BaseObject
     /// </summary>
     void Distance()
     {
-        PlayerDistans = (transform.position - MarkerObject[markerCnt].transform.position).magnitude;
+        playerDistans = (transform.position - markerObject[markerCnt].transform.position).magnitude;
     }
     void OnTriggerEnter(Collider other)
     {
@@ -73,7 +73,7 @@ public class MarkerDistance : BaseObject
     /// </summary>
     public float Distans
     {
-        get { return PlayerDistans; }
+        get { return playerDistans; }
     }
     public int MarkerCnt
     {

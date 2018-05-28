@@ -91,7 +91,7 @@ public class RankManager : BaseObject
             }
         }
 
-        ExceptionRank();
+        ExceptionRank();//例外処理を呼び出して例外だったら変更
         for (int i = 0; i < 4; i++)
         {
             rankImage[i] = rank[i];
@@ -100,7 +100,7 @@ public class RankManager : BaseObject
      /// 描画用の変数を渡すアクセサー
      /// </summary>
 
-    public int imageRank
+    public int ImageRank
     {
         get { return rankImage[3]; }
     }
