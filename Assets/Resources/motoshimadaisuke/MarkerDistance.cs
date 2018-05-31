@@ -1,19 +1,28 @@
+/***********************************************************************/
+/*! @file  MarkerDistance.cs
+*************************************************************************
+*   @brief  プレイヤーからマーカーまでの距離と通ったマーカーの数をRankManagerに渡すクラス
+*************************************************************************
+*   @author daisuke motoshima
+*************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class MarkerDistance : BaseObject {
-    public float PlayerDistans;
+using Scene;
+public class MarkerDistance : BaseObject
+{
+    private float playerDistans;                //@briefマーカーまでの距離を格納する変数
     [SerializeField]
-    private GameObject[] MarkerObject;
-    private int num, i;
+    private List<GameObject> markerObject;      //@briefマーカーを格納するリスト
+    private int num = 5;                        //@briefマーカーの数                 
     ///TODO: ほかの作業が終了次第privateにする
-    public int markerCnt;
-    
-	// Use this for initialization
-	void Start () {
+    private int markerCnt = 0;                  //@briefマーカーを通った数を格納するクラス
+    [SerializeField]
+    private SCENES nextScene; // @brief 次のシーン格納用
+                              // Use this for initialization
+    void Start()
+    {
         FindObject();
-
     }
 
     // Update is called once per frame
@@ -22,23 +31,52 @@ public class MarkerDistance : BaseObject {
         base.OnUpdate();
         Distance();
     }
-    void FindObject()//マーカーを発見しMarkerObjectに入れる
+    /// <summary>
+    /// マーカーを発見しmarkerObjectに入れる
+    /// </summary>
+    void FindObject()
     {
-        MarkerObject = new GameObject[num];
-        for (i = 0; i < num; i++)
+       
+        for (int i = 0; i < num; i++)
         {
-            MarkerObject[i] = GameObject.Find("HitMarker" + i);//+iでマーカーの番号を示して要素の数だけFindして見つける
-
-            if (MarkerObject[i] == null)
+            markerObject.Add ( GameObject.Find("HitMarker" + i));//+iでマーカーの番号を示して要素の数だけFindして見つける
+            Debug.Log(markerObject[i] + " MarkerDistance");
+            if (markerObject[i] == null)
             {
                 Debug.Log("null");
-                MarkerObject[i] = GameObject.Find("Center");
+                markerObject.Add(GameObject.Find("Center"));
             }
-            Debug.Log(MarkerObject[i].transform.position);
+            Debug.Log(markerObject[i].transform.position);
         }
     }
+    /// <summary>
+    /// マーカーまでの距離を求める関数
+    /// </summary>
     void Distance()
     {
-        PlayerDistans = ((transform.position.x - MarkerObject[markerCnt].transform.position.x) + (transform.position.z - MarkerObject[markerCnt].transform.position.z));
+        playerDistans = (transform.position - markerObject[markerCnt].transform.position).magnitude;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "first")
+        {
+            markerCnt++;
+        }
+
+        if (other.tag == "goal" && markerCnt == 4 && this.tag == "Ship")
+        {
+            SceneManager.SceneMove(nextScene); // SceneManagerを呼び出す 引数は次のシーン
+        }
+    }
+    /// <summary>
+    /// RankMnagerに渡す用のアクセサー
+    /// </summary>
+    public float Distans
+    {
+        get { return playerDistans; }
+    }
+    public int MarkerCnt
+    {
+        get { return markerCnt; }
     }
 }

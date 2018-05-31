@@ -1,7 +1,14 @@
-﻿using System.Collections;
+﻿/***********************************************************************/
+/*! @file   RankImage.cs
+*************************************************************************
+*   @brief  変動した順位を描画に
+*************************************************************************
+*   @author motoshimadaisuke
+************************************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class RankImage : BaseObject {
     private GameObject rank;
     [SerializeField]
@@ -12,7 +19,6 @@ public class RankImage : BaseObject {
         Find();
         
 	}
-
     // Update is called once per frame
     public override void OnUpdate()
     {
@@ -20,14 +26,20 @@ public class RankImage : BaseObject {
         base.OnUpdate();
         RankChange();
     }
+    /// <summary>
+    /// 描画に必要な変数の取得
+    /// </summary>
     void Find()
     {
         rank = GameObject.Find("RankManager");
         rankmanager = rank.GetComponent<RankManager>();
     }
+    /// <summary>
+    /// 描画の切り替え
+    /// </summary>
     void RankChange()
     {
-        switch (rankmanager.rankImage[3])
+        switch (rankmanager.ImageRank)
         {
             case 1:
                 no[0].SetActive(true) ;
@@ -52,6 +64,8 @@ public class RankImage : BaseObject {
                 no[1].SetActive(false);
                 no[2].SetActive(false);
                 no[3].SetActive(true);
+                break;
+            default:
                 break;
         }
     }
