@@ -15,12 +15,12 @@ public class AppendStageObject : BaseObject
 {
    
     [SerializeField]
-    private EStageType stageType; // @brief 設定された列挙体を格納する
+    private eStageType stageType; // @brief 設定された列挙体を格納する
     
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
-        GameInstance.Instance.StageType = EStageType.Null;
+        GameInstance.Instance.StageType = eStageType.Null;
     }
 
     /// <summary>
