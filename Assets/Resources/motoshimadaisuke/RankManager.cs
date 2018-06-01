@@ -34,7 +34,7 @@ public class RankManager : BaseObject
     public override void OnUpdate()
     {
         base.OnUpdate();
-        Judgment();
+       // Judgment();
 
     }
     /// <summary>
@@ -61,7 +61,7 @@ public class RankManager : BaseObject
     /// <summary>
     /// 順位判定
     /// </summary>
-    void Judgment()
+  /*  void Judgment()
     {
         for (int i = 0; i < 4; i++)
         {
@@ -99,7 +99,7 @@ public class RankManager : BaseObject
         {
             rankImage[i] = rank[i];
         }
-    }/// <summary>
+    }/// <summary>*/
      /// 描画用の変数を渡すアクセサー
      /// </summary>
 
