@@ -46,18 +46,6 @@ public class CoordinatesGetValue : MarkerBase
         ChangeIconPosition(); // アイコンの位置を初期化
     }
 
-    /* PlayerとMarkerの距離取得 */
-    public override void OnUpdate ()
-    {
-        base.OnUpdate();
-
-        //@brief 二つのオブジェクトの距離を取得
-        //Player - Makerで距離を取得
-       // Vector3 Apos = GameObject.Find("Player").transform.position;
-      //  float dis = Vector3.Distance(Apos,tmpPos[currentMarker]);
-      //  Debug.Log("Distance : " + dis);   
-    }
-
     /* アイコンをマーカー上に表示 */
     private void ChangeIconPosition()
     {
