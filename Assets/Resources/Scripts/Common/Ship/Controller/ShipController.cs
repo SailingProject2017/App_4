@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class ShipController : BaseObject
 {
-
+    [SerializeField]
     private float moveSpeed = 20.0f; // @brief プレイヤーの進むスピード
     Ray ray; // @brief レイの宣言
    
