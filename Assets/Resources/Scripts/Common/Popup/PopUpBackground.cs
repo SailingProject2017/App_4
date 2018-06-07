@@ -46,7 +46,7 @@ public class PopUpBackground : BaseObject
     /// </summary>
     public void BackgroundLog()
     {
-        transform.DOLocalMove(new Vector3(1250.0f, 2, 0), 0.3f).SetEase(Ease.InOutQuart);//指定された座標まで移動
+        transform.DOLocalMove(new Vector3(250, 2, 0), 0.3f).SetEase(Ease.InOutQuart);//指定された座標まで移動
        
     }
     /// <summary>
@@ -54,7 +54,7 @@ public class PopUpBackground : BaseObject
     /// </summary>
     public void BackgroundLogClose()
      {    
-          transform.DOLocalMove(new Vector3(2250, 2, 0), 0.3f).SetEase(Ease.InOutQuart);//指定された座標まで移動
+          transform.DOLocalMove(new Vector3(450, 2, 0), 0.3f).SetEase(Ease.InOutQuart);//指定された座標まで移動
     }
 
 }
