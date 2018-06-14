@@ -39,11 +39,9 @@ public enum eTutorial
 {
     eTutorial_Null,
     eTutorial_ModeSelect,
-    eTutorial_Sailing,
-    eTutorial_InGameUI,
-    eTutorial_Accel,
+    eTutorial_Straight,
     eTutorial_Curve,
-    eTutorial_InputUserName,
-    eTutorial_End
+    eTutorial_EndText,
+    eTutorial_End,
 }
 #endregion

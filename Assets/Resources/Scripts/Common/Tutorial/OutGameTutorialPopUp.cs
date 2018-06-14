@@ -7,18 +7,30 @@
 ***************************************************************************************
 * Copyright © 2017 yuta takatsu All Rights Reserved.
 ***************************************************************************************/
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class ModeSelectTutorialPopUp : PopupBase {
+public class OutGameTutorialPopUp : PopupBase {
 
     [SerializeField]
     private GameObject contens; // 表示するイベントを格納
-   
-    public void Start()
+
+    /// <summary>
+    /// @brief シーンが読み込まれるたびに呼ばれるイベント
+    /// </summary>
+    public void OnLevelWasLoaded()
     {
-        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_ModeSelect ||
-            Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_Sailing)
-            Open();
+        // チュートリアルが続いていればモードセレクトとチュートリアルにポップアップを出す
+        if (Singleton<TutorialState>.instance.TutorialStatus != eTutorial.eTutorial_End)
+        {
+            if (SceneManager.GetActiveScene().name == "ModeSelect" ||
+                SceneManager.GetActiveScene().name == "Tutorial")
+            {
+                Open();
+            }
+        }
     }
     /// <summary>
     /// @brief ポップアップが開き終わったらイベントを表示
@@ -55,6 +67,7 @@ public class ModeSelectTutorialPopUp : PopupBase {
 
         base.Open(null, null, OpenEnd);
     }
+    
     /// <summary>
     /// @brief ポップアップを閉じる
     /// </summary>
@@ -62,5 +75,5 @@ public class ModeSelectTutorialPopUp : PopupBase {
     {
         base.Close(CloseEnd, null, null);
     }
-
+    
 }

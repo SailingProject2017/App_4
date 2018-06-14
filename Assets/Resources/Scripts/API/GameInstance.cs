@@ -12,10 +12,13 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
 
     /* inGame関連 */
     private eStageType stageType = eStageType.Null;     // @brief ステージタイプを格納する変数
-    private bool isShipMove  = false;                   // @brief 船が動けるかどうかの状態を格納する変数
-    private bool isPorse     = false;                   // @brief ポーズ中かどうか判別する変数
-    private bool isCountDown = false;                   // @brief カウントダウンを始めるかどうか判別する変数
-    private bool isGoal      = false;                   // @brief ゴールしたかの確認
+    private bool isShipMove      = false;                   // @brief 船が動けるかどうかの状態を格納する変数
+    private bool isPorse         = false;                   // @brief ポーズ中かどうか判別する変数
+    private bool isCountDown     = false;                   // @brief カウントダウンを始めるかどうか判別する変数
+    private bool isGoal          = false;                   // @brief ゴールしたかの確認
+
+    /* Tutorial関連 */
+    private bool isTutorialState = false;                   // @brief チュートリアルが変わったかどうかの確認
     
     /* サウンド関連 */
     private float maxBGMVolume = 1.0f;
@@ -99,6 +102,19 @@ public class GameInstance : BaseObjectSingleton<GameInstance> {
 
     #endregion
 
+    #region チュートリアルが変わったかどうかの確認
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isTutorialStateの変数アクセサー
+    /// </summary>
+    public bool IsTutorialState
+    {
+        set { isTutorialState = value; }
+        get { return isTutorialState; }
+    }
+
+    #endregion
 
     #region サウンド関連
     /********************************************************************************************/

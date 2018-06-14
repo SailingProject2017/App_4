@@ -16,7 +16,8 @@ using Scene;
 public class NextScene : BaseObject
 {
 
-    private bool callOnce = false; // 一度だけ呼ばれることを保証する
+    private int tutorialId;
+
 
     protected override void AppendListConstructor()
     {
@@ -51,14 +52,31 @@ public class NextScene : BaseObject
     /// </summary>
     public void NextTutorialState()
     {
-        if (!callOnce)
+        switch (Singleton<TutorialState>.instance.TutorialStatus)
         {
-            TutorialManager tutorialManager = new TutorialManager();
+            case eTutorial.eTutorial_ModeSelect: // 1　モードセレクト画面チュートリアル
+                TutorialManager.Instance.NextTutorialState(1);
 
-            // チュートリアルの状態を次の状態に変える
-            tutorialManager.TutorialState = Singleton<TutorialState>.instance.TutorialStatus;
-            callOnce = !callOnce;
+                break;
+
+            case eTutorial.eTutorial_Straight: // 2　Straight
+                TutorialManager.Instance.NextTutorialState(2);
+
+                break;
+
+            case eTutorial.eTutorial_Curve: // 3　Curve
+                TutorialManager.Instance.NextTutorialState(3);
+
+                break;
+
+            case eTutorial.eTutorial_EndText: // 4　最後のテキスト
+                TutorialManager.Instance.NextTutorialState(4);
+
+                break;
+
+            default:
+
+                break;
         }
     }
 }
-

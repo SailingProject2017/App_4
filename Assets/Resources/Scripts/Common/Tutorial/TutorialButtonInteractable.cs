@@ -32,13 +32,28 @@ public class TutorialButtonInteractable : BaseObject
     /// </summary>
     void SetButton()
     {
-        
-        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_ModeSelect)
-        {
-            // 指定したボタンを有効化
+        // 指定したボタンを有効化
+        // モードセレクト Straight
+        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_ModeSelect ||
+            Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_Straight)
             setButton[0].interactable = true;
+
+        // Curve
+        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_Curve)
+        {
+            setButton[0].interactable = false;
+            setButton[1].interactable = true;
         }
-        else
+
+        // EndText
+        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_EndText)
+        {
+            setButton[1].interactable = false;
+            setButton[2].interactable = true;
+        }
+
+        // End
+        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_End)
         {
             // 配列にいるすべてのボタンの機能を有効化する
             for (int i = 0; i < setButton.Length; i++)
@@ -46,5 +61,6 @@ public class TutorialButtonInteractable : BaseObject
                 setButton[i].interactable = true;
             }
         }
+
     }
 }
