@@ -11,21 +11,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialManager : BaseObject
+public class TutorialManager : BaseObjectSingleton<TutorialManager>
 {
-    private TutorialState nextScene;
-    private NextTutorial nextTutorial;
-
 
     protected string fileName;
-    ///"Android\\data\\com.Sailing.WindRaser\\obj\\TutorialState.obj";
-
+    
 
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
  
-        /// Android 4.4以上動作
+        /// 全プラットフォーム対応
+        /// ただしAndroidのみ 4.4以上動作
         fileName = Application.persistentDataPath + ".xml";
 
         // チュートリアルの情報を取得
@@ -41,84 +38,68 @@ public class TutorialManager : BaseObject
         
         // デバッグ用
         CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
-        CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-        Debug.Log("現在のチュートリアルは" + Singleton<TutorialState>.instance.TutorialStatus);
+       //CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+        
     }
 
-    public eTutorial TutorialState
+    /// <summary>
+    /// @brief チュートリアルステートを切り替えるメソッド
+    /// </summary>
+    public void NextTutorialState(eTutorial TutorialId)
     {
-        get { return Singleton<TutorialState>.instance.TutorialStatus; }
-        set
+
+        // チュートリアルが切り替わることを通知
+        BaseObjectSingleton<GameInstance>.Instance.IsTutorialState = true;
+
+        // チュートリアル中は、最後に行ったチュートリアルのシーンまで飛びます。
+        switch (TutorialId)
         {
+            case eTutorial.eTutorial_Null:  // 初回起動
 
-            // チュートリアル中は、最後に行ったチュートリアルのシーンまで飛びます。
-            switch (Singleton<TutorialState>.instance.TutorialStatus)
-            {
-                case eTutorial.eTutorial_Null:  // 初回起動
+                //　チュートリアルの状態をModeSelectチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
+                
+                break;
 
-                    //　チュートリアルの状態をモードセレクトのチュートリアルにして保存する
-                    CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
-                    CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+            case eTutorial.eTutorial_ModeSelect: //　モードセレクト画面チュートリアル
 
-                    break;
+                //　チュートリアルの状態をstraightチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_Straight);
+                
+                break;
 
-                case eTutorial.eTutorial_ModeSelect: //　モードセレクト画面チュートリアル
+            case eTutorial.eTutorial_Straight: //　straight
 
-                    //　チュートリアルの状態をセーリング説明のチュートリアルにして保存する
-                    CreateSaveData.NextTutorialState(eTutorial.eTutorial_Sailing);
-                    CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+                //　チュートリアルの状態をcurveチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_Curve);
+                
+                break;
 
-                    break;
+            case eTutorial.eTutorial_Curve: //　curve
 
-                case eTutorial.eTutorial_Sailing: //　セーリングについて
+                //　チュートリアルの状態をEndTextチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_EndText);
+                
+                break;
 
-                    //　チュートリアルの状態をInGameのUI説明チュートリアルにして保存する
-                    CreateSaveData.NextTutorialState(eTutorial.eTutorial_InGameUI);
-                    CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+            case eTutorial.eTutorial_EndText: //　最後のテキスト
 
-                    break;
+                //　チュートリアルの状態をEndチュートリアルにして保存する
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
+                
+                                break;
 
-                case eTutorial.eTutorial_InGameUI: //　InGameのUI説明のチュートリアル
+            case eTutorial.eTutorial_End: //　チュートリアルがおわり
 
-                    //　チュートリアルの状態を前に進もうのチュートリアルにして保存する
-                    CreateSaveData.NextTutorialState(eTutorial.eTutorial_Accel);
-                    CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+                break;
 
-                    break;
+            default:
 
-                case eTutorial.eTutorial_Accel: //　前に進もうのチュートリアルです
+                break;
 
-                    //　チュートリアルの状態を曲がろうのチュートリアルにして保存する
-                    CreateSaveData.NextTutorialState(eTutorial.eTutorial_Curve);
-                    CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-
-                    break;
-
-                case eTutorial.eTutorial_Curve: //　曲がろうのチュートリアルです
-
-                    //　チュートリアルの状態をユーザーネームを入力してもらうチュートリアルにして保存する
-                    CreateSaveData.NextTutorialState(eTutorial.eTutorial_InputUserName);
-                    CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-
-                    break;
-
-                case eTutorial.eTutorial_InputUserName: //　ユーザーネームを入力してもらうチュートリアルです。
-
-                    //　チュートリアルの状態を終わりにして保存する
-                    CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
-                    CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-
-                    break;
-
-                case eTutorial.eTutorial_End: //　チュートリアルがおわり
-
-                    break;
-
-                default:
-
-                    break;
-            }
-
+                // 状態を保存する
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
         }
+
     }
 }

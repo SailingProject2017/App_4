@@ -89,21 +89,18 @@ public class SoundPlayer{
         // 現在のBGMを消去
         if(fadeOutBGMPlayer != null) {
             fadeOutBGMPlayer.destory();
-            Debug.Log("fadeOutBGMPlayer Destory");
         }
 
         // 現在のBGMをフェードアウト
         if(curBGMPlayer != null) {
             curBGMPlayer.StopBGM(fadeTime);
             fadeOutBGMPlayer = curBGMPlayer;
-            Debug.Log("curBGMPlayer.StopBGM");
         }
 
         // 新しいBGMを再生
         if(audioClips.ContainsKey(bgmName) == false) {
             // null BGM
             curBGMPlayer = new BGMPlayer();
-            Debug.Log("NULL");
         } else {
             curBGMPlayer = new BGMPlayer(audioClips[bgmName].resourceName);
             curBGMPlayer.PlayBGM(fadeTime, isLoop);
@@ -112,8 +109,6 @@ public class SoundPlayer{
     }
 
     public void PlayBGM() {
-
-        Debug.Log("SoundPlayer.PlayBGM");
 
         if(curBGMPlayer != null) {
             curBGMPlayer.PlayBGM();
@@ -127,8 +122,6 @@ public class SoundPlayer{
 
     public void PauseBGM() {
 
-        Debug.Log("SoundPlayer.PauseBGM");
-
         if(curBGMPlayer != null) {
             curBGMPlayer.PauseBGM();
         }
@@ -141,7 +134,6 @@ public class SoundPlayer{
 
     public void StopBGM(float fadeTime) {
 
-        Debug.Log("SoundPlayer.StopBGM");
 
         if(curBGMPlayer != null) {
             curBGMPlayer.StopBGM(fadeTime);
@@ -164,8 +156,6 @@ public class SoundPlayer{
     }
 
     public void Update() {
-
-        Debug.Log("SoundPlayer.Update");
 
         if(curBGMPlayer != null) {
             curBGMPlayer.Update();

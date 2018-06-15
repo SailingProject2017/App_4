@@ -11,10 +11,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialEventManager : BaseObject {
+public class TutorialEventManager : PopupBase{
 
     [SerializeField]
-    InTutorialPopup popup; // @brief 生成するポップアップを格納
+    InGameTutorialPopup popup; // @brief 生成するポップアップを格納
     [SerializeField]
     List<TutorialEvent> eventList = new List<TutorialEvent>(); // @brief ポップアップ内に表示をさせるイベントをリストで格納
     [SerializeField]

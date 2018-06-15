@@ -9,7 +9,7 @@
 ***************************************************************************************/
 using UnityEngine;
 
-public class InTutorialPopup : PopupBase {
+public class InGameTutorialPopup : PopupBase {
 
     private GameObject contens; // @brief ポップアップを格納
 

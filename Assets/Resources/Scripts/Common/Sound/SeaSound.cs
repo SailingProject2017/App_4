@@ -15,20 +15,18 @@ public class SeaSound : BaseObject {
     void Start() {
         //fadeTime = 1.0f;
         Singleton<SoundPlayer>.instance.PlayBGM("Sea", fadeTime, true);
-        Debug.Log("SeaSoundPlay!");
+
     }
 
     public override void OnUpdate() {
         base.OnUpdate();
 
-        Debug.Log("SeaSound OnUpdate");
         Singleton<SoundPlayer>.instance.Update();
 
     }
 
     public void OnTap() {
         Singleton<SoundPlayer>.instance.StopBGM(fadeTime);
-        Debug.Log("OnTap");
 
         if(!callOnce) {
             Singleton<SoundPlayer>.instance.PlaySE("Bottun");
