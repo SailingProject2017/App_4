@@ -5,21 +5,21 @@
 *********************************************************************************************
 * @author     Shun Tsuchida
 *********************************************************************************************
-* Copyright © 2018 Shun Tsuchida All Rights Reserved.
+* Copyright © 2017 Shun Tsuchida All Rights Reserved.
 **********************************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwipeShipControl : BaseObject
+public class SwipeShipControl : MonoBehaviour
 {
+	// ※ 動作確認のため、変数すべてにSerializeFieldをつけています。不要な場合はなくても大丈夫です。
+
 	// private:
 	[SerializeField] private Vector2 touchStartPos;		// @brief タッチされた位置
 	[SerializeField] private Vector2 touchPos;			// @brief タッチしている位置
-	[SerializeField] private Vector2 touchEndPos;		// @brief タッチをやめた位置
-	[SerializeField] private float touchDiscrepancy;    // @brief スワイプした距離
-	[SerializeField] private bool onTouch;              // @brief タッチしているかのフラグ
-	[SerializeField] private bool useSwipe;             // @brief スワイプ操作を使用するかどうかのフラグ
+	[SerializeField] private float touchDiscrepancy;	// @brief スワイプした距離
+	[SerializeField] private bool onTouch;				// @brief タッチしているかのフラグ
 
 	// Accessor
 	[SerializeField] private string fripDir;        // @brief スワイプの方向
@@ -53,7 +53,6 @@ public class SwipeShipControl : BaseObject
 	/// <retrun>void</retrun>
 	void Start()
 	{
-		useSwipe = false;
 		onTouch = false;
 		fripDir = "None";
 	}
@@ -62,17 +61,15 @@ public class SwipeShipControl : BaseObject
 	/// </summary>
 	/// <param name="void"></param>
 	/// <retrun>void</retrun>
-	override public void OnUpdate()
+	void Update()
 	{
-		// スワイプ操作がオンの場合。タッチの処理を有効にする。
-		if(useSwipe) Touch();
-
-		// タッチされた場合。以下のスワイプの処理を行う。
+		Touch();
 		if (onTouch)
 		{
-			SwipeRangeCalculation();					// スワイプの長さを計算
-			SetDirection();								// スワイプの方向を取得
-			AccessorMoveAcceleration = touchDiscrepancy;// スワイプの長さから移動量を計算してセット
+			SwipeRangeCalculation();
+			SetDirection();
+			AccessorMoveAcceleration = touchDiscrepancy;
+			Move();	// Test
 		}
 	}
 
@@ -97,7 +94,6 @@ public class SwipeShipControl : BaseObject
 		{
 			onTouch = false;
 			fripDir = "None";
-			touchEndPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 		}
 	}
 	/// <summary>
@@ -125,6 +121,25 @@ public class SwipeShipControl : BaseObject
 		if (touchDiscrepancy < 0)
 		{
 			AccessorFripDir = "Right";
+		}
+	}
+
+	/// <summary>
+	/// @brief Test：移動確認。
+	/// </summary>
+	/// <param name="void"></param>
+	/// <retrun>void</retrun>
+	private void Move()
+	{
+		switch (AccessorFripDir)
+		{
+			case "Left":
+				this.transform.position -= new Vector3(0.1f * AccessorMoveAcceleration, 0.0f, 0.0f);
+				break;
+
+			case "Right":
+				this.transform.position += new Vector3(0.1f * AccessorMoveAcceleration, 0.0f, 0.0f);
+				break;
 		}
 	}
 }
