@@ -56,8 +56,7 @@ sealed public class AIControler : MarkerBase
 
 
 	/* マーカーの座標やリストについての宣言 */
-
-	private int currentMarkerNumForAI;                         // @brief 現在目指しているブイのリスト番号
+    
 	private List<Point> markerPos = new List<Point>();         // @brief マーカーの座標を格納するリスト
 
 
@@ -69,7 +68,8 @@ sealed public class AIControler : MarkerBase
 	protected override void MarkerInitialize()
 	{
 		base.MarkerInitialize();
-		currentMarkerNumForAI = 1;
+		currentMarker = 0;
+		currentHitMarker = 1;
 		GetMarkerPoint();
 		GetNextTurnRad();
 		enemyAIMovingType = eEnemyStatus.eNORMAL;
@@ -104,7 +104,7 @@ sealed public class AIControler : MarkerBase
 	/// <summary>
 	/// @brief マップのマーカーの全ての座標を取得
 	/// </summary>
-	void GetMarkerPoint()
+	private void GetMarkerPoint()
 	{
 		for (int i = 0; i < hitMarkerList.Count; i++)
 		{
@@ -124,8 +124,8 @@ sealed public class AIControler : MarkerBase
 		ownRad = transform.localEulerAngles.y;
 
 		// 次のマーカーまでの角度を計算
-		turnRad = Mathf.Atan2(markerPos[currentMarkerNumForAI].z - transform.position.z,
-							  markerPos[currentMarkerNumForAI].x - transform.position.x);
+		turnRad = Mathf.Atan2(markerPos[currentHitMarker].z - transform.position.z,
+							  markerPos[currentHitMarker].x - transform.position.x);
 
 		// 度数に変換
 		turnDeg = RadToDeg(turnRad) * -1;
@@ -149,7 +149,7 @@ sealed public class AIControler : MarkerBase
 	/// @brief 引数で角度を渡すとそこまで旋回する
 	/// </summary>
 	/// <param name="deg"> 旋回する角度 </param>
-	void Turning(float deg)
+	private void Turning(float deg)
 	{
        
 		/*　次のマーカーまでの角度が１度以上あったら旋回　*/
@@ -185,6 +185,8 @@ sealed public class AIControler : MarkerBase
 		transform.position += transform.forward * -(aISpeed) * Time.deltaTime;
 	}
 
+
+
 	/// <summary>
 	/// Ons the trigger enter.
 	/// </summary>
@@ -192,21 +194,28 @@ sealed public class AIControler : MarkerBase
 	private void OnTriggerEnter(Collider other)
 	{
 		// 当たったゲームオブジェクトが、目的のマーカーの場所と一致した場合
-		if (other.gameObject == hitMarkerList[currentMarkerNumForAI].gameObject)
-		{
+		if (other.gameObject == hitMarkerList[currentHitMarker].gameObject)
+		{        
+
 			// スタートとゴールが同じ場所にあった時にゴール判定にならないようにする処理
-			if (other.tag == "goal" && currentMarkerNumForAI != 0)
+			if (other.tag == "goal")
 			{
 				enemyAIMovingType = eEnemyStatus.NULL;
+				isGoal = true;
 			}
 			else
 			{
 				// AIの状態を旋回に変更し、マーカーの参照位置を次のマーカーへ移動
 				enemyAIMovingType = eEnemyStatus.eTURNING;
-				currentMarkerNumForAI += 2;
+				currentHitMarker += 2;
 			}
 		}
 
+		if(other.gameObject == hitMarkerList[currentMarker].gameObject && other.tag != "goal")
+		{
+			// 現在通ったマーカーの総数を計算
+			currentMarker++;
+		}
 	}
 }
 
