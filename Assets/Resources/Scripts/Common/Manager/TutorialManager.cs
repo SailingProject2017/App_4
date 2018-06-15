@@ -42,16 +42,10 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
         
     }
 
-    void Update()
-    {
-        Debug.Log("現在のチュートリアルは" + Singleton<TutorialState>.instance.TutorialStatus);
-    }
-
     /// <summary>
     /// @brief チュートリアルステートを切り替えるメソッド
-    ///        切り替える条件が様々なためstatic化
     /// </summary>
-    public void NextTutorialState(int TutorialId)
+    public void NextTutorialState(eTutorial TutorialId)
     {
 
         // チュートリアルが切り替わることを通知
@@ -60,53 +54,51 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
         // チュートリアル中は、最後に行ったチュートリアルのシーンまで飛びます。
         switch (TutorialId)
         {
-            case 0:  // 初回起動
+            case eTutorial.eTutorial_Null:  // 初回起動
 
                 //　チュートリアルの状態をModeSelectチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
-                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-
+                
                 break;
 
-            case 1: //　モードセレクト画面チュートリアル
+            case eTutorial.eTutorial_ModeSelect: //　モードセレクト画面チュートリアル
 
                 //　チュートリアルの状態をstraightチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_Straight);
-                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-
+                
                 break;
 
-            case 2: //　straight
+            case eTutorial.eTutorial_Straight: //　straight
 
                 //　チュートリアルの状態をcurveチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_Curve);
-                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-
+                
                 break;
 
-            case 3: //　curve
+            case eTutorial.eTutorial_Curve: //　curve
 
                 //　チュートリアルの状態をEndTextチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_EndText);
-                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
-
+                
                 break;
 
-            case 4: //　最後のテキスト
+            case eTutorial.eTutorial_EndText: //　最後のテキスト
 
                 //　チュートリアルの状態をEndチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
-                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+                
+                                break;
 
-                break;
-
-            case 5: //　チュートリアルがおわり
+            case eTutorial.eTutorial_End: //　チュートリアルがおわり
 
                 break;
 
             default:
 
                 break;
+
+                // 状態を保存する
+                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
         }
 
     }

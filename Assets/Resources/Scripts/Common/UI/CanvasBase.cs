@@ -18,7 +18,7 @@ public class CanvasBase : BaseObject {
     /// <summary>
     /// @brief Canvas内にオブジェクトを生成するメソッド
     /// </summary>
-    /// /// <param name="obj"></param>
+    /// <param name="obj"> Canvas上に生成するオブジェクト </param>
     public void NewCanvasInGameObject(GameObject obj)
     {
         // 変数にオブジェクトを代入

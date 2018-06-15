@@ -16,9 +16,6 @@ using Scene;
 public class NextScene : BaseObject
 {
 
-    private int tutorialId;
-
-
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
@@ -48,35 +45,10 @@ public class NextScene : BaseObject
     }
 
     /// <summary>
-    /// @brief 次のチュートリアルに変える
+    /// @brief 現在の状態を通知する
     /// </summary>
-    public void NextTutorialState()
+    public void DispatchTutorialState()
     {
-        switch (Singleton<TutorialState>.instance.TutorialStatus)
-        {
-            case eTutorial.eTutorial_ModeSelect: // 1　モードセレクト画面チュートリアル
-                TutorialManager.Instance.NextTutorialState(1);
-
-                break;
-
-            case eTutorial.eTutorial_Straight: // 2　Straight
-                TutorialManager.Instance.NextTutorialState(2);
-
-                break;
-
-            case eTutorial.eTutorial_Curve: // 3　Curve
-                TutorialManager.Instance.NextTutorialState(3);
-
-                break;
-
-            case eTutorial.eTutorial_EndText: // 4　最後のテキスト
-                TutorialManager.Instance.NextTutorialState(4);
-
-                break;
-
-            default:
-
-                break;
-        }
+        TutorialManager.Instance.NextTutorialState(Singleton<TutorialState>.instance.TutorialStatus);
     }
 }

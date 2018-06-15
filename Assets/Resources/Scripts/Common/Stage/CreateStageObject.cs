@@ -33,7 +33,7 @@ public class CreateStageObject : BaseObject
     {
         if(New(StageObject[(int)eStageType]) == null)
         {
-            New(StageObject[(int)eStageType.eTutorialStage_Sail]);
+            New(StageObject[(int)eStageType.eTutorialStage_Straight]);
         }
     }
 

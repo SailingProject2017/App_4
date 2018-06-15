@@ -29,13 +29,13 @@ public class CreateTutorialText : CanvasBase {
         {
             if (!isCallOnce)
             {
-                // チュートリアルのステートに対応したテキストをCanvas内に生成する -1で調整
-                NewCanvasInGameObject(tutorialText[(int)Singleton<TutorialState>.instance.TutorialStatus - 1]);
+                // チュートリアルのステートに対応したテキストをCanvas内に生成する
+                NewCanvasInGameObject(tutorialText[(int)Singleton<TutorialState>.instance.TutorialStatus]);
                 isCallOnce = !isCallOnce;
             }
             if (BaseObjectSingleton<GameInstance>.Instance.IsTutorialState)
             {
-                // 前のテキストを消す -2で調整
+                // 前のテキストを消す
                 Delete(prefab);
                 // チュートリアルが変わったときもう一度テキストを生成できる状態にする
                 BaseObjectSingleton<GameInstance>.Instance.IsTutorialState = false;

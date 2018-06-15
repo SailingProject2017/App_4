@@ -37,11 +37,11 @@ public class TutorialState
 /// </summary>
 public enum eTutorial 
 {
-    eTutorial_Null,
     eTutorial_ModeSelect,
     eTutorial_Straight,
     eTutorial_Curve,
     eTutorial_EndText,
     eTutorial_End,
+    eTutorial_Null,
 }
 #endregion
