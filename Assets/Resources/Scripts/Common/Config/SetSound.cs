@@ -20,8 +20,6 @@ public class SetSound : BaseObject
 	/// <summary>
 	/// @brief 音量をセット
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	public void SetMaster(float volume)
 	{
 		if (volume == -30f) { audioMixer.SetFloat("MasterVol", -80); }

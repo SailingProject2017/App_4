@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlopeShipControl : MonoBehaviour
+public class SlopeShipControl : BaseObject
 {
 	// ※ 動作確認のため、変数すべてにSerializeFieldをつけています。不要な場合はなくても大丈夫です。
 
@@ -47,8 +47,6 @@ public class SlopeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief 変数の初期化
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	void Start()
 	{
 		onSlope = false;
@@ -57,9 +55,7 @@ public class SlopeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief 加速度センサー処理
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
-	void Update()
+	public override void OnUpdate()
 	{
 		if (onSlope)
 		{
@@ -77,8 +73,6 @@ public class SlopeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief 加速度センサーの値に応じて、移動させる方向をセット
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	void SetSlope()
 	{
 		if (slopeVector > 0.1) { AccessorSlopeDir = "Right"; }
@@ -88,8 +82,6 @@ public class SlopeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief Test：移動確認
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	void Move()
 	{
 		switch (AccessorSlopeDir)

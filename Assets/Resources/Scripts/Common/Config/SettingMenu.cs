@@ -20,8 +20,6 @@ public class SettingMenu : BaseObject
 	/// <summary>
 	/// @brief 変数の初期化
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	private void Start()
 	{
 		activeMenu = false;
@@ -32,18 +30,14 @@ public class SettingMenu : BaseObject
 	/// <summary>
 	/// @brief booleanを入れ替える
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	bool ChengeBool(bool arg)
 	{
-		return arg ? false : true;
+		return !arg;
 	}
 
 	/// <summary>
 	/// @brief 設定メニューの表示非表示切り替え
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	public void ActiveMenu()
 	{
 		activeMenu = ChengeBool(activeMenu);

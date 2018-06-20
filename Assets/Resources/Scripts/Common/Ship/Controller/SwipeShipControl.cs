@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwipeShipControl : MonoBehaviour
+public class SwipeShipControl : BaseObject
 {
 	// ※ 動作確認のため、変数すべてにSerializeFieldをつけています。不要な場合はなくても大丈夫です。
 
@@ -49,8 +49,6 @@ public class SwipeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief 変数の初期化
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	void Start()
 	{
 		onTouch = false;
@@ -59,9 +57,7 @@ public class SwipeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief タッチ判定とスワイプの計算処理
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
-	void Update()
+	public override void OnUpdate()
 	{
 		Touch();
 		if (onTouch)
@@ -76,8 +72,6 @@ public class SwipeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief タッチの処理
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	private void Touch()
 	{
 		if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -99,8 +93,6 @@ public class SwipeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief スワイプした距離の計算
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	private void SwipeRangeCalculation()
 	{
 		touchDiscrepancy = touchStartPos.x - touchPos.x;
@@ -108,8 +100,6 @@ public class SwipeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief スワイプした方向の計算し、fripDirをセットする。
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	private void SetDirection()
 	{
 		// left
@@ -127,8 +117,6 @@ public class SwipeShipControl : MonoBehaviour
 	/// <summary>
 	/// @brief Test：移動確認。
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	private void Move()
 	{
 		switch (AccessorFripDir)

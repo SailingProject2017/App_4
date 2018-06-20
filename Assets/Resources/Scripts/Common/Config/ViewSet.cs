@@ -15,37 +15,43 @@ using UnityEngine.UI;
 public class ViewSet : BaseObject
 {
 
-	[SerializeField] private bool onTPS;		// TPSのオンオフフラグ
-	[SerializeField] private Button TPSButton;	// TPSをオンにするためのボタン
+	[SerializeField] private bool onTPS;        // TPSのオンオフフラグ
+	[SerializeField] private Button TPSButton;  // TPSをオンにするためのボタン
 	[SerializeField] private bool onFPS;        // FPSのオンオフフラグ
-	[SerializeField] private Button FPSButton;	// FPSをオンにするためのボタン
+	[SerializeField] private Button FPSButton;  // FPSをオンにするためのボタン
 
 	/// <summary>
 	/// @brief TPS
 	/// @get TPSをオンオフを取得
 	/// @set TPSをオンオフをセット
 	/// </summary>
-	public bool AccessoronTPS
+	public bool AccessoronOnTPS
 	{
 		get { return onTPS; }
-		private set { onTPS = value; onFPS = !value; }
+		private set
+		{
+			onTPS = value;
+			onFPS = !value;
+		}
 	}
 	/// <summary>
 	/// @brief FPS
 	/// @get FPSをオンオフを取得
 	/// @set FPSをオンオフをセット
 	/// </summary>
-	public bool AccessoronFPS
+	public bool AccessoronOnFPS
 	{
 		get { return onFPS; }
-		private set { onFPS = value; onTPS = !value; }
+		private set
+		{
+			onFPS = value;
+			onTPS = !value;
+		}
 	}
 
 	/// <summary>
 	/// @brief 変数の初期化
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	void Start()
 	{
 		OnViewTPS();
@@ -54,22 +60,18 @@ public class ViewSet : BaseObject
 	/// <summary>
 	/// @brief FPSをオンにする
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	public void OnViewFPS()
 	{
-		AccessoronFPS = true;
+		AccessoronOnFPS = true;
 		FPSButton.GetComponent<Image>().color = new Color(255, 255, 255, 255);
 		TPSButton.GetComponent<Image>().color = new Color(0, 0, 0, 255);
 	}
 	/// <summary>
 	/// @brief TPSをオンにする
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	public void OnViewTPS()
 	{
-		AccessoronTPS = true;
+		AccessoronOnTPS = true;
 		TPSButton.GetComponent<Image>().color = new Color(255, 255, 255, 255);
 		FPSButton.GetComponent<Image>().color = new Color(0, 0, 0, 255);
 	}

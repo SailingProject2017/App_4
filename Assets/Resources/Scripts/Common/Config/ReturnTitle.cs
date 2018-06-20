@@ -19,8 +19,6 @@ public class ReturnTitle : BaseObject
 	/// <summary>
 	/// @brief シーン移動
 	/// </summary>
-	/// <param name="void"></param>
-	/// <retrun>void</retrun>
 	public void MoveScene()
 	{
 		SceneManager.LoadScene(returnScene);
