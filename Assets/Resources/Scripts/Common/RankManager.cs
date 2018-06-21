@@ -13,6 +13,8 @@ using UnityEngine;
 public class RankManager : MarkerBase
 {
 	// GameObject型のフィールドを保持するため、構造体ではなくクラス宣言
+	// ShipObjectクラスのフィールドをRankManagerクラスで使用できるようにするため、publicになってます
+	// クラスがprivateなので、RankManagerクラス以外では使えないようになっています
 	private class ShipObject
 	{
 		
