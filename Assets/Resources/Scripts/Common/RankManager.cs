@@ -50,7 +50,7 @@ public class RankManager : MarkerBase
 	{
 		base.MarkerInitialize();
         
-        // ランク画像を処理しているスクリプトのコンポーネント取得
+        	// ランク画像を処理しているスクリプトのコンポーネント取得
 		GameObject rank = GameObject.Find("rank");
 		rankSpriteRender = rank.GetComponent<RankSpriteRender>();
 
@@ -103,14 +103,13 @@ public class RankManager : MarkerBase
 		for (int i = 0; i < allEnemyShipObject.Count; i++)
 		{
 			allShip.Add(new ShipObject(allEnemyShipObject[i],  0.0f, 1, allEnemyShipObject[i].GetComponent<AIControler>()));
-			Debug.Log(allShip[i]);
 		}
 
 	}
 
     /// <summary>
     /// @brief 次へ向かうマーカーの距離を計算
-	/// @note  すでにゴールしていれば計算しない
+    /// @note  すでにゴールしていれば計算しない
     /// </summary>
 	private void DistanceShipToMarker()
 	{
@@ -118,7 +117,7 @@ public class RankManager : MarkerBase
 		for (int i = 0; i < allShip.Count; i++)
 		{
 			// ゴールしている場合、リスト外参照でエラーになるため
-            // 計算せずに次のリストを参照する
+                        // 計算せずに次のリストを参照する
 			if (allShip[i].markerBase.IsGoal) continue;
 
 			// ピタゴラスの定理
@@ -130,31 +129,31 @@ public class RankManager : MarkerBase
 	} 
 
     /// <summary>
-	/// @brief 通ったマーカー・次のマーカーまでの距離から、ランクを計算する
-	/// @note  処理の順番は絶対に変えないでください
+    /// @brief 通ったマーカー・次のマーカーまでの距離から、ランクを計算する
+    /// @note  処理の順番は絶対に変えないでください
     /// </summary>
 	private void CalcRank()
 	{
 		/* 計算するにあたっての初期化 */
-        // ゴールした船の数
-        goaledShipNum = 0;
+        	// ゴールした船の数
+        	goaledShipNum = 0;
 
-        // ゴールしている船を数える
+        	// ゴールしている船を数える
 		for (int i = 0; i < allShip.Count; i++)
 		{
 			if (allShip[i].markerBase.IsGoal) goaledShipNum++;
-            /// TODO ここにゴールした時の順位をぶち込む
+            	/// TODO ここにゴールした時の順位をぶち込む
 		}
 
-        // 順位を１で初期化
-        for (int i = 0; i < allShip.Count; i++)
-        {
-            allShip[i].rank = 1;
-        }
+        	// 順位を１で初期化
+        	for (int i = 0; i < allShip.Count; i++)
+        	{
+            		allShip[i].rank = 1;
+        	}
 
-        /* 実際の計算 */
+        	/* 実際の計算 */
 
-        // 通ったマーカーの数で順位を計算
+        	// 通ったマーカーの数で順位を計算
 		for (int i = 0; i < allShip.Count; i++)
 		{
 			for (int j = 0; j < allShip.Count; j++)
@@ -172,7 +171,7 @@ public class RankManager : MarkerBase
 			}
 		}
         
-        // 距離で順位を計算
+        	// 距離で順位を計算
 		for (int i = 0; i < allShip.Count; i++)
 		{
 			for (int j = 1; j < allShip.Count; j++)
@@ -189,7 +188,7 @@ public class RankManager : MarkerBase
 			}
 		}
 
-        // すでにゴールしている船の数だけ順位を加算
+        	// すでにゴールしている船の数だけ順位を加算
 		for (int i = 0; i < allShip.Count; i++) 
 		{
 			if (!allShip[i].markerBase.IsGoal) allShip[i].rank += goaledShipNum;
