@@ -25,7 +25,7 @@ public class ViewSet : BaseObject
 	/// @get TPSをオンオフを取得
 	/// @set TPSをオンオフをセット
 	/// </summary>
-	public bool AccessoronOnTPS
+	public bool AccessorOnTPS
 	{
 		get { return onTPS; }
 		private set
@@ -39,7 +39,7 @@ public class ViewSet : BaseObject
 	/// @get FPSをオンオフを取得
 	/// @set FPSをオンオフをセット
 	/// </summary>
-	public bool AccessoronOnFPS
+	public bool AccessorOnFPS
 	{
 		get { return onFPS; }
 		private set
@@ -62,7 +62,7 @@ public class ViewSet : BaseObject
 	/// </summary>
 	public void OnViewFPS()
 	{
-		AccessoronOnFPS = true;
+		AccessorOnFPS = true;
 		FPSButton.GetComponent<Image>().color = new Color(255, 255, 255, 255);
 		TPSButton.GetComponent<Image>().color = new Color(0, 0, 0, 255);
 	}
@@ -71,7 +71,7 @@ public class ViewSet : BaseObject
 	/// </summary>
 	public void OnViewTPS()
 	{
-		AccessoronOnTPS = true;
+		AccessorOnTPS = true;
 		TPSButton.GetComponent<Image>().color = new Color(255, 255, 255, 255);
 		FPSButton.GetComponent<Image>().color = new Color(0, 0, 0, 255);
 	}
