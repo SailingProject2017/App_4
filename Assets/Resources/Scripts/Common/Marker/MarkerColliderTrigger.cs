@@ -12,19 +12,22 @@ public class MarkerColliderTrigger : MarkerBase
 {
     [SerializeField]
     private GameObject markerSign; // @brief 今目指すべきマーカーを示す矢印
-    
+
+
+
 	protected override void MarkerInitialize()
 	{
 		base.MarkerInitialize();
 		MoveMakerPoint();
+		currentMarker = 1;
 	}
     
     private void MoveMakerPoint()
     {         
         // ポイントの移動
-		markerSign.transform.position = new Vector3(hitMarkerList[currentListNum].transform.position.x,
-		                                            hitMarkerList[currentListNum].transform.position.y + 11,
-		                                            hitMarkerList[currentListNum].transform.position.z);      
+		markerSign.transform.position = new Vector3(hitMarkerList[currentHitMarker].transform.position.x,
+		                                            hitMarkerList[currentHitMarker].transform.position.y + 11,
+		                                            hitMarkerList[currentHitMarker].transform.position.z);      
     }
 
     /// <summary>
@@ -33,21 +36,26 @@ public class MarkerColliderTrigger : MarkerBase
     /// <param name="other"></param>
     public void OnTriggerEnter(Collider other)
 	{
-		if (hitMarkerList[currentListNum].gameObject == other.gameObject)
+		if (hitMarkerList[currentHitMarker].gameObject == other.gameObject)
 		{
 			// goalタグのオブジェクトに接触したときに走る命令
 			if (other.tag == "goal")
 			{
-				Singleton<GameInstance>.instance.IsGoal = true;
+				Singleton<GameInstance>.instance.IsGoal = true; // ゲーム全体で管理しているフラグ
+				isGoal = true;                                  // ランクで管理しているフラグ
 			}
 			// markerに当たったとき次のmarkerを指すようにする
 			else
 			{
-				currentListNum++;
-				Debug.Log("マーカー:" + currentListNum);
-
+				currentHitMarker++;
 				MoveMakerPoint();
 			}
 		}
+        // わかりやすくするために別でif文かけてます
+	    if(other.gameObject == hitMarkerList[currentMarker].gameObject && other.tag != "goal")
+		{
+			currentMarker++;
+		}
+
     }
 }
