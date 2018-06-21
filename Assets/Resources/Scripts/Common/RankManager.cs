@@ -39,9 +39,9 @@ public class RankManager : MarkerBase
 	private          List<GameObject> allEnemyShipObject  = new List<GameObject>();     // @brief 敵機を格納するgameobject型のリスト   
 	private GameObject parentAllShipName;                                               // @brief 船オブジェクトの親のおbジェクトを格納する用の変数
 
-	int goaledShipNum;  // @brief すでにゴールした船の総数
+	private int goaledShipNum;  // @brief すでにゴールした船の総数
 
-	RankSpriteRender rankSpriteRender;  //brief コンポーネント取得先
+	private RankSpriteRender rankSpriteRender;  //brief コンポーネント取得先
 
     /// <summary>
     /// @brief MarkerBaseの実装
