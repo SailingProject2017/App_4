@@ -16,8 +16,6 @@ using Scene;
 public class NextScene : BaseObject
 {
 
-    private bool callOnce = false; // 一度だけ呼ばれることを保証する
-
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
@@ -47,18 +45,10 @@ public class NextScene : BaseObject
     }
 
     /// <summary>
-    /// @brief 次のチュートリアルに変える
+    /// @brief 現在の状態を通知する
     /// </summary>
-    public void NextTutorialState()
+    public void DispatchTutorialState()
     {
-        if (!callOnce)
-        {
-            TutorialManager tutorialManager = new TutorialManager();
-
-            // チュートリアルの状態を次の状態に変える
-            tutorialManager.TutorialState = Singleton<TutorialState>.instance.TutorialStatus;
-            callOnce = !callOnce;
-        }
+        TutorialManager.Instance.NextTutorialState(Singleton<TutorialState>.instance.TutorialStatus);
     }
 }
-

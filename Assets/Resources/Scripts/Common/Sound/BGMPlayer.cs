@@ -48,13 +48,10 @@ class BGMPlayer{
         //停止
         public Wait(BGMPlayer bgmPlayer) : base(bgmPlayer) {
 
-            Debug.Log("now state Wait");
-
         }
 
         //再生
         public override void PlayBGM() {
-            Debug.Log("fadeInTime = " + bgmPlayer.fadeInTime);
 
             if(bgmPlayer.fadeInTime > 0.0f) {
                 bgmPlayer.state = new FadeIn(bgmPlayer);
@@ -74,7 +71,6 @@ class BGMPlayer{
 
         public Pause(BGMPlayer bgmPlayer, State argPreState) : base(bgmPlayer) {
 
-            Debug.Log("now state Pause");
 
             preState = argPreState;
             bgmPlayer.source.Pause();
@@ -100,12 +96,10 @@ class BGMPlayer{
     class Playing : State {
 
         public Playing(BGMPlayer bgmPlayer) : base(bgmPlayer) {
-            Debug.Log("now state Playing");
 
             if(bgmPlayer.source.isPlaying == false) {
                 bgmPlayer.source.volume = bgmPlayer.maxBGMVolume;
                 bgmPlayer.source.Play();
-                Debug.Log("bgmPlaeyr.Play");
             }
             
         }
@@ -115,7 +109,6 @@ class BGMPlayer{
         }
 
         public override void StopBGM() {
-            Debug.Log("new FadeOut");
             bgmPlayer.state = new FadeOut(bgmPlayer);
         }
     }
@@ -130,7 +123,6 @@ class BGMPlayer{
 
         public FadeIn(BGMPlayer bgmPlayer) : base(bgmPlayer) {
 
-            Debug.Log("now state FadeIn");
 
             bgmPlayer.source.Play();
             bgmPlayer.source.volume = 0.0f;
@@ -150,12 +142,10 @@ class BGMPlayer{
             time += Time.deltaTime;
 
             bgmPlayer.source.volume = time / bgmPlayer.fadeInTime;
-            Debug.Log("volume = " + bgmPlayer.source.volume);
 
             if(time >= bgmPlayer.fadeInTime) {
                 bgmPlayer.source.volume = bgmPlayer.maxBGMVolume;
                 bgmPlayer.state = new Playing(bgmPlayer);
-                Debug.Log("new Playing");
             }
         }
     }
@@ -170,10 +160,8 @@ class BGMPlayer{
 
         public FadeOut(BGMPlayer bgmPlayer) : base(bgmPlayer) {
 
-            Debug.Log("now state FadeOut");
             
             initVolume = bgmPlayer.source.volume;
-            Debug.Log("initVolume = " + initVolume);
 
         }
 
@@ -185,7 +173,6 @@ class BGMPlayer{
 
             time += Time.deltaTime;
             bgmPlayer.source.volume = initVolume * (bgmPlayer.maxBGMVolume - time / bgmPlayer.fadeOutTime);
-            Debug.Log("volume = " + bgmPlayer.source.volume);
 
             if(time >= bgmPlayer.fadeOutTime) {
                 bgmPlayer.source.volume = 0.0f;
@@ -210,15 +197,12 @@ class BGMPlayer{
             source = obj.AddComponent<AudioSource>();
             source.clip = clip;
             state = new Wait(this);
-        } else {
-            Debug.Log("BGM " + bgmFileName + " is not found.");
         }
     }
 
     public void destory() {
         if(source != null) {
             GameObject.Destroy(obj);
-            Debug.Log("Destroy BGMObject");
         }
     }
 
@@ -231,10 +215,8 @@ class BGMPlayer{
     public void PlayBGM(float fadeTime, bool toLoop) {
         if(source != null) {
             this.fadeInTime = fadeTime;
-            Debug.Log("set fadeInTime = " + fadeInTime);
             this.maxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume;
             source.volume = this.maxBGMVolume;
-            Debug.Log("set Volume = " + source.volume);
             source.loop = toLoop;
             state.PlayBGM();
         }

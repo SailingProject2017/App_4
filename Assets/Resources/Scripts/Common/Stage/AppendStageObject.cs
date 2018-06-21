@@ -20,7 +20,7 @@ public class AppendStageObject : BaseObject
     protected override void AppendListConstructor()
     {
         base.AppendListConstructor();
-        GameInstance.Instance.StageType = eStageType.Null;
+        //GameInstance.Instance.StageType = eStageType.Null;
     }
 
     /// <summary>

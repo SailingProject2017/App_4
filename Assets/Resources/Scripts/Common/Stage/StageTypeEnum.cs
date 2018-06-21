@@ -17,8 +17,8 @@ using UnityEngine;
 /// </summary>
 public enum eStageType
 {
-    eTutorialStage_Sail,
-    eTutorialStage_Markar,
+    eTutorialStage_Straight,
+    eTutorialStage_Curve,
     eTutorialStage_TimeAttack,
     eStage_Easy,
     eStage_Normal,
