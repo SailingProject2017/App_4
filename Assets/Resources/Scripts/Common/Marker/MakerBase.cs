@@ -21,7 +21,7 @@ public class MarkerBase : BaseObject {
 	protected List<GameObject> markerList;    // @brief markerのリスト
 	protected List<GameObject> hitMarkerList; // @brief hitMarkerのリスト
 
-	protected bool isGoal;
+	protected bool isGoal;			  // @brief ゴールしたかどうか
 
 	/// <summary>
     /// @brief すでに通ったマーカーの個数を返すアクセサ
@@ -36,18 +36,18 @@ public class MarkerBase : BaseObject {
     /// @brief ゴールしたかどうかを返すアクセサ
     /// </summary>
     /// <value>
-	///     <c> true  </c> すでにゴールした
-	///     <c> false </c> まだゴールしてない
-	/// </value>
-	public bool IsGoal
-	{
-		get{return isGoal;}
-	}
+    /// <c> true  </c> すでにゴールした
+    /// <c> false </c> まだゴールしてない  
+    /// </value>
+    public bool IsGoal
+    {
+	get{return isGoal;}
+    }
 
 
-	public virtual void Start()
-	{
-		MarkerInitialize();
+    public virtual void Start()
+    {
+	MarkerInitialize();
     }
 
 
