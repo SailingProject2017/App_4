@@ -21,17 +21,15 @@ public class ResultUpdate : BaseObject {
     private Text[] timeText;         // @brief タイムテキスト
 
     //仮構造体
-    public struct ResultData {
+    /*public struct ResultData {
         public float time;
         public string name;
-    }
+    }*/
 
-    private ResultData[] resultDatas;   // @brief 各プレイヤーのリザルトデータ
+    //private ResultData[] resultDatas;   // @brief 各プレイヤーのリザルトデータ
     private int playerRank;             // @brief プレイヤーの順位
 
     public void Start() {
-
-        TestData();
 
         RankTextUpdate();
         ResultTextUpdate();
@@ -43,7 +41,7 @@ public class ResultUpdate : BaseObject {
     /// </summary>
     /// <param name="argDatas"></param>
     /// <param name="rank"></param>
-    public void SetResultData(ResultData[] argDatas,int rank) {
+    /*public void SetResultData(ResultData[] argDatas,int rank) {
 
         resultDatas = argDatas;
         playerRank = rank;
@@ -51,27 +49,27 @@ public class ResultUpdate : BaseObject {
     }
 
     //テストデータ
-    public void TestData() {
+    /*public void TestData() {
 
         playerRank = 1;
         resultDatas = new ResultData[4];
-        resultDatas[0].time = 251080;
+        resultDatas[0].time = 250000;
         resultDatas[0].name = "Sana";
-        resultDatas[1].time = 242020;
+        resultDatas[1].time = 249999;
         resultDatas[1].name = "Luna";
-        resultDatas[2].time = 239920;
+        resultDatas[2].time = 249998;
         resultDatas[2].name = "Siro";
-        resultDatas[3].time = 248000;
+        resultDatas[3].time = 250001;
         resultDatas[3].name = "Mugi";
 
-    }
+    }*/
 
     /// <summary>
     /// @brief  順位によって色と序数を変更する関数
     /// </summary>
     public void RankTextUpdate() {
 
-        string[] ordinalNumber = { "st", "nd", "rd", "th" };    // @brief 数字の後に付く序数(?)
+        /*string[] ordinalNumber = { "st", "nd", "rd", "th" };    // @brief 数字の後に付く序数(?)
 
         Color[] rankColor = {
             new Color(255f / 255f, 215f / 255f,   0f / 255f),   //金
@@ -82,12 +80,16 @@ public class ResultUpdate : BaseObject {
         
         rankText.color = rankColor[playerRank - 1];
         rankText.text = playerRank.ToString() + ordinalNumber[playerRank - 1];
-
+        */
     }
 
+    /// <summary>
+    /// テキストにプレイヤーの名前とタイムを入れる関数
+    /// タイムは分、秒、ミリ秒に分割
+    /// </summary>
     public void ResultTextUpdate() {
 
-        int milliSecond;    // @brief ミリ秒
+        /*int milliSecond;    // @brief ミリ秒
         int second;         // @brief 秒
         int minute;         // @brief 分
 
@@ -101,7 +103,7 @@ public class ResultUpdate : BaseObject {
 
             timeText[i].text = minute.ToString("00") + ":" + second.ToString("00") + ":" + milliSecond.ToString("000");
 
-        }
+        }*/
 
     }
 
