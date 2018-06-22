@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialEventManager : PopupBase{
+public class TutorialEventManager : BaseObject{
 
     [SerializeField]
     InGameTutorialPopup popup; // @brief 生成するポップアップを格納

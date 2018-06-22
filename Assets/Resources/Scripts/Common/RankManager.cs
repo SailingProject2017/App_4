@@ -21,7 +21,8 @@ public class RankManager : MarkerBase
 		public GameObject ship;         // @brief 船オブジェクト
 		public float distance;          // @brief マーカーまでの距離
 		public int rank;                // @brief 現在のランク
-		public MarkerBase markerBase;   // @brief Player,Enemy両方で使うcurrentMarkerの基底クラス
+        public int resultRank;          // @brief ゴール時のランク
+        public MarkerBase markerBase;   // @brief Player,Enemy両方で使うcurrentMarkerの基底クラス
 
 		public ShipObject(GameObject ship, float distance, int rank, MarkerBase markerBase)
 		{
@@ -75,7 +76,10 @@ public class RankManager : MarkerBase
 
 		CalcRank();
 
-		rankSpriteRender.ChangeRankSprite(allShip[0].rank); //ship[0] は　player の番号
+        // ゴールしている場合としていない場合で分岐
+        // ship[0] は　player の番号
+        if (allShip[0].markerBase.IsGoal) rankSpriteRender.ChangeRankSprite(allShip[0].resultRank);
+        else                              rankSpriteRender.ChangeRankSprite(allShip[0].rank);
 	}
 
 	/// <summary>
@@ -135,30 +139,43 @@ public class RankManager : MarkerBase
 	private void CalcRank()
 	{
 		/* 計算するにあたっての初期化 */
-        	// ゴールした船の数
-        	goaledShipNum = 0;
+        // ゴールした船の数
+        goaledShipNum = 0;
 
-        	// ゴールしている船を数える
+        // ゴールしている船を数える
 		for (int i = 0; i < allShip.Count; i++)
 		{
-			if (allShip[i].markerBase.IsGoal) goaledShipNum++;
-            	/// TODO ここにゴールした時の順位をぶち込む
+            if (allShip[i].markerBase.IsGoal)
+            {
+                goaledShipNum++;
+
+                // ゴール時の順位を保存
+                allShip[i].resultRank = allShip[i].rank;
+            }	
 		}
 
-        	// 順位を１で初期化
-        	for (int i = 0; i < allShip.Count; i++)
-        	{
-            		allShip[i].rank = 1;
-        	}
+        // 順位を１で初期化
+        // ゴールしている場合は初期化しない
+        for (int i = 0; i < allShip.Count; i++)
+        {
+            if (!allShip[i].markerBase.IsGoal)
+            {
+                allShip[i].rank = 1;
+                allShip[i].rank += goaledShipNum;
+            }
+        }
 
-        	/* 実際の計算 */
+        /* 実際の計算 */
 
-        	// 通ったマーカーの数で順位を計算
+        // 通ったマーカーの数で順位を計算
 		for (int i = 0; i < allShip.Count; i++)
 		{
-			for (int j = 0; j < allShip.Count; j++)
+			for (int j = 1; j < allShip.Count; j++)
 			{
-				if (i != j)
+                // ゴールしている船は計算しない
+                if (allShip[j].markerBase.IsGoal) continue;
+
+                if (i != j)
 				{
 					// 通ったマーカーが少ない方の順位を加算
 					if (allShip[i].markerBase.CurrentMarker < allShip[j].markerBase.CurrentMarker)
@@ -171,11 +188,14 @@ public class RankManager : MarkerBase
 			}
 		}
         
-        	// 距離で順位を計算
+        // 距離で順位を計算
 		for (int i = 0; i < allShip.Count; i++)
 		{
 			for (int j = 1; j < allShip.Count; j++)
 			{
+                // ゴールしている船は計算しない
+                if (allShip[j].markerBase.IsGoal) continue;
+
 				// 通っているマーカーの数が同じなら
 				if (i != j && allShip[i].markerBase.CurrentMarker == allShip[j].markerBase.CurrentMarker)
 				{
@@ -188,10 +208,10 @@ public class RankManager : MarkerBase
 			}
 		}
 
-        	// すでにゴールしている船の数だけ順位を加算
+        // すでにゴールしている船の数だけ順位を加算
 		for (int i = 0; i < allShip.Count; i++) 
 		{
-			if (!allShip[i].markerBase.IsGoal) allShip[i].rank += goaledShipNum;
-		}
+			//if (!allShip[i].markerBase.IsGoal) allShip[i].rank += goaledShipNum;
+        }
 	}
 }
