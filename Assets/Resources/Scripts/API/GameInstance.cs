@@ -32,7 +32,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
         eStageType stageType = eStageType.Null;
 
-        isShipMove = false;
+        isShipMove = true;
         isPorse = false;
         isCountDown = false;
         isGoal = false;

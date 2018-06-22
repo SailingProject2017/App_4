@@ -23,7 +23,9 @@ public class BaseObjectUpdater : BaseObject
     /// </summary>
     void Update()
     {
-        if (!Singleton<GameInstance>.instance.IsPorse)
+        //Debug.log(Singleton<GameInstance>.instance.IsPorse);
+
+        if (!BaseObjectSingleton<GameInstance>.Instance.IsPorse)
         {
             foreach (var obj in BaseObjectManagerList)
             {
@@ -52,7 +54,7 @@ public class BaseObjectUpdater : BaseObject
     /// </summary>
     void LateUpdate()
     {
-        if (!Singleton<GameInstance>.instance.IsPorse)
+        if (!BaseObjectSingleton<GameInstance>.Instance.IsPorse)
         {
             foreach (var obj in BaseObjectList)
             {
@@ -68,7 +70,7 @@ public class BaseObjectUpdater : BaseObject
     /// </summary>
     void FixedUpdate()
     {
-        if (!Singleton<GameInstance>.instance.IsPorse)
+        if (!BaseObjectSingleton<GameInstance>.Instance.IsPorse)
         {
             foreach (var obj in BaseObjectList)
             {

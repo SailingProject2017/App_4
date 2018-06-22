@@ -25,7 +25,7 @@ public class SettingMenu : BaseObject
 		activeMenu = false;
 		settingMenu.SetActive(activeMenu);
 		settingButten.SetActive(!activeMenu);
-	}
+    }
 
 	/// <summary>
 	/// @brief booleanを入れ替える
@@ -43,5 +43,8 @@ public class SettingMenu : BaseObject
 		activeMenu = ChengeBool(activeMenu);
 		settingMenu.SetActive(activeMenu);
 		settingButten.SetActive(!activeMenu);
-	}
+
+        // ポーズフラグの切り替え 設定画面を開いているときはポーズ中 閉じればプレイ中の状態
+        BaseObjectSingleton<GameInstance>.Instance.IsPorse= !BaseObjectSingleton<GameInstance>.Instance.IsPorse;
+    }
 }
