@@ -11,27 +11,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipManager : BaseObject {
+public class ShipManager : BaseObjectSingleton<ShipManager> {
 
-    // 船の状態
-    public enum ShipState
+    public virtual void Start()
     {
-        STOP, // 止まっている
-        START // 動いている
+        ShipInitialize();
     }
 
-    // 船の操作方法
-    public enum ShipController
+    /// <summary>
+    /// @brief 継承先で個別に実装する初期化
+    /// </summary>
+    protected virtual void ShipInitialize()
     {
-        SWIPE, // スワイプ操作
-        TILT,  // 傾き操作
-    }
-
-    // カメラ視点
-    public enum ShipCameraMode
-    {
-        FPS, // 一人称
-        TPS  // 三人称
+        Singleton<ShipStates>.instance.CameraMode = eCameraMode.FPS;
     }
 
     private int HitMarker;

@@ -9,6 +9,7 @@
 **********************************************************************************************/
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResultOpen : BaseObject {
 
@@ -22,17 +23,25 @@ public class ResultOpen : BaseObject {
         isCallOnse = false;
     }
 
-	public void Update()
+    public override void OnUpdate()
     {
+        base.OnUpdate();
+
         if (!isCallOnse)
         {
             if (Singleton<GameInstance>.instance.IsGoal == true)
             {
 
                 Singleton<GameInstance>.instance.IsGoal = false;
+                if (SceneManager.GetActiveScene().name == "InTutorial")
+                {
+                    PopupResult result = resultPopup.GetComponent<PopupResult>();
+                    result.Open();
+                }
+                else if(SceneManager.GetActiveScene().name == "InGame")
+                {
 
-                PopupResult result = resultPopup.GetComponent<PopupResult>();
-                result.Open();
+                }
                 isCallOnse = true;
 
             }
