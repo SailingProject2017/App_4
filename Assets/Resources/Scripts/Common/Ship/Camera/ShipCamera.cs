@@ -26,6 +26,8 @@ public class ShipCamera : BaseObject
     
     void Start()
     {
+        Singleton<ShipStates>.instance.CameraMode = eCameraMode.TPS;
+
         layerMaskShip = 1 << LayerMask.NameToLayer("Ship"); // レイヤー情報を取得
 
         if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.FPS)
