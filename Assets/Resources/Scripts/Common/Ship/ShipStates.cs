@@ -4,6 +4,11 @@
 public class ShipStates
 {
 
+    public System.Action _callBack = () =>
+    {
+        
+    };
+
     private eCameraMode cameraPerspective; // @brief 視点の状態を保持
 
     /// <summary>
@@ -13,8 +18,17 @@ public class ShipStates
     /// </summary>
     public eCameraMode CameraMode
     {
-        set { cameraPerspective = value; }
         get { return cameraPerspective; }
+        set
+        {
+            if (value != cameraPerspective)
+            {
+                // コールバック実行
+                //changeCamera.CameraSelect();
+                
+            }
+            cameraPerspective = value;
+        }
     }
 }
 

@@ -23,9 +23,9 @@ public class ResultOpen : BaseObject {
         isCallOnse = false;
     }
 
-    public override void OnUpdate()
+    public void Update()
     {
-        base.OnUpdate();
+        //base.OnUpdate();
 
         if (!isCallOnse)
         {
@@ -40,11 +40,20 @@ public class ResultOpen : BaseObject {
                 }
                 else if(SceneManager.GetActiveScene().name == "InGame")
                 {
-
+                    Singleton<ShipStates>.instance.CameraMode = eCameraMode.GOAL;
                 }
                 isCallOnse = true;
 
             }
         }
+    }
+
+    public IEnumerable InGameResult()
+    {
+
+        yield return new WaitForSeconds(5.0f);
+
+
+
     }
 }

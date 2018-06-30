@@ -7,6 +7,8 @@
 *********************************************************************************************
 * Copyright © 2017 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
+using System;
+
 
 public class GameInstance : BaseObjectSingleton<GameInstance>
 {
@@ -157,3 +159,76 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     #endregion
 }
+
+public class Selectable<T>
+{
+    private T _value; // 選択中の値
+
+    /// <summary>
+    /// @brief 値を取得または設定をする
+    /// @none  値の設定後にcahgedイベントが呼び出される
+    /// </summary>
+    /// <param></param>
+    public T Value
+    {
+        get { return _value; }
+        set
+        {
+            _value = value;
+            OnChanged(_value);
+        }
+    }
+
+    /// <summary>
+    /// @brief 値が変更されたときに呼び出されます
+    /// </summary>
+#pragma warning disable 0067
+    public Action<T> _changed;
+#pragma warning restore 0067
+
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    public Selectable()
+    {
+        _value = default(T);
+    }
+
+    /// <summary>
+    /// @brief 値を設定
+    /// @none  値の設定後にchangedイベントは呼び出されない
+    /// </summary>
+    public void SetValueWithoutCallback(T value)
+    {
+        _value = value;
+    }
+
+    /// <summary>
+    /// @brief 値を設定
+    /// @none 値が変更された場合のみchangedイベントを呼ぶ
+    /// </summary>
+    public void SetValueIfNotEqual(T value)
+    {
+        if (_value.Equals(value))
+        {
+            return;
+        }
+        _value = value;
+        OnChanged(_value);
+    }
+
+    /// <summary>
+    /// @brief 値が変更されたときに呼び出されます
+    /// </summary>
+    private void OnChanged(T value)
+    {
+        var changed = _changed;
+        if(changed == null)
+        {
+            return;
+        }
+        changed(value);
+    }
+}
+
+
