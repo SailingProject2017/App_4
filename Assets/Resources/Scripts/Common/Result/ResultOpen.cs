@@ -11,7 +11,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ResultOpen : BaseObject {
+public class ResultOpen : BaseObject 
+{
 
     [SerializeField]
     private GameObject resultPopup; // @brief Resultのインスタンス化
