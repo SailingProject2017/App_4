@@ -45,16 +45,7 @@ public class CountDown : BaseObject
         }
 
     }
-    /*
-    /// <summary>
-    /// @brief カウントダウンをスタートさせる関数
-    /// </summary>
-    public void StartCountDown()
-    {
-        Debug.Log("CountDown.cs 30");
-        StartCoroutine(CountDownCoroutine());
-    }
-    */
+    
     /// <summary>
     /// @brief カウントダウンの処理
     /// @note コルーチンを使用

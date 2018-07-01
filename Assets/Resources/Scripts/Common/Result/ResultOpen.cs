@@ -41,6 +41,7 @@ public class ResultOpen : BaseObject {
                 else if(SceneManager.GetActiveScene().name == "InGame")
                 {
                     Singleton<ShipStates>.instance.CameraMode = eCameraMode.GOAL;
+                    StartCoroutine(InGameResult());
                 }
                 isCallOnse = true;
 
@@ -48,12 +49,13 @@ public class ResultOpen : BaseObject {
         }
     }
 
-    public IEnumerable InGameResult()
+    public IEnumerator InGameResult()
     {
 
         yield return new WaitForSeconds(5.0f);
-
-
+        PopupResult result = resultPopup.GetComponent<PopupResult>();
+        result.Open();
+        Singleton<GameInstance>.instance.IsShipMove = true;
 
     }
 }
