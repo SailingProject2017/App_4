@@ -27,7 +27,7 @@ public static class CreateSaveData
         Singleton<TutorialState>.instance = (TutorialState)LoadFromBinaryFile(path);
         if (Singleton<TutorialState>.instance.TutorialStatus == state)
         {
-            Debug.Log(Singleton<TutorialState>.instance.TutorialStatus);      
+            Debug.Log(Singleton<TutorialState>.instance.TutorialStatus);
             return true;
         }
         return false;
@@ -40,7 +40,7 @@ public static class CreateSaveData
     public static void NextTutorialState(eTutorial state)
     {
         Singleton<TutorialState>.instance.TutorialStatus = state;
-        Debug.Log(Singleton<TutorialState>.instance.TutorialStatus + "setNext");
+        Debug.Log(message: Singleton<TutorialState>.instance.TutorialStatus + "setNext");
     }
     #endregion
 
@@ -53,28 +53,29 @@ public static class CreateSaveData
     /// <returns>復元されたオブジェクト</returns>
     public static object LoadFromBinaryFile(string path)
     {
-        try
-        {
-            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-            BinaryFormatter bf = new BinaryFormatter();
 
-            //読み込んで逆シリアル化する
-            object obj = bf.Deserialize(fs);
-            fs.Close();
+        FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+        BinaryFormatter bf = new BinaryFormatter();
 
-            return obj;
-        }
-        catch (FileNotFoundException e)
+        if (fs.Length == 0)
         {
 
 #if DEBUG
-            Debug.Log("ファイル" + e.FileName + "が見つからないので作ります。");
+            Debug.Log(message: "ファイル" + path + "が見つからないので作ります。");
             Debug.Log("初回起動です");
 #endif
-            // 新しく生成
+            fs.Close();
             CreateBineryFile(path);
             return null;
         }
+
+        //読み込んで逆シリアル化する
+        object obj = bf.Deserialize(fs);
+        fs.Close();
+
+        return obj;
+
+
     }
 
     /// <summary>
@@ -87,6 +88,7 @@ public static class CreateSaveData
         FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
         BinaryFormatter bf = new BinaryFormatter();
 
+
         //シリアル化して書き込む
         bf.Serialize(fs, obj);
         fs.Close();
@@ -98,6 +100,8 @@ public static class CreateSaveData
         FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
         NextTutorialState(eTutorial.eTutorial_Null);
         fs.Close();
+
+        SaveToBinaryFile(Singleton<TutorialState>.instance, path);
     }
     #endregion
 }
