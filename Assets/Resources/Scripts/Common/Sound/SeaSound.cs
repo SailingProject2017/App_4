@@ -5,10 +5,9 @@ using UnityEngine;
 public class SeaSound : BaseObject {
 
 
-    private string audioClipName = "";
+
     [SerializeField]
     private float fadeTime = 1.0f;
-    private bool playSound = true;
 
     private bool callOnce = false;
 
@@ -26,21 +25,9 @@ public class SeaSound : BaseObject {
     }
 
     public void OnTap() {
-        Singleton<SoundPlayer>.instance.StopBGM(fadeTime);
-
         if(!callOnce) {
-            Singleton<SoundPlayer>.instance.PlaySE("Bottun");
+            Singleton<SoundPlayer>.instance.PlaySE("TitleBottun");
             callOnce = !callOnce;
         }
     }
-
-    public void PauseBGM() {
-        
-        Singleton<SoundPlayer>.instance.Pause(playSound);
-
-        Debug.Log(playSound);
-        playSound = !playSound;
-
-    }
-
 }

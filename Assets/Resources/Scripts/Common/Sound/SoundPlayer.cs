@@ -48,7 +48,7 @@ public class SoundPlayer{
         audioClips.Add("Wind", new AudioClipInfo("Sound/wind", "BGM003"));
         audioClips.Add("Water", new AudioClipInfo("Sound/Water", "BGM004"));
         audioClips.Add("TT", new AudioClipInfo("Sound/TT", "BGM005"));
-        audioClips.Add("Bottun", new AudioClipInfo("Sound/TitleBottun", "SE001"));
+        audioClips.Add("TitleBottun", new AudioClipInfo("Sound/TitleBottun", "SE001"));
         audioClips.Add("Bottun2", new AudioClipInfo("Sound/Bottun2", "SE002"));
         audioClips.Add("0", new AudioClipInfo("Sound/0", "SE003"));
         audioClips.Add("4", new AudioClipInfo("Sound/4", "SE004"));
