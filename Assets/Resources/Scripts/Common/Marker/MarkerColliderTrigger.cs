@@ -19,7 +19,7 @@ public class MarkerColliderTrigger : MarkerBase
 	{
 		base.MarkerInitialize();
 		MoveMakerPoint();
-		currentMarker = 1;
+		currentMarker = 0;
 	}
     
     private void MoveMakerPoint()
