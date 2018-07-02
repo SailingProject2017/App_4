@@ -12,7 +12,7 @@ using UnityEngine;
 public class EffectManager : BaseObjectSingleton<EffectManager> {
 
     [SerializeField]
-    private GameObject[] EffectObject; // 再生をしたいエフェクトを格納する配列
+    private GameObject[] effectObject; // 再生をしたいエフェクトを格納する配列
 
     private class EffectInfo
     {
@@ -28,7 +28,7 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
         }
     }
 
-    Dictionary<string, EffectInfo> effectClips;
+    private Dictionary<string, EffectInfo> effectClips;
 
     /// <summary>
     /// @brief エフェクトの初期化関数
@@ -37,8 +37,8 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
     {
         effectClips = new Dictionary<string, EffectInfo>();
    
-        effectClips.Add("Tap", new EffectInfo("TapEffect", EffectObject[(int)eEffectType.eTap_Effect]));
-        effectClips.Add("PassedMarker", new EffectInfo("PassedMarkerEffect", EffectObject[(int)eEffectType.ePassedMarker_Effect]));
+        effectClips.Add("Tap", new EffectInfo("TapEffect", effectObject[(int)eEffectType.eTap_Effect]));
+        effectClips.Add("PassedMarker", new EffectInfo("PassedMarkerEffect", effectObject[(int)eEffectType.ePassedMarker_Effect]));
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
         {
             return;
         }
-            // エフェクトオブジェクトを生成し一定時間後に削除する
-            Destroy(Instantiate(effectClips[effectName].effectObject, EffectPosition, EffectRotate), 1.2f);
+        // エフェクトオブジェクトを生成し一定時間後に削除する
+        Destroy(Instantiate(effectClips[effectName].effectObject, EffectPosition, EffectRotate), 1.2f);
     }
 
     /// <summary>

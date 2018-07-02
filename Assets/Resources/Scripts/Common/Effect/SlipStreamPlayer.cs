@@ -12,25 +12,25 @@ using UnityEngine;
 public class SlipStreamPlayer : BaseObject {
 
     [SerializeField]
-    private GameObject WindParticle; // 生成するパーティクルオブジェクトを格納する
+    private GameObject windParticle; // 生成するパーティクルオブジェクトを格納する
 
     [SerializeField]
-    private GameObject ParentObject; // 親としたいオブジェクトを格納する
+    private GameObject parentObject; // 親としたいオブジェクトを格納する
 
-    private GameObject WindObject;
+    private GameObject windObject;
 
-    private bool WindActive; // エフェクトのアクティブ状態を管理する変数
+    private bool windActive; // エフェクトのアクティブ状態を管理する変数
 
     /// <summary>
     /// @brief 風エフェクトの再生
     /// </summary>
     private void PlayWindEffect()
     {       
-        if (Singleton<GameInstance>.instance.IsShipMove && !WindActive)
+        if (Singleton<GameInstance>.instance.IsShipMove && !windActive)
         {
-            WindObject = (GameObject)New(WindParticle);
-            WindActive = true;
-            WindObject.transform.parent = ParentObject.transform;
+            windObject = (GameObject)New(windParticle);
+            windActive = true;
+            windObject.transform.parent = parentObject.transform;
         }
     }
 
@@ -41,13 +41,13 @@ public class SlipStreamPlayer : BaseObject {
     {
         if (Singleton<GameInstance>.instance.IsGoal)
         {
-            Delete(WindObject);
+            Delete(windObject);
         }
     }
 
     public void Start()
     {
-        WindActive = false;
+        windActive = false;
     }
 
     public void Update()

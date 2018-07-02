@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class SplashEffectPlayer : BaseObject {
 
-    private ParticleSystem SplashParticle;
+    private ParticleSystem splashParticle;
 
     /// <summary>
     /// @brief 水しぶきエフェクトの再生
@@ -20,7 +20,7 @@ public class SplashEffectPlayer : BaseObject {
     {
         if (Singleton<GameInstance>.instance.IsShipMove)
         {
-            SplashParticle.Play();
+            splashParticle.Play();
         }
     }
 
@@ -31,14 +31,14 @@ public class SplashEffectPlayer : BaseObject {
     {
         if (Singleton<GameInstance>.instance.IsGoal)
         {
-            Delete(SplashParticle);
+            Delete(splashParticle);
         }
     }
 
     public void Start()
     {
-        SplashParticle = this.GetComponent<ParticleSystem>();
-        SplashParticle.Stop();
+        splashParticle = this.GetComponent<ParticleSystem>();
+        splashParticle.Stop();
     }
 
 	public void Update()
