@@ -22,9 +22,8 @@ public class ShipStates
     /// </summary>
     public eCameraMode CameraMode
     {
-        get { return cameraPerspective; }
-        set
-        { cameraPerspective = value; }
+        get { return  cameraPerspective; }
+        set { cameraPerspective = value; }
     }
 }
 
