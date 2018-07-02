@@ -3,7 +3,7 @@
 ***************************************************************************************
 @brief      クリアタイムを測る
 *********************************************************************************************
-* @note       2018-06-28 制作
+* @note     2018-06-28 制作
 *********************************************************************************************
 * @author   Tsuchida Shun
 *********************************************************************************************/
@@ -13,11 +13,9 @@ using UnityEngine;
 
 class TimeManager : BaseObject
 {
-	// variable
-	private bool onTimer;						// タイマーの更新フラグ
-	[SerializeField] private float millTime;	// 経過時間
-	
-	// Getter
+	[SerializeField] private bool onTimer;      // タイマーの更新フラグ
+	[SerializeField] private float millTime;    // 経過時間
+
 	/// <summary>
 	/// @get タイマーの経過時間（ミリ秒）を取得する
 	/// </summary>
@@ -26,25 +24,36 @@ class TimeManager : BaseObject
 		get { return millTime; }
 	}
 
-	// Function
-	/// <summary>
-	/// @brief タイマーを0に初期化します。
-	/// </summary>
-	public void ResetTimer() { millTime = 0; }
-	/// <summary>
-	/// @brief タイマー更新のオンオフを切り替えます。
-	/// </summary>
-	public void TimerSwich() { onTimer = !onTimer; }
 	/// <summary>
 	/// @brief TimerResetを呼び出します。
 	/// </summary>
-	void Start()
+	private void Start()
 	{
 		ResetTimer();
 	}
+
+	/// <summary>
+	/// @brief タイマーを0に初期化します。
+	/// </summary>
+	public void ResetTimer()
+	{
+		millTime = 0;
+	}
+
+	/// <summary>
+	/// @brief タイマー更新のオンオフを切り替えます。
+	/// </summary>
+	public void TimerSwich()
+	{
+		onTimer = !onTimer;
+	}
+
 	/// <summary>
 	/// @brief タイマーがオンの時だけ更新します
 	/// </summary>
-	public override void OnUpdate() { if (onTimer) { millTime += Time.deltaTime; } }
+	public override void OnUpdate()
+	{
+		if (onTimer) { millTime += Time.deltaTime; }
+	}
 }
 

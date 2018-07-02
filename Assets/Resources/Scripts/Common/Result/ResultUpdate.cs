@@ -13,10 +13,9 @@ using UnityEngine.UI;
 
 public class ResultUpdate : BaseObject
 {
-
-	[SerializeField] private Text rankText;           // @brief プレイヤーの順位テキスト
-	[SerializeField] private Text[] nameText;         // @brief 名前テキスト
-	[SerializeField] private Text[] timeText;         // @brief タイムテキスト
+	[SerializeField] private Text rankText;           // プレイヤーの順位テキスト
+	[SerializeField] private Text[] nameText;         // 名前テキスト
+	[SerializeField] private Text[] timeText;         // タイムテキスト
 
 	//仮構造体
 	public struct ResultData
@@ -25,16 +24,14 @@ public class ResultUpdate : BaseObject
 		public string name;
 	}
 
-	private ResultData[] resultDatas;   // @brief 各プレイヤーのリザルトデータ
-	private int playerRank;             // @brief プレイヤーの順位
+	private ResultData[] resultDatas;   // 各プレイヤーのリザルトデータ
+	private int playerRank;             // プレイヤーの順位
 
 	public void Start()
 	{
-
 		TestData();
-		RankTextUpdate();
-		ResultTextUpdate();
-
+		RankTextReflect();
+		ResultTextReflect();
 	}
 
 	/// <summary>
@@ -42,18 +39,15 @@ public class ResultUpdate : BaseObject
 	/// </summary>
 	/// <param name="argDatas"></param>
 	/// <param name="rank"></param>
-	public void SetResultData(ResultData[] argDatas, int rank)
+	public void SetResultData(ResultData[] argDatas, int argRank)
 	{
-
 		resultDatas = argDatas;
-		playerRank = rank;
-
+		playerRank = argRank;
 	}
 
-	//テストデータ
-	public void TestData()
+	// テストデータ
+	private void TestData()
 	{
-
 		playerRank = 1;
 		resultDatas = new ResultData[4];
 		resultDatas[0].time = 250000;
@@ -64,13 +58,12 @@ public class ResultUpdate : BaseObject
 		resultDatas[2].name = "Player3";
 		resultDatas[3].time = 250001;
 		resultDatas[3].name = "Player4";
-
 	}
 
 	/// <summary>
 	/// @brief  順位によって色と序数を変更する関数
 	/// </summary>
-	public void RankTextUpdate()
+	private void RankTextReflect()
 	{
 		string[] ordinalNumber = { "st", "nd", "rd", "th" };    // @brief 数字の後に付く序数(?)
 
@@ -81,26 +74,22 @@ public class ResultUpdate : BaseObject
             new Color(196f / 255f, 112f / 255f,  34f / 255f),   //銅
             new Color(  0f / 255f,   0f / 255f,   0f / 255f),   //黒
         };
-
 		rankText.color = rankColor[playerRank - 1];
 		rankText.text = playerRank.ToString() + ordinalNumber[playerRank - 1];
-
 	}
 
 	/// <summary>
 	/// テキストにプレイヤーの名前とタイムを入れる関数
 	/// タイムは分、秒、ミリ秒に分割
 	/// </summary>
-	public void ResultTextUpdate()
+	private void ResultTextReflect()
 	{
-
 		int milliSecond;    // @brief ミリ秒
 		int second;         // @brief 秒
 		int minute;         // @brief 分
 
 		for (int i = 0; i < timeText.Length; i++)
 		{
-
 			nameText[i].text = resultDatas[i].name;
 
 			milliSecond = (int)(resultDatas[i].time % 1000);
@@ -108,9 +97,7 @@ public class ResultUpdate : BaseObject
 			minute = (int)(resultDatas[i].time / 1000 / 60);
 
 			timeText[i].text = minute.ToString("00") + ":" + second.ToString("00") + ":" + milliSecond.ToString("000");
-
 		}
 
 	}
-
 }

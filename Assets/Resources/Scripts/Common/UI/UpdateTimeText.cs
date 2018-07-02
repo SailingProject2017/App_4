@@ -1,5 +1,5 @@
 ﻿/**************************************************************************************/
-/*! @file   TimeGet_to_Text.cs
+/*! @file   UpdateTimeText.cs
 ***************************************************************************************
 @brief      TimeManagerのタイムを取得して、テキストに反映させます
 *********************************************************************************************
@@ -13,24 +13,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Get_to_Text : BaseObject
+public class UpdateTimeText : BaseObject
 {
-
-	[SerializeField] Text text;         // タイマーの時間を反映させたいテキスト
-	[SerializeField] GameObject obj;    // テキストに反映させたい、TimeManagerの入ったオブジェクト
-	TimeManager script;                 // objのTimeManagerをアタッチする。
+	[SerializeField] private Text text;         // タイマーの時間を反映させたいテキスト
+	[SerializeField] private GameObject obj;    // テキストに反映させたい、TimeManagerの入ったオブジェクト
+	private TimeManager script;                 // objに入っているTimeManagerをアタッチする。
 
 	/// <summary>
 	/// @brief objのTimeManagerをアタッチします
 	/// </summary>
-	private void Start() { script = obj.GetComponent<TimeManager>(); }
+	private void Start()
+	{
+		script = obj.GetComponent<TimeManager>();
+	}
+
 	/// <summary>
 	/// @brief TimeManagerのMillTimeを取得してテキストに代入します。
 	/// </summary>
-	public void UpdateText() { text.text = script.MillTime.ToString(); }
+	public void UpdateText()
+	{
+		text.text = script.MillTime.ToString();
+	}
 
 	/// <summary>
 	/// @brief UpdateTextを呼びます。
 	/// </summary>
-	public override void OnUpdate() { UpdateText(); }
+	public override void OnUpdate()
+	{
+		UpdateText();
+	}
 }
