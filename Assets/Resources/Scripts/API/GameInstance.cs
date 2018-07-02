@@ -181,6 +181,7 @@ public class Selectable<T>
 
     /// <summary>
     /// @brief 値が変更されたときに呼び出されます
+    /// @none  イベントを使用しなかった時のコンパイル時の警告を抑制する
     /// </summary>
 #pragma warning disable 0067
     public Action<T> _changed;

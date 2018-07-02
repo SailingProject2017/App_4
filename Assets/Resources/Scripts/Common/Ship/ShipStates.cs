@@ -1,13 +1,17 @@
-﻿using System;
+﻿/**********************************************************************************************/
+/*@file       ShipStates.cs
+*********************************************************************************************
+* @brief      船に関連する列挙
+*********************************************************************************************
+* @author     yuta takatsu
+*********************************************************************************************
+* Copyright © 2018 Ryo Sugiyama All Rights Reserved.
+**********************************************************************************************/
+using System;
 
 [Serializable()]
 public class ShipStates
 {
-
-    public System.Action _callBack = () =>
-    {
-        
-    };
 
     private eCameraMode cameraPerspective; // @brief 視点の状態を保持
 
@@ -20,28 +24,24 @@ public class ShipStates
     {
         get { return cameraPerspective; }
         set
-        {
-            if (value != cameraPerspective)
-            {
-                // コールバック実行
-                //changeCamera.CameraSelect();
-                
-            }
-            cameraPerspective = value;
-        }
+        { cameraPerspective = value; }
     }
 }
 
 #region 列挙体の宣言
 
-// 船の状態
+/// <summary>
+/// @brief 移動に関する列挙
+/// </summary>
 public enum eShipState
 {
     STOP, // 止まっている
     START // 動いている
 }
 
-// 船の操作方法
+/// <summary>
+/// @brief 操作方法に関する列挙
+/// </summary>
 public enum eShipController
 {
     SWIPE, // スワイプ操作
