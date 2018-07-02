@@ -22,13 +22,20 @@ public class ResultUpdate : BaseObject
 	{
 		public float time;
 		public string name;
+
+		public ResultData(float tt, string ss)
+		{
+			time = tt;
+			name = ss;
+		}
 	}
 
-	private ResultData[] resultDatas;   // 各プレイヤーのリザルトデータ
+	List<ResultData> resultDatas;
 	private int playerRank;             // プレイヤーの順位
 
 	public void Start()
 	{
+		resultDatas = new List<ResultData>();
 		TestData();
 		RankTextReflect();
 		ResultTextReflect();
@@ -39,9 +46,9 @@ public class ResultUpdate : BaseObject
 	/// </summary>
 	/// <param name="argDatas"></param>
 	/// <param name="rank"></param>
-	public void SetResultData(ResultData[] argDatas, int argRank)
+	public void SetResultData(ResultData argData , int argRank)
 	{
-		resultDatas = argDatas;
+		resultDatas.Add(argData);
 		playerRank = argRank;
 	}
 
@@ -49,15 +56,10 @@ public class ResultUpdate : BaseObject
 	private void TestData()
 	{
 		playerRank = 1;
-		resultDatas = new ResultData[4];
-		resultDatas[0].time = 250000;
-		resultDatas[0].name = "PLayer1";
-		resultDatas[1].time = 249999;
-		resultDatas[1].name = "Player2";
-		resultDatas[2].time = 249998;
-		resultDatas[2].name = "Player3";
-		resultDatas[3].time = 250001;
-		resultDatas[3].name = "Player4";
+		resultDatas.Add(new ResultData(250000, "Player1"));
+		resultDatas.Add(new ResultData(250000, "Player2"));
+		resultDatas.Add(new ResultData(250000, "Player3"));
+		resultDatas.Add(new ResultData(250000, "Player4"));
 	}
 
 	/// <summary>
