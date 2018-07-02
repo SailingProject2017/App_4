@@ -9,8 +9,10 @@
 **********************************************************************************************/
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ResultOpen : BaseObject {
+public class ResultOpen : BaseObject 
+{
 
     [SerializeField]
     private GameObject resultPopup; // @brief Resultのインスタンス化
@@ -22,20 +24,39 @@ public class ResultOpen : BaseObject {
         isCallOnse = false;
     }
 
-	public void Update()
+    public void Update()
     {
+        //base.OnUpdate();
+
         if (!isCallOnse)
         {
             if (Singleton<GameInstance>.instance.IsGoal == true)
             {
 
                 Singleton<GameInstance>.instance.IsGoal = false;
-
-                PopupResult result = resultPopup.GetComponent<PopupResult>();
-                result.Open();
+                if (SceneManager.GetActiveScene().name == "InTutorial")
+                {
+                    PopupResult result = resultPopup.GetComponent<PopupResult>();
+                    result.Open();
+                }
+                else if(SceneManager.GetActiveScene().name == "InGame")
+                {
+                    Singleton<ShipStates>.instance.CameraMode = eCameraMode.GOAL;
+                    StartCoroutine(InGameResult());
+                }
                 isCallOnse = true;
 
             }
         }
+    }
+
+    public IEnumerator InGameResult()
+    {
+
+        yield return new WaitForSeconds(5.0f);
+        PopupResult result = resultPopup.GetComponent<PopupResult>();
+        result.Open();
+        Singleton<GameInstance>.instance.IsShipMove = true;
+
     }
 }
