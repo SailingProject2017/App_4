@@ -13,8 +13,8 @@ using UnityEngine;
 
 class TimeManager : BaseObject
 {
-	[SerializeField] private bool onTimer;      // タイマーの更新フラグ
-	[SerializeField] private float millTime;    // 経過時間
+	[SerializeField] private bool onTimer;      // @brief タイマーの更新フラグ
+	[SerializeField] private float millTime;    // @brief 経過時間
 
 	/// <summary>
 	/// @get タイマーの経過時間（ミリ秒）を取得する

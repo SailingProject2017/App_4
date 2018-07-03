@@ -15,9 +15,9 @@ using UnityEngine.UI;
 
 public class UpdateTimeText : BaseObject
 {
-	[SerializeField] private Text text;         // タイマーの時間を反映させたいテキスト
-	[SerializeField] private GameObject obj;    // テキストに反映させたい、TimeManagerの入ったオブジェクト
-	private TimeManager script;                 // objに入っているTimeManagerをアタッチする。
+	[SerializeField] private Text text;         // @brief タイマーの時間を反映させたいテキスト
+	[SerializeField] private GameObject obj;    // @brief テキストに反映させたい、TimeManagerの入ったオブジェクト
+	private TimeManager script;                 // @brief objに入っているTimeManagerをアタッチする。
 
 	/// <summary>
 	/// @brief objのTimeManagerをアタッチします

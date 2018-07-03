@@ -13,9 +13,9 @@ using UnityEngine.UI;
 
 public class ResultUpdate : BaseObject
 {
-	[SerializeField] private Text rankText;           // プレイヤーの順位テキスト
-	[SerializeField] private Text[] nameText;         // 名前テキスト
-	[SerializeField] private Text[] timeText;         // タイムテキスト
+	[SerializeField] private Text rankText;           // @brief プレイヤーの順位テキスト
+	[SerializeField] private Text[] nameText;         // @brief 名前テキスト
+	[SerializeField] private Text[] timeText;         // @brief タイムテキスト
 
 	//仮構造体
 	public struct ResultData
@@ -31,7 +31,7 @@ public class ResultUpdate : BaseObject
 	}
 
 	List<ResultData> resultDatas;
-	private int playerRank;             // プレイヤーの順位
+	private int playerRank;             // @brief プレイヤーの順位
 
 	public void Start()
 	{
