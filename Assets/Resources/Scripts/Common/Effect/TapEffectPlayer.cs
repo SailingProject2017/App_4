@@ -12,7 +12,7 @@ using UnityEngine;
 public class TapEffectPlayer : BaseObject {
 
     [SerializeField]
-    private Camera camera; // エフェクトを表示するカメラ
+    private Camera camera; // @brief エフェクトを表示するカメラ
 
     /// <summary>
     /// @brief タップエフェクトの再生

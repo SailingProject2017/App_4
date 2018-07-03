@@ -12,15 +12,19 @@ using UnityEngine;
 public class EffectManager : BaseObjectSingleton<EffectManager> {
 
     [SerializeField]
-    private GameObject[] effectObject; // 再生をしたいエフェクトを格納する配列
+    private GameObject[] effectObject; // @brief 再生をしたいエフェクトを格納する配列
 
     private class EffectInfo
     {
 
-        public string resourceName;
-        public GameObject effectObject;
+        public string resourceName; // @brief エフェクトの名前
+        public GameObject effectObject; // @brief 生成したいエフェクト
         
-        // コンストラクタ
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="resourceName"></param>
+        /// <param name="effectObject"></param>
         public EffectInfo(string resourceName, GameObject effectObject)
         {
             this.resourceName = resourceName;
@@ -28,7 +32,7 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
         }
     }
 
-    private Dictionary<string, EffectInfo> effectClips;
+    private Dictionary<string, EffectInfo> effectClips; // @brief エフェクトをまとめるディクショナリ
 
     /// <summary>
     /// @brief エフェクトの初期化関数

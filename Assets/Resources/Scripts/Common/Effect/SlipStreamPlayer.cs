@@ -12,14 +12,14 @@ using UnityEngine;
 public class SlipStreamPlayer : BaseObject {
 
     [SerializeField]
-    private GameObject windParticle; // 生成するパーティクルオブジェクトを格納する
+    private GameObject windParticle; // @brief 生成するパーティクルオブジェクトを格納する
 
     [SerializeField]
-    private GameObject parentObject; // 親としたいオブジェクトを格納する
+    private GameObject parentObject; // @brief 親としたいオブジェクトを格納する
 
-    private GameObject windObject;
+    private GameObject windObject; // @brief 親に追従させたいオブジェクトを格納する
 
-    private bool windActive; // エフェクトのアクティブ状態を管理する変数
+    private bool windActive; // @brief エフェクトのアクティブ状態を管理する変数
 
     /// <summary>
     /// @brief 風エフェクトの再生

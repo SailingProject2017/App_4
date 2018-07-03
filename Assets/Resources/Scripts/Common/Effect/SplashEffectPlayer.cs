@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class SplashEffectPlayer : BaseObject {
 
-    private ParticleSystem splashParticle;
+    private ParticleSystem splashParticle; // @brief 生成したいパーティクルを格納する
 
     /// <summary>
     /// @brief 水しぶきエフェクトの再生
