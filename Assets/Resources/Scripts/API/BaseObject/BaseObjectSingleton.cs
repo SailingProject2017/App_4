@@ -23,9 +23,9 @@ public class BaseObjectSingleton<T> : BaseObject where T : BaseObjectSingleton<T
         get { return instance; }
     }
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
         if (CheckInstance() == true)
         {
             RemoveObjectToList(this);

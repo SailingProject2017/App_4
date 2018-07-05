@@ -17,9 +17,9 @@ public class AppendStageObject : BaseObject
     [SerializeField]
     private eStageType stageType; // @brief 設定された列挙体を格納する
     
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
         //GameInstance.Instance.StageType = eStageType.Null;
     }
 

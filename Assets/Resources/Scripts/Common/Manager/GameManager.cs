@@ -35,9 +35,9 @@ public class GameManager : BaseObject
         GUILayout.Label("FPS: " + m_fps.ToString("f2"));
     }
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
         RemoveObjectToList(this);
         AppendManagerObjectToList(this);
     }

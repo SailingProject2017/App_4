@@ -24,9 +24,9 @@ public class TutorialEventManager : BaseObject{
 
 
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
         
         foreach (var index in eventList)
         {
