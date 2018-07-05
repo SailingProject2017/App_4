@@ -16,9 +16,9 @@ public class RankSpriteRender : BaseObject {
     /// <summary>
     /// @brief BaseObjectの実装
     /// </summary>
-	protected override void AppendListConstructor()
+	protected override void OnAwake()
 	{
-		base.AppendListConstructor();
+		base.OnAwake();
 		mainSpriteRender = GetComponent<SpriteRenderer>();
 	}
  

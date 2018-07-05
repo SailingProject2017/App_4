@@ -102,9 +102,9 @@ public class PopupBase : BaseObject
     }
 
     float time = float.NaN;
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
 
         if (popupWindow == null)
         {

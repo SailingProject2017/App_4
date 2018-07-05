@@ -17,9 +17,9 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
     protected string fileName;
     
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
  
         /// 全プラットフォーム対応
         /// ただしAndroidのみ 4.4以上動作

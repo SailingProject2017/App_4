@@ -77,9 +77,9 @@ public class PopupButton : BaseObject
         get { return cancel.Text; }
     }
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
     
         this.transform.SetActive(false);
 

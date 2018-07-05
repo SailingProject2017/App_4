@@ -34,9 +34,9 @@ public class DontDestroy : BaseObject
         /// @note       管理リストに登録された時によばれる
         /// @return     none
         /// </summary>
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
         if (!DontDestroyList.ContainsKey(this.gameObject.name))
         {
             DontDestroyOnLoad(this.gameObject);

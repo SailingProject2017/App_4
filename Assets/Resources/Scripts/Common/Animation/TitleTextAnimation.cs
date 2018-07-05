@@ -42,9 +42,9 @@ public class TitleTextAnimation : BaseObject
     /// <summary>
     /// @brief 初期座標をセット Typeに応じて最終座標も代入 
     /// </summary>
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
 
         if (animeType == eAnimeType.eTitle_Wind)
         {
