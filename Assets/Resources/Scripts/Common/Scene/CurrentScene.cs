@@ -83,13 +83,8 @@ public class CurrentScene : BaseObject
         //flgがfalseだったら実行
         if (flg == false)
         {
-            //    GameObject.Find("home").SetActive(true);
             GameObject.Find("title").SetActive(true);
-            //Debug.Log("さわい");
-            GameObject.Find("battlerecord").SetActive(true);
-            GameObject.Find("credit").SetActive(true);
-            GameObject.Find("configuration").SetActive(true);
-            GameObject.Find("view").SetActive(true);
+
             //flgを最後trueにしてまたシーンを取得する
             flg = true;
         }

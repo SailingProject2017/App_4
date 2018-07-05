@@ -37,7 +37,7 @@ public class CreateStageObject : BaseObject
         }
     }
 
-    public void Start()
+    public void Awake()
     {
         StageInitialize();
         CreateStage(GameInstance.Instance.StageType);

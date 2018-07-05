@@ -25,8 +25,8 @@ public class ShipController : BaseObject
     {
         base.OnUpdate();
 
-        if (Singleton<GameInstance>.instance.IsShipMove)
-        {
+        //if (Singleton<GameInstance>.instance.IsShipMove)
+        //{
 
             // 移動
             if (Input.GetKey("right"))
@@ -50,6 +50,6 @@ public class ShipController : BaseObject
             {
                 
             }
-        }
+        //}
     }
 }
