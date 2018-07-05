@@ -40,7 +40,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         isGoal = false;
         isTutorialState = false;
         maxBGMVolume = 1.0f;
-        maxBGMVolume = 1.0f;
+        maxSEVolume = 1.0f;
     }
 
     #region 読み込むステージの判定

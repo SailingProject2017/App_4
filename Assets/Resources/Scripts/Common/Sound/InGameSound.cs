@@ -13,5 +13,11 @@ public class InGameSound : BaseObject {
         Singleton<SoundPlayer>.instance.PlayBGM("Water", 0.0f, true);
         Singleton<SoundPlayer>.instance.PlayBGM("Wind", 0.0f, true);
     }
-	
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        Singleton<SoundPlayer>.instance.Update();
+    }
+
 }

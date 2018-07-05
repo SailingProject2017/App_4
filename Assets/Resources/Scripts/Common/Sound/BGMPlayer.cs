@@ -12,7 +12,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class BGMPlayer{
+class BGMPlayer
+{
 
     #region オブジェクトの宣言
     /****************************************************************************************/
@@ -27,10 +28,12 @@ class BGMPlayer{
 
     #region  状態遷移（State）を内部に持って管理するもの
     /****************************************************************************************/
-    class State {
+    class State
+    {
         protected BGMPlayer bgmPlayer;  // @brief 子クラスで使用可能なインスタンス
 
-        public State(BGMPlayer bgmPlayer) {
+        public State(BGMPlayer bgmPlayer)
+        {
             this.bgmPlayer = bgmPlayer;
         }
 
@@ -44,18 +47,24 @@ class BGMPlayer{
 
     #region 一時停止の実装
     /****************************************************************************************/
-    class Wait : State {
+    class Wait : State
+    {
         //停止
-        public Wait(BGMPlayer bgmPlayer) : base(bgmPlayer) {
+        public Wait(BGMPlayer bgmPlayer) : base(bgmPlayer)
+        {
 
         }
 
         //再生
-        public override void PlayBGM() {
+        public override void PlayBGM()
+        {
 
-            if(bgmPlayer.fadeInTime > 0.0f) {
+            if (bgmPlayer.fadeInTime > 0.0f)
+            {
                 bgmPlayer.state = new FadeIn(bgmPlayer);
-            } else {
+            }
+            else
+            {
                 bgmPlayer.state = new Playing(bgmPlayer);
             }
         }
@@ -65,24 +74,26 @@ class BGMPlayer{
 
     #region ポーズの実装
     /****************************************************************************************/
-    class Pause : State {
+    class Pause : State
+    {
 
         State preState;
 
-        public Pause(BGMPlayer bgmPlayer, State argPreState) : base(bgmPlayer) {
-
-
+        public Pause(BGMPlayer bgmPlayer, State argPreState) : base(bgmPlayer)
+        {
             preState = argPreState;
             bgmPlayer.source.Pause();
-            
+
         }
 
-        public override void StopBGM() {
+        public override void StopBGM()
+        {
             bgmPlayer.source.Stop();
             bgmPlayer.state = new Wait(bgmPlayer);
         }
 
-        public override void PlayBGM() {
+        public override void PlayBGM()
+        {
             bgmPlayer.state = preState;
             bgmPlayer.source.Play();
         }
@@ -93,22 +104,25 @@ class BGMPlayer{
 
     #region    再生の実装
     /****************************************************************************************/
-    class Playing : State {
+    class Playing : State
+    {
 
-        public Playing(BGMPlayer bgmPlayer) : base(bgmPlayer) {
-
-            if(bgmPlayer.source.isPlaying == false) {
+        public Playing(BGMPlayer bgmPlayer) : base(bgmPlayer)
+        {
+            if (bgmPlayer.source.isPlaying == false)
+            {
                 bgmPlayer.source.volume = bgmPlayer.maxBGMVolume;
                 bgmPlayer.source.Play();
             }
-            
         }
 
-        public override void PauseBGM() {
+        public override void PauseBGM()
+        {
             bgmPlayer.state = new Pause(bgmPlayer, this);
         }
 
-        public override void StopBGM() {
+        public override void StopBGM()
+        {
             bgmPlayer.state = new FadeOut(bgmPlayer);
         }
     }
@@ -117,33 +131,36 @@ class BGMPlayer{
 
     #region    フェードインの実装
     /****************************************************************************************/
-    class FadeIn : State {
+    class FadeIn : State
+    {
 
         private float time = 0.0f;
 
-        public FadeIn(BGMPlayer bgmPlayer) : base(bgmPlayer) {
-
-
+        public FadeIn(BGMPlayer bgmPlayer) : base(bgmPlayer)
+        {
             bgmPlayer.source.Play();
             bgmPlayer.source.volume = 0.0f;
-           
         }
 
-        public override void PauseBGM() {
+        public override void PauseBGM()
+        {
             bgmPlayer.state = new Pause(bgmPlayer, this);
         }
 
-        public override void StopBGM() {
+        public override void StopBGM()
+        {
             bgmPlayer.state = new FadeOut(bgmPlayer);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
 
             time += Time.deltaTime;
 
             bgmPlayer.source.volume = time / bgmPlayer.fadeInTime;
 
-            if(time >= bgmPlayer.fadeInTime) {
+            if (time >= bgmPlayer.fadeInTime)
+            {
                 bgmPlayer.source.volume = bgmPlayer.maxBGMVolume;
                 bgmPlayer.state = new Playing(bgmPlayer);
             }
@@ -153,28 +170,33 @@ class BGMPlayer{
 
     #region    フェードアウトの実装
     /****************************************************************************************/
-    class FadeOut : State {
+    class FadeOut : State
+    {
 
         private float initVolume;
         private float time = 0.0f;
 
-        public FadeOut(BGMPlayer bgmPlayer) : base(bgmPlayer) {
+        public FadeOut(BGMPlayer bgmPlayer) : base(bgmPlayer)
+        {
 
-            
+
             initVolume = bgmPlayer.source.volume;
 
         }
 
-        public override void PauseBGM() {
+        public override void PauseBGM()
+        {
             bgmPlayer.state = new Pause(bgmPlayer, this);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
 
             time += Time.deltaTime;
             bgmPlayer.source.volume = initVolume * (bgmPlayer.maxBGMVolume - time / bgmPlayer.fadeOutTime);
 
-            if(time >= bgmPlayer.fadeOutTime) {
+            if (time >= bgmPlayer.fadeOutTime)
+            {
                 bgmPlayer.source.volume = 0.0f;
                 bgmPlayer.source.Stop();
                 bgmPlayer.state = new Wait(bgmPlayer);
@@ -188,10 +210,12 @@ class BGMPlayer{
     /****************************************************************************************/
     public BGMPlayer() { }
 
-    public BGMPlayer(string bgmFileName) {
+    public BGMPlayer(string bgmFileName)
+    {
         AudioClip clip = (AudioClip)Resources.Load(bgmFileName);
 
-        if(clip != null) {
+        if (clip != null)
+        {
             //BaseObjectを継承していたせいでnullになっていた
             obj = new GameObject("BGMPlayer");
             source = obj.AddComponent<AudioSource>();
@@ -200,20 +224,26 @@ class BGMPlayer{
         }
     }
 
-    public void destory() {
-        if(source != null) {
+    public void destory()
+    {
+        if (source != null)
+        {
             GameObject.Destroy(obj);
         }
     }
 
-    public void PlayBGM() {
-        if(source != null) {
+    public void PlayBGM()
+    {
+        if (source != null)
+        {
             state.PlayBGM();
         }
     }
 
-    public void PlayBGM(float fadeTime, bool toLoop) {
-        if(source != null) {
+    public void PlayBGM(float fadeTime, bool toLoop)
+    {
+        if (source != null)
+        {
             this.fadeInTime = fadeTime;
             this.maxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume;
             source.volume = this.maxBGMVolume;
@@ -222,23 +252,32 @@ class BGMPlayer{
         }
     }
 
-    public void PauseBGM() {
-        if(source != null) {
+    public void PauseBGM()
+    {
+        if (source != null)
+        {
             state.PauseBGM();
         }
     }
 
-    public void StopBGM(float fadeTime) {
-        if(source != null) {
+    public void StopBGM(float fadeTime)
+    {
+        if (source != null)
+        {
             this.fadeOutTime = fadeTime;
             state.StopBGM();
         }
     }
 
-    public void Update() {
-        if(source != null) {
+    public void Update()
+    {
+        if (source != null)
+        {
             state.Update();
         }
+        this.maxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume;
+        source.volume = this.maxBGMVolume;
+
     }
 
     #endregion
