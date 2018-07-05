@@ -104,14 +104,14 @@ public class ShipCamera : BaseObject
         {
             Camera.main.cullingMask &= ~layerMaskShip;// 非表示
             shipCamera.transform.SetPosY(1);
-            shipCamera.transform.SetPosZ(0);
+            shipCamera.transform.SetPosZ(60);
             
         }
         if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.TPS)
         {
             Camera.main.cullingMask |= layerMaskShip; // 表示
             shipCamera.transform.SetPosY(7);
-            shipCamera.transform.SetPosZ(9);
+            shipCamera.transform.SetPosZ(69);
         }
         if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.GOAL)
         {

@@ -14,6 +14,7 @@ public class ShipStates
 {
 
     private eCameraMode cameraPerspective; // @brief 視点の状態を保持
+    private eShipState shipState;
 
     /// <summary>
     /// @brief  視点の状態を保持する変数のアクセサー
@@ -22,8 +23,20 @@ public class ShipStates
     /// </summary>
     public eCameraMode CameraMode
     {
-        get { return  cameraPerspective; }
+        get { return cameraPerspective; }
         set { cameraPerspective = value; }
+    }
+
+
+    /// <summary>
+    /// @brief  船の状態を保持する変数のアクセサー
+    /// @set    現在の状態を設定
+    /// @get    現在の設定を出力
+    /// </summary>
+    public eShipState ShipState
+    {
+        get { return shipState; }
+        set { shipState = value; }
     }
 }
 

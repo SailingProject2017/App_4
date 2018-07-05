@@ -13,21 +13,25 @@ public class ShipController : BaseObject
 {
     [SerializeField]
     private float moveSpeed = 20.0f; // @brief プレイヤーの進むスピード
-    Ray ray; // @brief レイの宣言
-   
 
-    private void Start()
+    public void Start()
     {
-        ray = new Ray(transform.position, transform.forward);
+        Singleton<ShipStates>.instance.ShipState = eShipState.START;
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
 
-        //if (Singleton<GameInstance>.instance.IsShipMove)
-        //{
 
+        if(Singleton<ShipStates>.instance.ShipState == eShipState.STOP)
+        {
+            transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+        }
+
+        if (Singleton<GameInstance>.instance.IsShipMove)
+        {
+            Singleton<ShipStates>.instance.ShipState = eShipState.START;
             // 移動
             if (Input.GetKey("right"))
             {
@@ -39,17 +43,7 @@ public class ShipController : BaseObject
             }
             transform.position -= transform.forward * moveSpeed * Time.deltaTime;
 
-            RaycastHit hitObject; // @brief レイが当たったオブジェクトを格納
-            // レイがオブジェクトに当たっていなければまっすぐ進む
-            if (Physics.Raycast(ray,out hitObject, 10.0f))
-            {
-                Debug.Log("hit!!");
-                moveSpeed = 0.0f;
-            }
-            else
-            {
-                
-            }
-        //}
+           
+        }
     }
 }
