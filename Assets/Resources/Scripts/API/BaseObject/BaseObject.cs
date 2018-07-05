@@ -141,12 +141,12 @@ public class BaseObject : MonoBehaviour
     /// <summary>
     /// @brief 管理リストに登録されたときに一度だけ呼ばれるコンストラクタのようなもの
     /// </summary>
-    protected virtual void AppendListConstructor() { return; }
+    protected virtual void OnAwake() { return; }
 
     /// <summary>
     /// @brief 管理リストから消去されるときに一度だけ呼ばれるデストラクタのようなもの
     /// </summary>
-    protected virtual void RemoveListDestructor() { return; }
+    protected virtual void OnRemoveList() { return; }
 
     #endregion
 
@@ -183,14 +183,14 @@ public class BaseObject : MonoBehaviour
     {
         if (FindObjectToList(value) != null) return;
         baseObjectLinkedList.AddLast(value);
-        value.AppendListConstructor();
+        value.OnAwake();
     }
 
     static public void AppendManagerObjectToList(BaseObject value)
     {
         if (FindManagerObjectToList(value) != null) return;
         baseObjectManagerLinkedList.AddLast(value);
-        value.AppendListConstructor();
+        value.OnAwake();
     }
 
     static public void AppendSceneObjectToList(BaseObject value)
@@ -216,7 +216,7 @@ public class BaseObject : MonoBehaviour
         if (FindObjectToList(value) != null)
         {
             baseObjectLinkedList.Remove(value);
-            value.RemoveListDestructor();
+            value.OnRemoveList();
         }
     }
 
@@ -229,7 +229,7 @@ public class BaseObject : MonoBehaviour
         if (FindManagerObjectToList(value) != null)
         {
             baseObjectManagerLinkedList.Remove(value);
-            value.RemoveListDestructor();
+            value.OnRemoveList();
         }
     }
 

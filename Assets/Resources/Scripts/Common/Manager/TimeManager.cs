@@ -9,9 +9,9 @@ class TimeManager : BaseObject
     [SerializeField]
     Text timeText;
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
         RemoveObjectToList(this);
     }
 
