@@ -13,23 +13,11 @@ using System.Collections;
 public class ShipCamera : BaseObject
 {
 
-    /// <summary>
-    /// @brief 視点を表す列挙
-    /// </summary>
-    public enum CameraMode
-    {
-        FPS,
-        TPS,
-        GOAL
-    }
-
     [SerializeField]
     private GameObject ship; // @brief 追跡する船
     [SerializeField]
     private Camera shipCamera;      // @brief 対象のカメラ
-    [SerializeField]
-    private CameraMode cameraPerspective; // @brief 視点
-
+    
     private int layerMaskShip;  // @brief 船のレイヤー
     private float distance;     // @brief 船とカメラの距離
     private float cameraHeight; // @brief カメラの高さ
@@ -38,31 +26,12 @@ public class ShipCamera : BaseObject
     
     void Start()
     {
+        Singleton<ShipStates>.instance.CameraMode = eCameraMode.TPS;
+
         layerMaskShip = 1 << LayerMask.NameToLayer("Ship"); // レイヤー情報を取得
 
-        if (cameraPerspective == CameraMode.FPS)
-        {
-            Camera.main.cullingMask &= ~layerMaskShip;// 非表示
-            shipCamera.transform.SetPosY(1);
-            shipCamera.transform.SetPosZ(0);
-        }
-        if (cameraPerspective == CameraMode.TPS)
-        {
-            Camera.main.cullingMask |= layerMaskShip; // 表示
-            shipCamera.transform.SetPosY(7);
-            shipCamera.transform.SetPosZ(9);
-        }
-        if (cameraPerspective == CameraMode.GOAL)
-        {
-            Camera.main.cullingMask |= layerMaskShip; // 表示
-            shipCamera.transform.SetPosX(-3);
-            shipCamera.transform.SetPosY(2);
-            shipCamera.transform.SetPosZ(-5);
-            shipCamera.transform.LookAt(ship.transform);
-            
-            // ゴール用カメラだけに使う固定用position
-            cameraOffset = transform.position - ship.transform.position;
-        }
+        ChangeCameraAngle(Singleton<ShipStates>.instance.CameraMode);
+        
         //平面(X,Z)での距離を取得
         distance = Vector3.Distance(
             new Vector3(ship.transform.position.x, 0, ship.transform.position.z),
@@ -74,84 +43,86 @@ public class ShipCamera : BaseObject
 
     public override void OnLateUpdate()
     {
+
+        //カメラの角度を調整
+        var newRotation = Quaternion.LookRotation(ship.transform.position - shipCamera.transform.position).eulerAngles;
+
         // ゴール用カメラ ディレイ無し
-        if (cameraPerspective == CameraMode.GOAL)
+        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.GOAL)
         {
             Vector3 goalPosition = transform.position;
             goalPosition.x = ship.transform.position.x + cameraOffset.x;
-            goalPosition.y = ship.transform.position.y + cameraOffset.y;
-            goalPosition.z = ship.transform.position.z + cameraOffset.z;
+            goalPosition.y = ship.transform.position.y + cameraOffset.y + 3.5f;
+            goalPosition.z = ship.transform.position.z + cameraOffset.z + 10f;
             transform.position = goalPosition;
+
         }
 
-        // レース中カメラ ディレイ有り
-        else
+        //カメラの位置を高さだけ、ターゲットに合わせて作成
+        var current = new Vector3(
+            shipCamera.transform.position.x,
+            ship.transform.position.y,
+            shipCamera.transform.position.z
+        );
+
+        //チェック用の位置情報を作成(バックした時にカメラが引けるようにdistance分位置を後ろにずらす)
+        var checkCurrent = current + Vector3.Normalize(current - ship.transform.position) * distance;
+
+        //カメラが到達すべきポイントを計算（もともとのターゲットとの差分から計算します）
+        var v = Vector3.MoveTowards(
+            ship.transform.position,
+            checkCurrent,
+            distance);
+
+        //カメラ位置移動(位置計算後にカメラの高さを修正）
+        shipCamera.transform.position = Vector3.Lerp(
+            current,
+            v,
+            Time.deltaTime * followSpeed
+        ) + new Vector3(0, cameraHeight, 0);
+
+        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.FPS)
         {
-            //カメラの位置を高さだけ、ターゲットに合わせて作成
-            var current = new Vector3(
-                shipCamera.transform.position.x,
-                ship.transform.position.y,
-                shipCamera.transform.position.z
-            );
-
-            //チェック用の位置情報を作成(バックした時にカメラが引けるようにdistance分位置を後ろにずらす)
-            var checkCurrent = current + Vector3.Normalize(current - ship.transform.position) * distance;
-
-            //カメラが到達すべきポイントを計算（もともとのターゲットとの差分から計算します）
-            var v = Vector3.MoveTowards(
-                ship.transform.position,
-                checkCurrent,
-                distance);
-
-            //カメラ位置移動(位置計算後にカメラの高さを修正）
-            shipCamera.transform.position = Vector3.Lerp(
-                current,
-                v,
-                Time.deltaTime * followSpeed
-            ) + new Vector3(0, cameraHeight, 0);
-
-            //カメラの角度を調整
-            var newRotation = Quaternion.LookRotation(ship.transform.position - shipCamera.transform.position).eulerAngles;
-            if (cameraPerspective == CameraMode.FPS)
-            {
-                newRotation.x = 0;
-            }
-            if (cameraPerspective == CameraMode.TPS)
-            {
-                newRotation.x = 20;
-            }
-            newRotation.z = 0;
-            shipCamera.transform.rotation = Quaternion.Slerp(shipCamera.transform.rotation, Quaternion.Euler(newRotation), 1);
+            newRotation.x = 0;
         }
+        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.TPS)
+        {
+            newRotation.x = 20;
+        }
+        newRotation.z = 0;
+        shipCamera.transform.rotation = Quaternion.Slerp(shipCamera.transform.rotation, Quaternion.Euler(newRotation), 1);
+
     }
     /// <summary>
     ///  @brief 視点の変更時に呼ぶメソッド
     ///</summary>
     /// <param name="cameraMode">変更したい視点</param>
-    private void ChangeCameraAngle(CameraMode cameraMode)
+    public void ChangeCameraAngle(eCameraMode cameraMode)
     {
 
-        if (cameraPerspective == CameraMode.FPS)
+        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.FPS)
         {
             Camera.main.cullingMask &= ~layerMaskShip;// 非表示
             shipCamera.transform.SetPosY(1);
-            shipCamera.transform.SetPosZ(0);
+            shipCamera.transform.SetPosZ(60);
+            
         }
-        if (cameraPerspective == CameraMode.TPS)
+        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.TPS)
         {
             Camera.main.cullingMask |= layerMaskShip; // 表示
             shipCamera.transform.SetPosY(7);
-            shipCamera.transform.SetPosZ(9);
+            shipCamera.transform.SetPosZ(69);
         }
-        if(cameraPerspective == CameraMode.GOAL)
+        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.GOAL)
         {
             Camera.main.cullingMask |= layerMaskShip; // 表示
             shipCamera.transform.SetPosX(-3);
             shipCamera.transform.SetPosY(2);
             shipCamera.transform.SetPosZ(-5);
             shipCamera.transform.LookAt(ship.transform);
+
+            // ゴール用カメラだけに使う固定用position
+            cameraOffset = transform.position - ship.transform.position;
         }
-
-
     }
 }

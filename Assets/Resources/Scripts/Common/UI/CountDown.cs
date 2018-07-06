@@ -33,6 +33,7 @@ public class CountDown : BaseObject
             if (!isCallOnce)
             {
                 StartCoroutine(CountDownCoroutine());
+                Singleton<ShipStates>.instance.ShipState = eShipState.STOP;
                 BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
                 isCallOnce = !isCallOnce;
             }
@@ -45,16 +46,7 @@ public class CountDown : BaseObject
         }
 
     }
-    /*
-    /// <summary>
-    /// @brief カウントダウンをスタートさせる関数
-    /// </summary>
-    public void StartCountDown()
-    {
-        Debug.Log("CountDown.cs 30");
-        StartCoroutine(CountDownCoroutine());
-    }
-    */
+    
     /// <summary>
     /// @brief カウントダウンの処理
     /// @note コルーチンを使用

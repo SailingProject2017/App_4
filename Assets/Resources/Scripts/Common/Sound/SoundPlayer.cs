@@ -13,7 +13,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Collections;
 
-public class SoundPlayer{
+public class SoundPlayer
+{
 
     GameObject soundPlayerObj;  // @brief サウンドプレイヤーオブジェクトを格納する変数
     AudioSource audioSource;    // @brief Unityのオーディオ設定関連のクラスインスタンス
@@ -22,13 +23,15 @@ public class SoundPlayer{
 
     Dictionary<string, AudioClipInfo> audioClips = new Dictionary<string, AudioClipInfo>();
 
-    class AudioClipInfo {
+    class AudioClipInfo
+    {
 
         public string resourceName;
         public string name;
         public AudioClip clip;
 
-        public AudioClipInfo(string resourceName, string name) {
+        public AudioClipInfo(string resourceName, string name)
+        {
             this.resourceName = resourceName;
             this.name = name;
         }
@@ -41,14 +44,15 @@ public class SoundPlayer{
     @note       audioClips.Add("呼び出し時の名前", new AudioClipInfo("サウンドデータのフォルダ面", "呼び出し時の名前"));
     @return     none
     */
-    public SoundPlayer() {
+    public SoundPlayer()
+    {
 
         audioClips.Add("Sea", new AudioClipInfo("Sound/Sea", "BGM001"));
         audioClips.Add("ModeSelect", new AudioClipInfo("Sound/Title", "BGM002"));
         audioClips.Add("Wind", new AudioClipInfo("Sound/wind", "BGM003"));
         audioClips.Add("Water", new AudioClipInfo("Sound/Water", "BGM004"));
         audioClips.Add("TT", new AudioClipInfo("Sound/TT", "BGM005"));
-        audioClips.Add("Bottun", new AudioClipInfo("Sound/TitleBottun", "SE001"));
+        audioClips.Add("TitleButton", new AudioClipInfo("Sound/TitleBottun", "SE001"));
         audioClips.Add("Bottun2", new AudioClipInfo("Sound/Bottun2", "SE002"));
         audioClips.Add("0", new AudioClipInfo("Sound/0", "SE003"));
         audioClips.Add("4", new AudioClipInfo("Sound/4", "SE004"));
@@ -59,19 +63,22 @@ public class SoundPlayer{
     @brief      追加したサウンドデータを再生する
     @return     指定のSE名がなければfalse / あれば再生してtrue
     */
-    public bool PlaySE(string seName) {
+    public bool PlaySE(string seName)
+    {
 
-        if(audioClips.ContainsKey(seName) == false) {
+        if (audioClips.ContainsKey(seName) == false)
+        {
             return false;
         }
 
         AudioClipInfo info = audioClips[seName];
 
         //なければロード
-        if(info.clip == null)
+        if (info.clip == null)
             info.clip = (AudioClip)Resources.Load(info.resourceName);
 
-        if(soundPlayerObj == null) {
+        if (soundPlayerObj == null)
+        {
             soundPlayerObj = new GameObject("SoundPlayer");
             audioSource = soundPlayerObj.AddComponent<AudioSource>();
         }
@@ -85,83 +92,105 @@ public class SoundPlayer{
         return true;
     }
 
-    public void PlayBGM(string bgmName, float fadeTime, bool isLoop) {
+    public void PlayBGM(string bgmName, float fadeTime, bool isLoop)
+    {
         // 現在のBGMを消去
-        if(fadeOutBGMPlayer != null) {
+        if (fadeOutBGMPlayer != null)
+        {
             fadeOutBGMPlayer.destory();
         }
 
         // 現在のBGMをフェードアウト
-        if(curBGMPlayer != null) {
+        if (curBGMPlayer != null)
+        {
             curBGMPlayer.StopBGM(fadeTime);
             fadeOutBGMPlayer = curBGMPlayer;
         }
 
         // 新しいBGMを再生
-        if(audioClips.ContainsKey(bgmName) == false) {
+        if (audioClips.ContainsKey(bgmName) == false)
+        {
             // null BGM
             curBGMPlayer = new BGMPlayer();
-        } else {
+        }
+        else
+        {
             curBGMPlayer = new BGMPlayer(audioClips[bgmName].resourceName);
             curBGMPlayer.PlayBGM(fadeTime, isLoop);
         }
 
     }
 
-    public void PlayBGM() {
+    public void PlayBGM()
+    {
 
-        if(curBGMPlayer != null) {
+        if (curBGMPlayer != null)
+        {
             curBGMPlayer.PlayBGM();
         }
 
-        if(fadeOutBGMPlayer != null) {
+        if (fadeOutBGMPlayer != null)
+        {
             fadeOutBGMPlayer.PlayBGM();
         }
 
     }
 
-    public void PauseBGM() {
+    public void PauseBGM()
+    {
 
-        if(curBGMPlayer != null) {
+        if (curBGMPlayer != null)
+        {
             curBGMPlayer.PauseBGM();
         }
 
-        if(fadeOutBGMPlayer != null) {
+        if (fadeOutBGMPlayer != null)
+        {
             fadeOutBGMPlayer.PauseBGM();
         }
 
     }
 
-    public void StopBGM(float fadeTime) {
+    public void StopBGM(float fadeTime)
+    {
 
 
-        if(curBGMPlayer != null) {
+        if (curBGMPlayer != null)
+        {
             curBGMPlayer.StopBGM(fadeTime);
         }
 
-        if(fadeOutBGMPlayer != null) {
+        if (fadeOutBGMPlayer != null)
+        {
             fadeOutBGMPlayer.StopBGM(fadeTime);
         }
 
     }
 
-    public void Pause(bool argPlaySound) {
+    public void Pause(bool argPlaySound)
+    {
 
-        if(argPlaySound) {
+        if (argPlaySound)
+        {
             PauseBGM();
-        } else {
+        }
+        else
+        {
             PlayBGM();
         }
 
     }
 
-    public void Update() {
+    public void Update()
+    {
 
-        if(curBGMPlayer != null) {
+        if (curBGMPlayer != null)
+        {
             curBGMPlayer.Update();
         }
 
-        if(fadeOutBGMPlayer != null) {
+        if (fadeOutBGMPlayer != null)
+        {
             fadeOutBGMPlayer.Update();
         }
 

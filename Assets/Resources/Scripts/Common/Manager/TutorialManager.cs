@@ -17,9 +17,9 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
     protected string fileName;
     
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
  
         /// 全プラットフォーム対応
         /// ただしAndroidのみ 4.4以上動作
@@ -37,7 +37,7 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
         }   
         
         // デバッグ用
-        CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
+        CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
        //CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
         
     }
@@ -58,36 +58,36 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
 
                 //　チュートリアルの状態をModeSelectチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
-                
+
                 break;
 
             case eTutorial.eTutorial_ModeSelect: //　モードセレクト画面チュートリアル
 
                 //　チュートリアルの状態をstraightチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_Straight);
-                
+
                 break;
 
             case eTutorial.eTutorial_Straight: //　straight
 
                 //　チュートリアルの状態をcurveチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_Curve);
-                
+
                 break;
 
             case eTutorial.eTutorial_Curve: //　curve
 
                 //　チュートリアルの状態をEndTextチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_EndText);
-                
+
                 break;
 
             case eTutorial.eTutorial_EndText: //　最後のテキスト
 
                 //　チュートリアルの状態をEndチュートリアルにして保存する
                 CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
-                
-                                break;
+
+                break;
 
             case eTutorial.eTutorial_End: //　チュートリアルがおわり
 
@@ -97,9 +97,9 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
 
                 break;
 
-                // 状態を保存する
-                CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
         }
-
+        // 状態を保存する
+        CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+     
     }
 }

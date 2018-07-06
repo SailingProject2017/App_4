@@ -37,8 +37,9 @@ public class CreateStageObject : BaseObject
         }
     }
 
-    public void Start()
+    protected override void OnAwake()
     {
+        base.OnAwake();
         StageInitialize();
         CreateStage(GameInstance.Instance.StageType);
     }

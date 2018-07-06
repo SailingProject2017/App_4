@@ -47,9 +47,9 @@ public class TutorialEvent : BaseObject {
         set;
     }
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
     }
 
     private void OnTriggerEnter(Collider other)

@@ -16,9 +16,9 @@ using Scene;
 public class NextScene : BaseObject
 {
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
     }
 
     [SerializeField]

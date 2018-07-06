@@ -19,7 +19,7 @@ public class MarkerColliderTrigger : MarkerBase
 	{
 		base.MarkerInitialize();
 		MoveMakerPoint();
-		currentMarker = 1;
+		currentMarker = 0;
 	}
     
     private void MoveMakerPoint()
@@ -49,7 +49,10 @@ public class MarkerColliderTrigger : MarkerBase
 			{
 				currentHitMarker++;
 				MoveMakerPoint();
-			}
+                
+        // エフェクトの再生
+        BaseObjectSingleton<EffectManager>.Instance.PlayEffect("PassedMarker", other.transform.position, other.transform.rotation, other.transform.localScale);
+        }
 		}
         // わかりやすくするために別でif文かけてます
 	    if(other.gameObject == hitMarkerList[currentMarker].gameObject && other.tag != "goal")

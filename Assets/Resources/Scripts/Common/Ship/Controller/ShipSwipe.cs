@@ -22,9 +22,9 @@ public class ShipSwipe : BaseObject
     private float wid, hei, diag;  // @brief スクリーンサイズ
     private float touchX, touchY; // @brief タッチされた座標を格納
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
         wid = Screen.width;
         hei = Screen.height;
         diag = Mathf.Sqrt(Mathf.Pow(wid, 2) + Mathf.Pow(hei, 2));

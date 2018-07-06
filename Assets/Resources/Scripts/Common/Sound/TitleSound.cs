@@ -12,7 +12,7 @@ public class TitleSound : BaseObject {
 
     public void OnTap()
     {
-        Singleton<SoundPlayer>.instance.PlaySE("Bottun");
+        Singleton<SoundPlayer>.instance.PlaySE("TitleButton");
     }
 
 }
