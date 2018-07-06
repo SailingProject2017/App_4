@@ -9,20 +9,21 @@ public class ModeSelectSound : BaseObject
     private float fadeTime = 0.0f;
 
 
-    private bool callOnce = false;
+    private bool callOnce;
 
 
     void Start()
     {
-        Singleton<SoundPlayer>.instance.PlayBGM("ModeSelect", fadeTime, true);
+        callOnce = false;
 
+        Singleton<SoundPlayer>.instance.PlayBGM("ModeSelect", fadeTime, true);
     }
 
     public void OnTap()
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.PlaySE("Bottun");
+            Singleton<SoundPlayer>.instance.PlaySE("TitleButton");
             callOnce = !callOnce;
         }
     }

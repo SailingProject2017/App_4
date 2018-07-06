@@ -30,10 +30,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     protected override void OnAwake()
     {
         base.OnAwake();
-        StageType = eStageType.Null;
-
-        eStageType stageType = eStageType.Null;
-
+        stageType = eStageType.Null;
         isShipMove = false;
         isPorse = false;
         isCountDown = false;
