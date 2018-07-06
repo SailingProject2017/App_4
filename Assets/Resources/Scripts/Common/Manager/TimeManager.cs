@@ -1,60 +1,59 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿/**************************************************************************************/
+/*! @file   TimeManager.cs
+***************************************************************************************
+@brief      クリアタイムを測る
+*********************************************************************************************
+* @note     2018-06-28 制作
+*********************************************************************************************
+* @author   Tsuchida Shun
+*********************************************************************************************/
+
 using System.Collections;
+using UnityEngine;
 
 class TimeManager : BaseObject
 {
-    private bool isStart;
+	[SerializeField] private bool onTimer;      // @brief タイマーの更新フラグ
+	[SerializeField] private float millTime;    // @brief 経過時間
 
-    [SerializeField]
-    Text timeText;
+	/// <summary>
+	/// @get タイマーの経過時間（ミリ秒）を取得する
+	/// </summary>
+	public float MillTime
+	{
+		get { return millTime; }
+	}
 
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        RemoveObjectToList(this);
-    }
+	/// <summary>
+	/// @brief TimerResetを呼び出します。
+	/// </summary>
+	private void Start()
+	{
+		ResetTimer();
+	}
 
-    public string GetTimeText
-    {
-        get { return timeText.text; }
-    }
+	/// <summary>
+	/// @brief タイマーを0に初期化します。
+	/// </summary>
+	public void ResetTimer()
+	{
+		millTime = 0;
+	}
 
-    private System.TimeSpan time = System.TimeSpan.Zero;
-    public System.TimeSpan GetTime
-    {
-        get { return time; }
-    }
+	/// <summary>
+	/// @brief タイマー更新のオンオフを切り替えます。
+	/// </summary>
+	public void TimerSwich()
+	{
+		onTimer = !onTimer;
+	}
 
-    public void StartTimer()
-    {
-        isStart = true;
-        time = System.TimeSpan.Zero;
-        timeText.text = "00:00:00";
-        StartCoroutine(OnTimerStart());
-    }
-  
-    public void StopTimer()
-    {
-        isStart = false;
-    }
-
-    private IEnumerator OnTimerStart()
-    {
-        System.DateTime startTime = System.DateTime.Now;
-
-        while (isStart)
-        {
-            var diff = System.DateTime.Now - startTime;
-
-            timeText.text =
-                  ((diff.Minutes <= 10) ? "0" + diff.Minutes.ToString() : diff.Minutes.ToString()) + ":"
-                + ((diff.Seconds <= 10) ? "0" + diff.Seconds.ToString() : diff.Seconds.ToString()) + ":"
-                + ((diff.Milliseconds <= 10) ? "0" + diff.Milliseconds.ToString()[0] : diff.Milliseconds.ToString()[0].ToString() + diff.Milliseconds.ToString()[1].ToString());
-
-            time = diff;
-            yield return null;
-        }
-    }
+	/// <summary>
+	/// @brief タイマーがオンの時だけ更新します
+	/// </summary>
+	public override void OnUpdate()
+	{
+		if (onTimer) { millTime += Time.deltaTime; }
+	}
 }
 

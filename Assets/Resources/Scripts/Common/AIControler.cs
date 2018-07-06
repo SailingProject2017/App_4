@@ -1,4 +1,4 @@
-﻿/*********************************************************************************************/
+﻿ /*********************************************************************************************/
 /*@file       AIControler.cs
 *********************************************************************************************
 * @brief      AIの挙動を制御するクラス
@@ -18,7 +18,7 @@ sealed public class AIControler : MarkerBase
 	/// <summary>
 	/// @brief 実行速度を速くするための座標構造体
 	/// </summary>
-	public struct Point
+	private struct Point
 	{
 		public float x, z;
 
@@ -32,7 +32,7 @@ sealed public class AIControler : MarkerBase
 	/// <summary>
 	///  @brief AIの行動の状態
 	/// </summary>
-	private enum eEnemyStatus
+	private enum eAIStatus
 	{
 		eTURNING,               // @brief 旋回 
 		eNORMAL,                // @brief 通常
@@ -46,10 +46,10 @@ sealed public class AIControler : MarkerBase
 	private float turnRad;         // @brief 旋回する角度(ラジアン値)
 	private float turnDeg;         // @brief 旋回する角度(度数値)
 
-	private eEnemyStatus enemyAIMovingType;     // @brief 状態の変更を表す
+    private eAIStatus AIMovingType;     // @brief 状態の変更を表す
     
-	private readonly Vector3 rotateL = new Vector3(0f, -1f, 0f);        // @brief 左旋回用変数
-	private readonly Vector3 rotateR = new Vector3(0f, 1f, 0f);         // @brief 右旋回用変数
+	private readonly Vector3 rotateL = new Vector3(0f, -1.5f, 0f);        // @brief 左旋回用変数
+	private readonly Vector3 rotateR = new Vector3(0f, 1.5f, 0f);         // @brief 右旋回用変数
 	private          float aISpeed = 20.0f;      // @brief AIの直進速度
 	private readonly float aITopSpeed = 21.0f;   // @brief AIの最大速度
 	private readonly float aITurnSpeed = 19.0f;  // @brief AIの旋回速度
@@ -72,7 +72,6 @@ sealed public class AIControler : MarkerBase
 		currentHitMarker = 1;
 		GetMarkerPoint();
 		GetNextTurnRad();
-		enemyAIMovingType = eEnemyStatus.eNORMAL;
 		transform.rotation = Quaternion.Euler(0, turnDeg, 0);
 	}
 
@@ -83,19 +82,21 @@ sealed public class AIControler : MarkerBase
 	{
 		base.OnUpdate();
 
+        if(Singleton<ShipStates>.instance.ShipState == eShipState.STOP)
+        {
+            transform.position -= transform.forward * aITopSpeed * Time.deltaTime;    
+        }   
+
 		if (!Singleton<GameInstance>.instance.IsShipMove) return;
 		
-		switch (enemyAIMovingType)
+		switch (AIMovingType)
 		{
-			case eEnemyStatus.eNORMAL:
-				Move();
-				break;
 
-			case eEnemyStatus.eTURNING:
+			case eAIStatus.eTURNING:
 				Turning(GetNextTurnRad());
 				break;
 
-			case eEnemyStatus.NULL:
+			case eAIStatus.NULL:
 				Move();
 				break;
 		}
@@ -158,19 +159,18 @@ sealed public class AIControler : MarkerBase
 		if (Mathf.DeltaAngle(ownRad, deg) < 0)
 		{
 			transform.Rotate(rotateL);
-			aISpeed = aITurnSpeed;
+			aISpeed = aITopSpeed;
 		}
 
 		// 右旋回
 		else if (Mathf.DeltaAngle(ownRad, deg) > 1)
 		{
 			transform.Rotate(rotateR);
-			aISpeed = aITurnSpeed;
+			aISpeed = aITopSpeed;
 		}
 		// 直進
 		else
 		{
-			enemyAIMovingType = eEnemyStatus.eNORMAL;
 			aISpeed = aITopSpeed;
 		}
 
@@ -196,18 +196,18 @@ sealed public class AIControler : MarkerBase
 		// 当たったゲームオブジェクトが、目的のマーカーの場所と一致した場合
 		if (other.gameObject == hitMarkerList[currentHitMarker].gameObject)
 		{        
-
 			// スタートとゴールが同じ場所にあった時にゴール判定にならないようにする処理
 			if (other.tag == "goal")
 			{
-				enemyAIMovingType = eEnemyStatus.NULL;
+				AIMovingType = eAIStatus.NULL;
 				isGoal = true;
+                currentHitMarker = 1;
 			}
 			else
 			{
 				// AIの状態を旋回に変更し、マーカーの参照位置を次のマーカーへ移動
-				enemyAIMovingType = eEnemyStatus.eTURNING;
-				currentHitMarker += 2;
+				AIMovingType = eAIStatus.eTURNING;
+				currentHitMarker += 1;
 			}
 		}
 

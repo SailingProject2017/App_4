@@ -17,6 +17,7 @@ public class ShipController : BaseObject
     public void Start()
     {
         Singleton<ShipStates>.instance.ShipState = eShipState.START;
+        Singleton<GameInstance>.instance.IsShipMove = false;
     }
 
     public override void OnUpdate()

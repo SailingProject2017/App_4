@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SeaSound : BaseObject {
+public class SeaSound : BaseObject
+{
 
 
 
@@ -11,23 +12,28 @@ public class SeaSound : BaseObject {
 
     private bool callOnce = false;
 
-    void Start() {
+    void Start()
+    {
         //fadeTime = 1.0f;
         Singleton<SoundPlayer>.instance.PlayBGM("Sea", fadeTime, true);
 
     }
 
-    public override void OnUpdate() {
+    public override void OnUpdate()
+    {
         base.OnUpdate();
 
         Singleton<SoundPlayer>.instance.Update();
 
     }
 
-    public void OnTap() {
-        if(!callOnce) {
-            Singleton<SoundPlayer>.instance.PlaySE("TitleBottun");
+    public void OnTap()
+    {
+        if (!callOnce)
+        {
+            Singleton<SoundPlayer>.instance.PlaySE("TitleButton");
             callOnce = !callOnce;
         }
     }
+
 }
