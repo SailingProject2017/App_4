@@ -184,7 +184,7 @@ public class Selectable<T>
     /// @none  イベントを使用しなかった時のコンパイル時の警告を抑制する
     /// </summary>
 #pragma warning disable 0067
-    public Action<T> _changed;
+    public Action<T> changed;
 #pragma warning restore 0067
 
     /// <summary>
@@ -223,12 +223,12 @@ public class Selectable<T>
     /// </summary>
     private void OnChanged(T value)
     {
-        var changed = _changed;
-        if(changed == null)
+        var onChanged = changed;
+        if(onChanged == null)
         {
             return;
         }
-        changed(value);
+        onChanged(value);
     }
 }
 

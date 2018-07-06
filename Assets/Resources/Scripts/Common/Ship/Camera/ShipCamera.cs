@@ -23,7 +23,11 @@ public class ShipCamera : BaseObject
     private float cameraHeight; // @brief カメラの高さ
     private float followSpeed = 20; // @brief カメラのディレイスピード
     private Vector3 cameraOffset = Vector3.zero; // @brief カメラの位置の初期化
-    
+
+    // eCameraMode型のtemplate 
+    Selectable<int> selectedValue = new Selectable<int>();
+
+
     void Start()
     {
         Singleton<ShipStates>.instance.CameraMode = eCameraMode.TPS;
@@ -43,6 +47,11 @@ public class ShipCamera : BaseObject
 
     public override void OnLateUpdate()
     {
+
+        // 値が変更されたときに呼び出されるコールバック関数を登録
+        selectedValue.changed += value => ChangeCameraAngle(Singleton<ShipStates>.instance.CameraMode);
+        // 値を変更 値が変わればコールバックが呼ばれる
+        selectedValue.SetValueIfNotEqual((int)Singleton<ShipStates>.instance.CameraMode);
 
         //カメラの角度を調整
         var newRotation = Quaternion.LookRotation(ship.transform.position - shipCamera.transform.position).eulerAngles;
@@ -92,6 +101,10 @@ public class ShipCamera : BaseObject
         newRotation.z = 0;
         shipCamera.transform.rotation = Quaternion.Slerp(shipCamera.transform.rotation, Quaternion.Euler(newRotation), 1);
 
+        // FPSのときは高さを固定
+        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.FPS)
+            shipCamera.transform.SetPosY(1);
+
     }
     /// <summary>
     ///  @brief 視点の変更時に呼ぶメソッド
@@ -104,8 +117,8 @@ public class ShipCamera : BaseObject
         {
             Camera.main.cullingMask &= ~layerMaskShip;// 非表示
             shipCamera.transform.SetPosY(1);
-            shipCamera.transform.SetPosZ(60);
-            
+            shipCamera.transform.SetPosZ(0);
+                        
         }
         if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.TPS)
         {

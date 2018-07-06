@@ -25,26 +25,33 @@ public class SettingMenu : BaseObject
 		activeMenu = false;
 		settingMenu.SetActive(activeMenu);
 		settingButten.SetActive(!activeMenu);
+        BaseObjectSingleton<GameInstance>.Instance.IsPorse = false;
+
     }
 
-	/// <summary>
-	/// @brief booleanを入れ替える
-	/// </summary>
-	bool ChengeBool(bool arg)
-	{
-		return !arg;
-	}
-
-	/// <summary>
-	/// @brief 設定メニューの表示非表示切り替え
-	/// </summary>
-	public void ActiveMenu()
-	{
-		activeMenu = ChengeBool(activeMenu);
-		settingMenu.SetActive(activeMenu);
-		settingButten.SetActive(!activeMenu);
-
-        // ポーズフラグの切り替え 設定画面を開いているときはポーズ中 閉じればプレイ中の状態
-        BaseObjectSingleton<GameInstance>.Instance.IsPorse= !BaseObjectSingleton<GameInstance>.Instance.IsPorse;
+    /// <summary>
+    /// @brief booleanを入れ替える
+    /// @none  船が動けないときはフラグを切り替えない
+    /// </summary>
+    bool ChengeBool(bool arg)
+    {
+        return !arg;
     }
+
+    /// <summary>
+    /// @brief 設定メニューの表示非表示切り替え
+    /// </summary>
+    public void ActiveMenu()
+    {
+        if (Singleton<GameInstance>.instance.IsShipMove)
+        {
+            activeMenu = ChengeBool(activeMenu);
+            settingMenu.SetActive(activeMenu);
+            settingButten.SetActive(!activeMenu);
+
+            // ポーズフラグの切り替え 設定画面を開いているときはポーズ中 閉じればプレイ中の状態
+            BaseObjectSingleton<GameInstance>.Instance.IsPorse = !BaseObjectSingleton<GameInstance>.Instance.IsPorse;
+        }
+    }
+   
 }
