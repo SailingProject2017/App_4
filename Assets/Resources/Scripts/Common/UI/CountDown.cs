@@ -33,6 +33,7 @@ public class CountDown : BaseObject
             if (!isCallOnce)
             {
                 StartCoroutine(CountDownCoroutine());
+                Singleton<ShipStates>.instance.ShipState = eShipState.STOP;
                 BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
                 isCallOnce = !isCallOnce;
             }

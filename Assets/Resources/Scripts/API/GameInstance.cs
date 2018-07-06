@@ -27,14 +27,14 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     private float maxBGMVolume;
     private float maxSEVolume;
 
-    protected override void AppendListConstructor()
+    protected override void OnAwake()
     {
-        base.AppendListConstructor();
+        base.OnAwake();
         StageType = eStageType.Null;
 
         eStageType stageType = eStageType.Null;
 
-        isShipMove = true;
+        isShipMove = false;
         isPorse = false;
         isCountDown = false;
         isGoal = false;
