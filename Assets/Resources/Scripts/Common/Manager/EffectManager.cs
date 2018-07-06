@@ -14,7 +14,7 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
     [SerializeField]
     private GameObject[] effectObject; // @brief 再生をしたいエフェクトを格納する配列
 
-    GameObject spawnObject; // @brief 生成されたオブジェクトを格納する
+    private GameObject spawnObject; // @brief 生成されたオブジェクトを格納する
 
     private class EffectInfo
     {
@@ -25,8 +25,8 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        /// <param name="resourceName"></param>
-        /// <param name="effectObject"></param>
+        /// <param name="resourceName"> エフェクトの名前 </param>
+        /// <param name="effectObject"> エフェクトのオブジェクト </param>
         public EffectInfo(string resourceName, GameObject effectObject)
         {
             this.resourceName = resourceName;
@@ -50,10 +50,10 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
     /// <summary>
     /// @brief エフェクトの再生関数
     /// </summary>
-    /// <param name="effectName"></param>
-    /// <param name="effectPosition"></param>
-    /// <param name="effectRotate"></param>
-    /// <param name="effectScale"></param>
+    /// <param name="effectName"> エフェクトの名前 </param>
+    /// <param name="effectPosition"> 生成させる場所 </param>
+    /// <param name="effectRotate"> 生成させる場所の角度 </param>
+    /// <param name="effectScale"> 生成される大きさ </param>
     public void PlayEffect(string effectName, Vector3 effectPosition, Quaternion effectRotate, Vector3? effectScale = null)
     {
         if(effectClips.ContainsKey(effectName) == false)
