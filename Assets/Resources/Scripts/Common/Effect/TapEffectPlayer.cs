@@ -19,12 +19,12 @@ public class TapEffectPlayer : BaseObject {
     /// </summary>
     private void PlayTapEffect()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !Singleton<GameInstance>.instance.IsShipMove)
         {
             Debug.Log("Click!");
-            var pos = camera.ScreenToWorldPoint(Input.mousePosition + camera.transform.forward * -5);
+            var pos = camera.ScreenToWorldPoint(Input.mousePosition + camera.transform.forward * 5);
             // エフェクトの再生
-            BaseObjectSingleton<EffectManager>.Instance.PlayEffect("Tap", pos, Quaternion.Euler(64, 0, 0));
+            BaseObjectSingleton<EffectManager>.Instance.PlayEffect("Tap", pos, Quaternion.Euler(90 - camera.transform.localScale.x, 0, 0));
         }
     }
    

@@ -18,7 +18,7 @@ public class SplashEffectPlayer : BaseObject {
     /// </summary>
     private void PlaySplashEffect()
     {
-        if (Singleton<GameInstance>.instance.IsShipMove)
+        if (Singleton<GameInstance>.instance.IsShipMove && !Singleton<GameInstance>.instance.IsGoal)
         {
             splashParticle.Play();
         }
@@ -31,7 +31,7 @@ public class SplashEffectPlayer : BaseObject {
     {
         if (Singleton<GameInstance>.instance.IsGoal)
         {
-            Delete(splashParticle);
+            splashParticle.Stop();
         }
     }
 
