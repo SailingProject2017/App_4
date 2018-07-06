@@ -14,6 +14,8 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
     [SerializeField]
     private GameObject[] effectObject; // @brief 再生をしたいエフェクトを格納する配列
 
+    private GameObject spawnObject; // @brief 生成されたオブジェクトを格納する
+
     private class EffectInfo
     {
 
@@ -23,8 +25,8 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        /// <param name="resourceName"></param>
-        /// <param name="effectObject"></param>
+        /// <param name="resourceName"> エフェクトの名前 </param>
+        /// <param name="effectObject"> エフェクトのオブジェクト </param>
         public EffectInfo(string resourceName, GameObject effectObject)
         {
             this.resourceName = resourceName;
@@ -48,16 +50,23 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
     /// <summary>
     /// @brief エフェクトの再生関数
     /// </summary>
-    /// <param name="effectName"></param>
-    /// <param name="EffectPosition"></param>
-    public void PlayEffect(string effectName, Vector3 EffectPosition, Quaternion EffectRotate)
+    /// <param name="effectName"> エフェクトの名前 </param>
+    /// <param name="effectPosition"> 生成させる場所 </param>
+    /// <param name="effectRotate"> 生成させる場所の角度 </param>
+    /// <param name="effectScale"> 生成される大きさ </param>
+    public void PlayEffect(string effectName, Vector3 effectPosition, Quaternion effectRotate, Vector3? effectScale = null)
     {
         if(effectClips.ContainsKey(effectName) == false)
         {
             return;
         }
         // エフェクトオブジェクトを生成し一定時間後に削除する
-        Destroy(Instantiate(effectClips[effectName].effectObject, EffectPosition, EffectRotate), 1.2f);
+        Destroy(spawnObject = Instantiate(effectClips[effectName].effectObject, effectPosition, effectRotate), 1.2f);
+        // 生成されたエフェクトの大きさを変更
+        if (effectScale != null)
+        {
+            spawnObject.transform.localScale = (Vector3)effectScale;
+        }
     }
 
     /// <summary>
