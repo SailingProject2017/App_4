@@ -44,8 +44,8 @@ public class ResultUpdate : BaseObject
 	/// <summary>
 	/// @brief リザルトデータとそのプレイヤーの順位を受け取る関数
 	/// </summary>
-	/// <param name="argDatas"></param>
-	/// <param name="rank"></param>
+	/// <param name="argDatas">キャラクター情報</param>
+	/// <param name="argrank">プレイヤーの順位</param>
 	public void SetResultData(ResultData argData , int argRank)
 	{
 		resultDatas.Add(argData);
@@ -57,13 +57,13 @@ public class ResultUpdate : BaseObject
 	{
 		playerRank = 1;
 		resultDatas.Add(new ResultData(250000, "Player1"));
-		resultDatas.Add(new ResultData(250000, "Player2"));
-		resultDatas.Add(new ResultData(250000, "Player3"));
-		resultDatas.Add(new ResultData(250000, "Player4"));
+		resultDatas.Add(new ResultData(200000, "Player2"));
+		resultDatas.Add(new ResultData(150000, "Player3"));
+		resultDatas.Add(new ResultData(100000, "Player4"));
 	}
 
 	/// <summary>
-	/// @brief  順位によって色と序数を変更する関数
+	/// @brief 順位によって色と序数を変更する関数
 	/// </summary>
 	private void RankTextReflect()
 	{
@@ -81,8 +81,7 @@ public class ResultUpdate : BaseObject
 	}
 
 	/// <summary>
-	/// テキストにプレイヤーの名前とタイムを入れる関数
-	/// タイムは分、秒、ミリ秒に分割
+	/// @brief  テキストにプレイヤーの名前とタイムを入れる関数（タイムは分、秒、ミリ秒に分割）
 	/// </summary>
 	private void ResultTextReflect()
 	{
