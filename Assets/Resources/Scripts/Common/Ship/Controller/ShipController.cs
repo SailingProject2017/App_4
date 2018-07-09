@@ -20,9 +20,9 @@ public class ShipController : BaseObject
         Singleton<GameInstance>.instance.IsShipMove = false;
     }
 
-    public override void OnUpdate()
+    public override void OnFixedUpdate()
     {
-        base.OnUpdate();
+        base.OnFixedUpdate();
 
 
         if(Singleton<ShipStates>.instance.ShipState == eShipState.STOP)
@@ -36,11 +36,11 @@ public class ShipController : BaseObject
             // 移動
             if (Input.GetKey("right"))
             {
-                transform.Rotate(0, 1, 0);
+                transform.Rotate(0, 0.1f, 0);
             }
             if (Input.GetKey("left"))
             {
-                transform.Rotate(0, -1, 0);
+                transform.Rotate(0, -0.1f, 0);
             }
             transform.position -= transform.forward * moveSpeed * Time.deltaTime;
 
