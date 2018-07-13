@@ -21,6 +21,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     private bool isPorse;      // @brief ポーズ中かどうか判別する変数
     private bool isCountDown;  // @brief カウントダウンを始めるかどうか判別する変数
     private bool isGoal;       // @brief ゴールしたかの確認
+    private int  rank;
 
     /* Tutorial関連 */
     private bool isTutorialState; // @brief チュートリアルが変わったかどうかの確認
@@ -38,6 +39,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         isCountDown = false;
         isGoal = false;
         isTutorialState = false;
+        rank = 0;
         maxBGMVolume = 1.0f;
         maxSEVolume = 1.0f;
 
@@ -110,6 +112,22 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     {
         set { isGoal = value; }
         get { return isGoal; }
+    }
+
+    #endregion
+
+    #region ゴール時のランク
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief  読み込むステージを判断する変数のアクセサー
+    /// @set    none
+    /// @get    入力されたデータを渡す
+    /// </summary>
+    public int Rank
+    {
+        set { rank = value; }
+        get { return rank; }
     }
 
     #endregion

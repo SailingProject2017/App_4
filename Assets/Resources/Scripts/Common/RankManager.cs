@@ -41,6 +41,8 @@ public class RankManager : MarkerBase
 	private GameObject parentAllShipName;                                               // @brief 船オブジェクトの親のおbジェクトを格納する用の変数
 
 	private int goaledShipNum;  // @brief すでにゴールした船の総数
+    private bool allGoal;       // @brief 全ての船がゴールしたか
+    private bool callOnce;      // @brief 一度だけ呼びたい関数に使う（他にいい方法あるかも）
 
 	private RankSpriteRender rankSpriteRender;  //brief コンポーネント取得先
 
@@ -56,8 +58,11 @@ public class RankManager : MarkerBase
 		rankSpriteRender = rank.GetComponent<RankSpriteRender>();
 
 		// マーカーの個数の初期化
-		currentMarker = 0;         
+		currentMarker = 0;
 
+        // 順位の処理で使う真偽値の初期化
+        allGoal = false;
+        callOnce = false;
 
         // 船オブジェクトの取得
 		GetShipObject();
@@ -148,10 +153,19 @@ public class RankManager : MarkerBase
             if (allShip[i].markerBase.IsGoal)
             {
                 goaledShipNum++;
-
+                allGoal = true;
+            }
+            if (!allShip[i].markerBase.IsGoal)
+            {
+                allGoal = false;
+            }
+            if (allGoal && !callOnce)
+            {
                 // ゴール時の順位を保存
                 allShip[i].resultRank = allShip[i].rank;
-            }	
+                BaseObjectSingleton<GameInstance>.Instance.Rank = allShip[i].resultRank;
+                callOnce = true;
+            }
 		}
 
         // 順位を１で初期化
