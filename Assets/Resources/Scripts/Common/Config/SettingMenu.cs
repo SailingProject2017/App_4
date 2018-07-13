@@ -24,8 +24,12 @@ public class SettingMenu : BaseObject
     {
         activeMenu = false;
         settingMenu.SetActive(activeMenu);
-        settingButten.SetActive(!activeMenu);
         BaseObjectSingleton<GameInstance>.Instance.IsPorse = false;
+
+        if(Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_End)
+            settingButten.SetActive(!activeMenu);
+        else
+            settingButten.SetActive(activeMenu);
     }
 
     /// <summary>
