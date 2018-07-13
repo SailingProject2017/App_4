@@ -36,7 +36,7 @@ public class ShipCamera : BaseObject
         layerMaskShip = 1 << LayerMask.NameToLayer("Ship"); // レイヤー情報を取得
 
         ChangeCameraAngle(Singleton<ShipStates>.instance.CameraMode);
-        
+        Debug.Log(Singleton<ShipStates>.instance.CameraMode);
         //平面(X,Z)での距離を取得
         distance = Vector3.Distance(
             new Vector3(ship.transform.position.x, 0, ship.transform.position.z),
@@ -48,6 +48,7 @@ public class ShipCamera : BaseObject
 
     public override void OnLateUpdate()
     {
+        base.OnLateUpdate();
 
         // 値が変更されたときに呼び出されるコールバック関数を登録
         selectedValue.changed += selectedValue => ChangeCameraAngle(Singleton<ShipStates>.instance.CameraMode);

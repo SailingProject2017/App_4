@@ -24,9 +24,9 @@ public class ResultOpen : BaseObject
         isCallOnse = false;
     }
 
-    public void Update()
+    public override void OnUpdate()
     {
-        //base.OnUpdate();
+        base.OnUpdate();
 
         if (!isCallOnse)
         {
