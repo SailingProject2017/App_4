@@ -38,21 +38,22 @@ public class MarkerColliderTrigger : MarkerBase
 	{
 		if (hitMarkerList[currentHitMarker].gameObject == other.gameObject)
 		{
-			// goalタグのオブジェクトに接触したときに走る命令
-			if (other.tag == "goal")
-			{
-				Singleton<GameInstance>.instance.IsGoal = true; // ゲーム全体で管理しているフラグ
-				isGoal = true;                                  // ランクで管理しているフラグ
-			}
-			// markerに当たったとき次のmarkerを指すようにする
-			else
-			{
-				currentHitMarker++;
-				MoveMakerPoint();
-                
-        // エフェクトの再生
-        BaseObjectSingleton<EffectManager>.Instance.PlayEffect("PassedMarker", other.transform.position, other.transform.rotation, other.transform.localScale);
-        }
+            // goalタグのオブジェクトに接触したときに走る命令
+            if (other.tag == "goal")
+            {
+                Singleton<GameInstance>.instance.IsGoal = true; // ゲーム全体で管理しているフラグ
+                isGoal = true;                                  // ランクで管理しているフラグ
+                Singleton<SoundPlayer>.instance.PlaySE("Goal");
+            }
+            // markerに当たったとき次のmarkerを指すようにする
+            else
+            {
+                currentHitMarker++;
+                MoveMakerPoint();
+                Singleton<SoundPlayer>.instance.PlaySE("PassedMarker");
+                // エフェクトの再生
+                BaseObjectSingleton<EffectManager>.Instance.PlayEffect("PassedMarker", other.transform.position, other.transform.rotation, other.transform.localScale);
+            }
 		}
         // わかりやすくするために別でif文かけてます
 	    if(other.gameObject == hitMarkerList[currentMarker].gameObject && other.tag != "goal")

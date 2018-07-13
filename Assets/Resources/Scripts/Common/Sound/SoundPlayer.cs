@@ -57,8 +57,9 @@ public class SoundPlayer
         audioClips.Add("0", new AudioClipInfo("Sound/0", "SE003"));
         audioClips.Add("4", new AudioClipInfo("Sound/4", "SE004"));
         audioClips.Add("StartRase", new AudioClipInfo("Sound/StartRase", "SE005"));
-
-
+        audioClips.Add("PassedMarker", new AudioClipInfo("Sound/PassedMarker", "SE006"));
+        audioClips.Add("Goal", new AudioClipInfo("Sound/Goal", "SE007"));
+        audioClips.Add("Cancel", new AudioClipInfo("Sound/Cancel", "SE008"));
     }
 
     /****************************************************************************** 
