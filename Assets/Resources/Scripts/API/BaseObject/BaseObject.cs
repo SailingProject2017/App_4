@@ -7,7 +7,6 @@
 *********************************************************************************************
 * Copyright © 2017 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
