@@ -8,7 +8,9 @@
 * Copyright © 2017 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
 using System;
-
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class GameInstance : BaseObjectSingleton<GameInstance>
 {
@@ -40,6 +42,9 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         rank = 0;
         maxBGMVolume = 1.0f;
         maxSEVolume = 1.0f;
+
+        Application.targetFrameRate = 30;
+
     }
 
     #region 読み込むステージの判定

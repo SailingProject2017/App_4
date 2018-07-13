@@ -27,7 +27,7 @@ public class ShipSensor : BaseObject
     public override void OnUpdate()
     {
         base.OnUpdate();
-        this.acceleration = Input.acceleration;
+        this.acceleration = Input.acceleration * 2;
 
         transform.Rotate(0, this.acceleration.x, 0);
     }

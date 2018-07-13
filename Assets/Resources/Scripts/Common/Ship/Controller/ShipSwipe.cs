@@ -47,7 +47,7 @@ public class ShipSwipe : BaseObject
                 touchX = (t1.position.x - pos.x) / wid; //横移動量(-1<tx<1)
                 
                 obj.transform.rotation = rot;
-                obj.transform.Rotate(new Vector3(90 * touchY, 90 * touchX, 0));
+                obj.transform.Rotate(new Vector3(45 * touchY, 45 * touchX, 0));
                 
             }
         }
