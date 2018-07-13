@@ -37,7 +37,7 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
         }   
         
         // デバッグ用
-        //CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
+        CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
        //CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
         
     }

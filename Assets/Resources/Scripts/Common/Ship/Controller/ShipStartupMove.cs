@@ -34,7 +34,7 @@ public class ShipStartupMove : BaseObject {
     public IEnumerator ShipSetup()
     {
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(4.5f);
         BaseObjectSingleton<GameInstance>.Instance.IsCountDown = true;
 
     }

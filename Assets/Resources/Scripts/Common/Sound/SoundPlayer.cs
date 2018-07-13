@@ -56,6 +56,8 @@ public class SoundPlayer
         audioClips.Add("Bottun2", new AudioClipInfo("Sound/Bottun2", "SE002"));
         audioClips.Add("0", new AudioClipInfo("Sound/0", "SE003"));
         audioClips.Add("4", new AudioClipInfo("Sound/4", "SE004"));
+        audioClips.Add("StartRase", new AudioClipInfo("Sound/StartRase", "SE005"));
+
 
     }
 
