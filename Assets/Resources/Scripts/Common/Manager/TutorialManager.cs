@@ -20,10 +20,17 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
     protected override void OnAwake()
     {
         base.OnAwake();
- 
+
         /// 全プラットフォーム対応
         /// ただしAndroidのみ 4.4以上動作
-        fileName = Application.persistentDataPath + ".xml";
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            fileName = Application.temporaryCachePath + ".xml";
+        }
+        else
+        {
+            fileName = Application.persistentDataPath + ".xml";
+        }
 
         // チュートリアルの情報を取得
         Singleton<TutorialState>.instance = (TutorialState)CreateSaveData.LoadFromBinaryFile(fileName);
@@ -37,7 +44,7 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
         }   
         
         // デバッグ用
-        CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
+        //CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
        //CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
         
     }
