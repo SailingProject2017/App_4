@@ -42,7 +42,9 @@ public class MarkerColliderTrigger : MarkerBase
 			if (other.tag == "goal")
 			{
 				Singleton<GameInstance>.instance.IsGoal = true; // ゲーム全体で管理しているフラグ
-				isGoal = true;                                  // ランクで管理しているフラグ
+                BaseObjectSingleton<GameInstance>.Instance.IsPopup = true; // ポップアップを開ける状態にする
+
+                isGoal = true;                                  // ランクで管理しているフラグ
 			}
 			// markerに当たったとき次のmarkerを指すようにする
 			else
