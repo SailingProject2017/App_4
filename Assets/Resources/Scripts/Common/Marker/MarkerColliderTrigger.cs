@@ -41,8 +41,11 @@ public class MarkerColliderTrigger : MarkerBase
             // goalタグのオブジェクトに接触したときに走る命令
             if (other.tag == "goal")
             {
-                Singleton<GameInstance>.instance.IsGoal = true; // ゲーム全体で管理しているフラグ
-                isGoal = true;                                  // ランクで管理しているフラグ
+                Singleton<GameInstance>.instance.IsGoal = true;             // ゲーム全体で管理しているフラグ
+                //BaseObjectSingleton<GameInstance>.Instance.IsGoal = true;             // ゲーム全体で管理しているフラグ
+                BaseObjectSingleton<GameInstance>.Instance.IsPopup = true;  // ポップアップを開ける状態にする
+
+                isGoal = true;                                              // ランクで管理しているフラグ
                 Singleton<SoundPlayer>.instance.PlaySE("Goal");
             }
             // markerに当たったとき次のmarkerを指すようにする
@@ -52,7 +55,7 @@ public class MarkerColliderTrigger : MarkerBase
                 MoveMakerPoint();
                 Singleton<SoundPlayer>.instance.PlaySE("PassedMarker");
                 // エフェクトの再生
-                BaseObjectSingleton<EffectManager>.Instance.PlayEffect("PassedMarker", other.transform.position, other.transform.rotation, other.transform.localScale);
+                //BaseObjectSingleton<EffectManager>.Instance.PlayEffect("PassedMarker", other.transform.position, other.transform.rotation, other.transform.localScale);
             }
 		}
         // わかりやすくするために別でif文かけてます

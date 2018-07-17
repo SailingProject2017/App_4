@@ -22,6 +22,9 @@ public class CountDown : BaseObject
     void Start()
     {
         countDownText.text = "";
+        Singleton<SoundPlayer>.instance.PlayBGM("ModeSelect", 0, true);
+        Singleton<SoundPlayer>.instance.PauseBGM();
+
     }
 
     public override void OnUpdate()
@@ -79,6 +82,7 @@ public class CountDown : BaseObject
         // 船の移動許可
         Singleton<GameInstance>.instance.IsShipMove = true;
         BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
+        Singleton<SoundPlayer>.instance.PlayBGM();
         yield return new WaitForSeconds(1.0f);
 
         //　非表示にする

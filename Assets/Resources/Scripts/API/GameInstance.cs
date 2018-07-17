@@ -42,10 +42,10 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         isTutorialState = false;
         isPopup = false;
         rank = 0;
-        maxBGMVolume = 1.0f;
-        maxSEVolume = 1.0f;
+        maxBGMVolume = 0.7f;
+        maxSEVolume =  1.0f;
 
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
 
     }
 
