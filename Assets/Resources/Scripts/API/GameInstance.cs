@@ -21,6 +21,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     private bool isPorse;      // @brief ポーズ中かどうか判別する変数
     private bool isCountDown;  // @brief カウントダウンを始めるかどうか判別する変数
     private bool isGoal;       // @brief ゴールしたかの確認
+    private bool isPopup;      // @brief ポップアップを開くか閉じるか
     private int  rank;
 
     /* Tutorial関連 */
@@ -39,11 +40,12 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         isCountDown = false;
         isGoal = false;
         isTutorialState = false;
+        isPopup = false;
         rank = 0;
-        maxBGMVolume = 1.0f;
-        maxSEVolume = 1.0f;
+        maxBGMVolume = 0.7f;
+        maxSEVolume =  1.0f;
 
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
 
     }
 
@@ -112,6 +114,21 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     {
         set { isGoal = value; }
         get { return isGoal; }
+    }
+
+    #endregion
+
+    #region ポップアップの判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isPopupの変数アクセサー
+    /// @none  true 開く false 閉じる
+    /// </summary>
+    public bool IsPopup
+    {
+        set { isPopup = value; }
+        get { return isPopup; }
     }
 
     #endregion

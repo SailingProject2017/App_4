@@ -27,4 +27,12 @@ public class ModeSelectSound : BaseObject
             callOnce = !callOnce;
         }
     }
+    public void OnTapBack()
+    {
+        if (!callOnce)
+        {
+            Singleton<SoundPlayer>.instance.PlaySE("0");
+            callOnce = !callOnce;
+        }
+    }
 }

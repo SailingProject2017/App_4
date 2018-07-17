@@ -25,7 +25,11 @@ public class PopupResult : PopupBase
         Singleton<GameInstance>.instance.IsShipMove = false;
         base.ButtonSet = EButtonSet.SetNone; // 基底クラスのButtonSetに対応するボタンを指定
         base.Open(null, null, ResultPopupOpen); // 基底クラスのOpenメソッドを呼び出す
-        ResultPopupOpen();
+    }
+
+    public void Close()
+    {
+        base.Close(null, null, ResultPopupClose);
     }
 
     /// <summary>
@@ -34,6 +38,14 @@ public class PopupResult : PopupBase
     private void ResultPopupOpen()
     {
         contents.SetActive(true); // 非表示だったリザルト画面を表示
+
+    }
+    /// <summary>
+    /// @brief チュートリアル終了時、リザルト用ポップアップを非表示にさせる
+    /// </summary>
+    private void ResultPopupClose()
+    {
+        contents.SetActive(false); // 表示だったリザルト画面を非表示
     }
     
 }

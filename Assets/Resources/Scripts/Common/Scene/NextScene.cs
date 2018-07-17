@@ -40,7 +40,7 @@ public class NextScene : BaseObject
         {
             obj.OnEnd();
         }
-
+        BaseObjectSingleton<GameInstance>.Instance.IsPopup = false; // ポップアップを閉じる
         SceneManager.SceneMove(nextScene); // SceneManagerを呼び出す 引数は次のシーン
     }
 

@@ -274,10 +274,10 @@ class BGMPlayer
         if (source != null)
         {
             state.Update();
-        }
-        this.maxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume;
-        source.volume = this.maxBGMVolume;
 
+            this.maxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume;
+            source.volume = this.maxBGMVolume;
+        }
     }
 
     #endregion

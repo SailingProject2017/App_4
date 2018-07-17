@@ -59,11 +59,8 @@ public static class CreateSaveData
 
         if (fs.Length == 0)
         {
-
-#if DEBUG
-            Debug.Log(message: "ファイル" + path + "が見つからないので作ります。");
+            Debug.Log("ファイル" + path + "が見つからないので作ります。");
             Debug.Log("初回起動です");
-#endif
             fs.Close();
             CreateBineryFile(path);
             return null;
