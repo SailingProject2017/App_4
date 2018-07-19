@@ -53,7 +53,7 @@ public class RankManager : MarkerBase
 	{
 		base.MarkerInitialize();
 
-        Singleton<SoundPlayer>.instance.PlaySE("StartRase");
+        Singleton<SoundPlayer>.Instance.PlaySE("StartRase");
 
         	// ランク画像を処理しているスクリプトのコンポーネント取得
 		GameObject rank = GameObject.Find("rank");

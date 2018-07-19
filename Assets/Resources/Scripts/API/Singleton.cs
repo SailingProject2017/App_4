@@ -16,7 +16,7 @@ public class Singleton<T> where T : class, new()
 
     Singleton() { }
     
-    public static T instance
+    public static T Instance
     {
         set{ obj = value; }
         get

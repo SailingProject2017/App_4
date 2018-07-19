@@ -34,7 +34,7 @@ public class ShipSwipe : BaseObject
     public override void OnUpdate()
     {
 
-        if (Singleton<GameInstance>.instance.IsShipMove)
+        if (Singleton<GameInstance>.Instance.IsShipMove)
         {
             if (Input.touchCount == 1)
             {

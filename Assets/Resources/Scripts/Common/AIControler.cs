@@ -82,12 +82,12 @@ sealed public class AIControler : MarkerBase
 	{
 		base.OnUpdate();
 
-        if(Singleton<ShipStates>.instance.ShipState == eShipState.STOP)
+        if(Singleton<ShipStates>.Instance.ShipState == eShipState.STOP)
         {
             transform.position -= transform.forward * aITopSpeed * Time.deltaTime;    
         }   
 
-		if (!Singleton<GameInstance>.instance.IsShipMove) return;
+		if (!Singleton<GameInstance>.Instance.IsShipMove) return;
 		
 		switch (AIMovingType)
 		{

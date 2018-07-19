@@ -69,7 +69,6 @@ public class BaseObject : MonoBehaviour
     /// <summary>
     /// @brief 消去時実行関数が一度だけ呼ばれることを保証するための変数
     /// </summary>
-   　//private bool callOnce;
 
     private BaseObject owner;
 

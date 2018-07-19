@@ -22,7 +22,7 @@ public class CreateStageObject : BaseObject
     /// </summary>
     private void StageInitialize()
     {
-        GameObject[] StageObject = new GameObject[8];
+        StageObject = new GameObject[8];
     }
 
     /// <summary>

@@ -24,10 +24,10 @@ public static class CreateSaveData
     /// <returns>true 実行可 : false 実行不可</returns>
     public static bool DoTutorial(string path, eTutorial state)
     {
-        Singleton<TutorialState>.instance = (TutorialState)LoadFromBinaryFile(path);
-        if (Singleton<TutorialState>.instance.TutorialStatus == state)
+        Singleton<TutorialState>.Instance = (TutorialState)LoadFromBinaryFile(path);
+        if (Singleton<TutorialState>.Instance.TutorialStatus == state)
         {
-            Debug.Log(Singleton<TutorialState>.instance.TutorialStatus);
+            Debug.Log(Singleton<TutorialState>.Instance.TutorialStatus);
             return true;
         }
         return false;
@@ -39,8 +39,8 @@ public static class CreateSaveData
     /// <param name="state"></param>
     public static void NextTutorialState(eTutorial state)
     {
-        Singleton<TutorialState>.instance.TutorialStatus = state;
-        Debug.Log(message: Singleton<TutorialState>.instance.TutorialStatus + "setNext");
+        Singleton<TutorialState>.Instance.TutorialStatus = state;
+        Debug.Log(message: Singleton<TutorialState>.Instance.TutorialStatus + "setNext");
     }
     #endregion
 
@@ -98,7 +98,7 @@ public static class CreateSaveData
         NextTutorialState(eTutorial.eTutorial_Null);
         fs.Close();
 
-        SaveToBinaryFile(Singleton<TutorialState>.instance, path);
+        SaveToBinaryFile(Singleton<TutorialState>.Instance, path);
     }
     #endregion
 }

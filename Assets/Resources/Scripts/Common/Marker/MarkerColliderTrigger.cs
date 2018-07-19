@@ -41,19 +41,19 @@ public class MarkerColliderTrigger : MarkerBase
             // goalタグのオブジェクトに接触したときに走る命令
             if (other.tag == "goal")
             {
-                Singleton<GameInstance>.instance.IsGoal = true;             // ゲーム全体で管理しているフラグ
+                Singleton<GameInstance>.Instance.IsGoal = true;             // ゲーム全体で管理しているフラグ
                 //BaseObjectSingleton<GameInstance>.Instance.IsGoal = true;             // ゲーム全体で管理しているフラグ
                 BaseObjectSingleton<GameInstance>.Instance.IsPopup = true;  // ポップアップを開ける状態にする
 
                 isGoal = true;                                              // ランクで管理しているフラグ
-                Singleton<SoundPlayer>.instance.PlaySE("Goal");
+                Singleton<SoundPlayer>.Instance.PlaySE("Goal");
             }
             // markerに当たったとき次のmarkerを指すようにする
             else
             {
                 currentHitMarker++;
                 MoveMakerPoint();
-                Singleton<SoundPlayer>.instance.PlaySE("PassedMarker");
+                Singleton<SoundPlayer>.Instance.PlaySE("PassedMarker");
                 // エフェクトの再生
                 //BaseObjectSingleton<EffectManager>.Instance.PlayEffect("PassedMarker", other.transform.position, other.transform.rotation, other.transform.localScale);
             }
