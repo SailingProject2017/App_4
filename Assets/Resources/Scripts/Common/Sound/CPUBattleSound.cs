@@ -16,14 +16,14 @@ public class CPUBattleSound : BaseObject {
     {
         callOnce = false;
 
-        Singleton<SoundPlayer>.instance.PlayBGM("TT", fadeTime, true);
+        Singleton<SoundPlayer>.Instance.PlayBGM("TT", fadeTime, true);
     }
 
     public void OnTap()
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.PlaySE("Bottun2");
+            Singleton<SoundPlayer>.Instance.PlaySE("Bottun2");
             callOnce = !callOnce;
         }
     }
@@ -31,7 +31,7 @@ public class CPUBattleSound : BaseObject {
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.PlaySE("0");
+            Singleton<SoundPlayer>.Instance.PlaySE("0");
             callOnce = !callOnce;
         }
     }

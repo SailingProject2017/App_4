@@ -26,7 +26,7 @@ public class SettingMenu : BaseObject
         settingMenu.SetActive(activeMenu);
         BaseObjectSingleton<GameInstance>.Instance.IsPorse = false;
 
-        if(Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_End)
+        if(Singleton<TutorialState>.Instance.TutorialStatus == eTutorial.eTutorial_End)
             settingButten.SetActive(!activeMenu);
         else
             settingButten.SetActive(activeMenu);
@@ -45,7 +45,7 @@ public class SettingMenu : BaseObject
     /// </summary>
     public void ActiveMenu()
     {
-        if (Singleton<GameInstance>.instance.IsShipMove)
+        if (Singleton<GameInstance>.Instance.IsShipMove)
         {
             activeMenu = ChengeBool(activeMenu);
             settingMenu.SetActive(activeMenu);

@@ -24,11 +24,11 @@ public class ChangeCamera : MonoBehaviour
         // FPS
         if (changeCamera == 0)
         {
-            Singleton<ShipStates>.instance.CameraMode = eCameraMode.FPS;
+            Singleton<ShipStates>.Instance.CameraMode = eCameraMode.FPS;
         }
         else if (changeCamera == 1)
         {
-            Singleton<ShipStates>.instance.CameraMode = eCameraMode.TPS;
+            Singleton<ShipStates>.Instance.CameraMode = eCameraMode.TPS;
         }
     }
 }

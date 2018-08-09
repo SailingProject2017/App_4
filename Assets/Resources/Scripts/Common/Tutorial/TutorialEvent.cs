@@ -68,7 +68,7 @@ public class TutorialEvent : BaseObject {
     /// </summary>
     public void BeginEvent()
     {
-        Singleton<GameInstance>.instance.IsShipMove = false;
+        Singleton<GameInstance>.Instance.IsShipMove = false;
         BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
        
     }
@@ -79,6 +79,6 @@ public class TutorialEvent : BaseObject {
     {
         BaseObjectSingleton<GameInstance>.Instance.IsCountDown = true;
      
-        Debug.Log("flag:"+Singleton<GameInstance>.instance.IsShipMove);
+        Debug.Log("flag:"+Singleton<GameInstance>.Instance.IsShipMove);
     }
 }

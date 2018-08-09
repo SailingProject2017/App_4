@@ -23,7 +23,7 @@ public class ShipManager : BaseObjectSingleton<ShipManager> {
     /// </summary>
     protected virtual void ShipInitialize()
     {
-        Singleton<ShipStates>.instance.CameraMode = eCameraMode.TPS;
+        Singleton<ShipStates>.Instance.CameraMode = eCameraMode.TPS;
     }
 
     private int HitMarker;

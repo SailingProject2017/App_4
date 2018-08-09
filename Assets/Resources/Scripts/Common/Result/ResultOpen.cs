@@ -32,18 +32,18 @@ public class ResultOpen : BaseObject
 
         if (!isCallOnse && BaseObjectSingleton<GameInstance>.Instance.IsPopup == true)
         {
-            if (Singleton<GameInstance>.instance.IsGoal == true)
+            if (Singleton<GameInstance>.Instance.IsGoal == true)
             {
 
-                Singleton<GameInstance>.instance.IsGoal = false;
+                Singleton<GameInstance>.Instance.IsGoal = false;
                 if (SceneManager.GetActiveScene().name == "InTutorial")
                 {
                     result.Open();
                 }
                 else if(SceneManager.GetActiveScene().name == "InGame")
                 {
-                    Singleton<ShipStates>.instance.CameraMode = eCameraMode.GOAL;
-                    if(Singleton<ShipStates>.instance.CameraMode == eCameraMode.GOAL)
+                    Singleton<ShipStates>.Instance.CameraMode = eCameraMode.GOAL;
+                    if(Singleton<ShipStates>.Instance.CameraMode == eCameraMode.GOAL)
                     StartCoroutine(InGameResult());
                 }
                 isCallOnse = true;
@@ -61,7 +61,7 @@ public class ResultOpen : BaseObject
 
         yield return new WaitForSeconds(5.0f);
         result.Open();
-        Singleton<GameInstance>.instance.IsShipMove = true;
+        Singleton<GameInstance>.Instance.IsShipMove = true;
 
     }
 }

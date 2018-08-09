@@ -27,8 +27,8 @@ public class VolumeSlider : BaseObject {
     public void ValueChanged()
     {
         BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxSEVolume = slider.value;
-        Singleton<SoundPlayer>.instance.PauseBGM();
-        Singleton<SoundPlayer>.instance.PlayBGM();
+        Singleton<SoundPlayer>.Instance.PauseBGM();
+        Singleton<SoundPlayer>.Instance.PlayBGM();
     }
 
 }

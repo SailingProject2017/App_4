@@ -31,12 +31,12 @@ public class ShipCamera : BaseObject
 
     void Start()
     {
-        Singleton<ShipStates>.instance.CameraMode = eCameraMode.TPS;
+        Singleton<ShipStates>.Instance.CameraMode = eCameraMode.TPS;
 
         layerMaskShip = 1 << LayerMask.NameToLayer("Ship"); // レイヤー情報を取得
 
-        ChangeCameraAngle(Singleton<ShipStates>.instance.CameraMode);
-        Debug.Log(Singleton<ShipStates>.instance.CameraMode);
+        ChangeCameraAngle(Singleton<ShipStates>.Instance.CameraMode);
+        Debug.Log(Singleton<ShipStates>.Instance.CameraMode);
         //平面(X,Z)での距離を取得
         distance = Vector3.Distance(
             new Vector3(ship.transform.position.x, 0, ship.transform.position.z),
@@ -51,15 +51,15 @@ public class ShipCamera : BaseObject
         base.OnLateUpdate();
 
         // 値が変更されたときに呼び出されるコールバック関数を登録
-        selectedValue.changed += selectedValue => ChangeCameraAngle(Singleton<ShipStates>.instance.CameraMode);
+        selectedValue.changed += selectedValue => ChangeCameraAngle(Singleton<ShipStates>.Instance.CameraMode);
         // 値を変更　値が変わればコールバックが呼ばれる
-        selectedValue.SetValueIfNotEqual((int)Singleton<ShipStates>.instance.CameraMode);
+        selectedValue.SetValueIfNotEqual((int)Singleton<ShipStates>.Instance.CameraMode);
 
         //カメラの角度を調整
         var newRotation = Quaternion.LookRotation(ship.transform.position - shipCamera.transform.position).eulerAngles;
 
         // ゴール用カメラ ディレイ無し
-        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.GOAL)
+        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.GOAL)
         {
             Vector3 goalPosition = transform.position;
             goalPosition.x = ship.transform.position.x + cameraOffset.x;
@@ -92,11 +92,11 @@ public class ShipCamera : BaseObject
             Time.deltaTime * followSpeed
         ) + new Vector3(0, cameraHeight, 0);
 
-        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.FPS)
+        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.FPS)
         {
             newRotation.x = 0;
         }
-        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.TPS)
+        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.TPS)
         {
             newRotation.x = 20;
         }
@@ -104,7 +104,7 @@ public class ShipCamera : BaseObject
         shipCamera.transform.rotation = Quaternion.Slerp(shipCamera.transform.rotation, Quaternion.Euler(newRotation), 1);
 
         // FPSの時は高さを固定
-        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.FPS)
+        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.FPS)
             shipCamera.transform.SetPosY(1);
 
     }
@@ -115,20 +115,20 @@ public class ShipCamera : BaseObject
     public void ChangeCameraAngle(eCameraMode cameraMode)
     {
 
-        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.FPS)
+        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.FPS)
         {
             Camera.main.cullingMask &= ~layerMaskShip;// 非表示
             shipCamera.transform.SetPosY(1);
             shipCamera.transform.SetPosZ(60);
             
         }
-        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.TPS)
+        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.TPS)
         {
             Camera.main.cullingMask |= layerMaskShip; // 表示
             shipCamera.transform.SetPosY(7);
             shipCamera.transform.SetPosZ(69);
         }
-        if (Singleton<ShipStates>.instance.CameraMode == eCameraMode.GOAL)
+        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.GOAL)
         {
             Camera.main.cullingMask |= layerMaskShip; // 表示
             shipCamera.transform.SetPosX(-3);
