@@ -31,7 +31,7 @@ public class ButtonEnabled : BaseObject
     public void OnButtonTap()
     {
 
-        if (Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_End)
+        if (Singleton<TutorialState>.Instance.TutorialStatus == eTutorial.eTutorial_End)
         {
             // 配列内のボタンの内部機能を停止する
             for (int i = 0; i < button.Length; i++)

@@ -33,19 +33,19 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
         }
 
         // チュートリアルの情報を取得
-        Singleton<TutorialState>.instance = (TutorialState)CreateSaveData.LoadFromBinaryFile(fileName);
+        Singleton<TutorialState>.Instance = (TutorialState)CreateSaveData.LoadFromBinaryFile(fileName);
 
         // 初回起動はチュートリアルモードに突入させる
-        if(Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_Null)
+        if(Singleton<TutorialState>.Instance.TutorialStatus == eTutorial.eTutorial_Null)
         {
             //　チュートリアルの状態をモードセレクトのチュートリアルにして保存する
             CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
-            CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+            CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.Instance, fileName);
         }   
         
         // デバッグ用
-        //CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
-       //CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+        CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
+        CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.Instance, fileName);
         
     }
 
@@ -106,7 +106,7 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
 
         }
         // 状態を保存する
-        CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.instance, fileName);
+        CreateSaveData.SaveToBinaryFile(Singleton<TutorialState>.Instance, fileName);
      
     }
 }

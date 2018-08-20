@@ -26,7 +26,7 @@ public class SlipStreamPlayer : BaseObject {
     /// </summary>
     private void PlayWindEffect()
     {       
-        if (Singleton<GameInstance>.instance.IsShipMove && !windActive)
+        if (Singleton<GameInstance>.Instance.IsShipMove && !windActive)
         {
             windObject = (GameObject)New(windParticle);
             windActive = true;
@@ -39,7 +39,7 @@ public class SlipStreamPlayer : BaseObject {
     /// </summary>
     private void EndWindEffect()
     {
-        if (Singleton<GameInstance>.instance.IsGoal)
+        if (Singleton<GameInstance>.Instance.IsGoal)
         {
             Delete(windObject);
         }

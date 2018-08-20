@@ -11,11 +11,10 @@ public class FPSRender : BaseObject
     private int frames;
     private float timeleft;
     private float fps;
+    private int allObj;
 
-    public override void OnUpdate()
+    public  void Update()
     {
-
-        base.OnUpdate();
 
         timeleft -= Time.deltaTime;
         accum += Time.timeScale / Time.deltaTime;
@@ -27,10 +26,12 @@ public class FPSRender : BaseObject
         timeleft = updateInterval;
         accum = 0;
         frames = 0;
+        allObj = BaseObjectList.Count;
     }
 
     private void OnGUI()
     {
         GUILayout.Label("FPS: " + fps.ToString("f2"));
+        GUILayout.Label("Obj: " + allObj.ToString());
     }
 }

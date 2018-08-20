@@ -16,14 +16,14 @@ public class ModeSelectSound : BaseObject
     {
         callOnce = false;
 
-        Singleton<SoundPlayer>.instance.PlayBGM("ModeSelect", fadeTime, true);
+        Singleton<SoundPlayer>.Instance.PlayBGM("ModeSelect", fadeTime, true);
     }
 
     public void OnTap()
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.PlaySE("TitleButton");
+            Singleton<SoundPlayer>.Instance.PlaySE("TitleButton");
             callOnce = !callOnce;
         }
     }
@@ -31,7 +31,7 @@ public class ModeSelectSound : BaseObject
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.PlaySE("0");
+            Singleton<SoundPlayer>.Instance.PlaySE("0");
             callOnce = !callOnce;
         }
     }

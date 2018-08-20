@@ -19,7 +19,7 @@ public class TapEffectPlayer : BaseObject {
     /// </summary>
     private void PlayTapEffect()
     {
-        if (Input.GetMouseButtonDown(0) && !Singleton<GameInstance>.instance.IsShipMove)
+        if (Input.GetMouseButtonDown(0) && !Singleton<GameInstance>.Instance.IsShipMove)
         {
             Debug.Log("Click!");
             var pos = camera.ScreenToWorldPoint(Input.mousePosition + camera.transform.forward * 5);

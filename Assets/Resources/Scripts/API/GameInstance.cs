@@ -22,6 +22,8 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     private bool isCountDown;  // @brief カウントダウンを始めるかどうか判別する変数
     private bool isGoal;       // @brief ゴールしたかの確認
     private bool isPopup;      // @brief ポップアップを開くか閉じるか
+    private bool isGyro;       // @brief ジャイロ操作のフラグ
+    private bool isSwipe;      // @brief スワイプ操作のフラグ
     private int  rank;
 
     /* Tutorial関連 */
@@ -41,6 +43,8 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         isGoal = false;
         isTutorialState = false;
         isPopup = false;
+        isGyro = true;
+        IsSwipe = true;
         rank = 0;
         maxBGMVolume = 0.7f;
         maxSEVolume =  1.0f;
@@ -129,6 +133,34 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     {
         set { isPopup = value; }
         get { return isPopup; }
+    }
+
+    #endregion
+
+    #region ジャイロ操作の判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isGyroの変数アクセサー
+    /// </summary>
+    public bool IsGyro
+    {
+        set { isGyro = value; }
+        get { return isGyro; }
+    }
+
+    #endregion
+
+    #region スワイプ操作の判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isSwipeの変数アクセサー
+    /// </summary>
+    public bool IsSwipe
+    {
+        set { isSwipe = value; }
+        get { return isSwipe; }
     }
 
     #endregion

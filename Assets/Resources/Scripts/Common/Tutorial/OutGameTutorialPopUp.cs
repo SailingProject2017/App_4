@@ -23,7 +23,7 @@ public class OutGameTutorialPopUp : PopupBase {
     public void OnLevelWasLoaded()
     {
         // チュートリアルが続いていればモードセレクトとチュートリアルにポップアップを出す
-        if (Singleton<TutorialState>.instance.TutorialStatus != eTutorial.eTutorial_End)
+        if (Singleton<TutorialState>.Instance.TutorialStatus != eTutorial.eTutorial_End)
         {
             if (SceneManager.GetActiveScene().name == "ModeSelect" ||
                 SceneManager.GetActiveScene().name == "Tutorial")

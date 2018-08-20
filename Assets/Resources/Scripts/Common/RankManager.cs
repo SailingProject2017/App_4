@@ -53,7 +53,7 @@ public class RankManager : MarkerBase
 	{
 		base.MarkerInitialize();
 
-        Singleton<SoundPlayer>.instance.PlaySE("StartRase");
+        Singleton<SoundPlayer>.Instance.PlaySE("StartRase");
 
         	// ランク画像を処理しているスクリプトのコンポーネント取得
 		GameObject rank = GameObject.Find("rank");
@@ -161,13 +161,7 @@ public class RankManager : MarkerBase
             {
                 allGoal = false;
             }
-            if (allGoal && !callOnce)
-            {
-                // ゴール時の順位を保存
-                allShip[i].resultRank = allShip[i].rank;
-                BaseObjectSingleton<GameInstance>.Instance.Rank = allShip[i].resultRank;
-                callOnce = true;
-            }
+
 		}
 
         // 順位を１で初期化
@@ -227,7 +221,23 @@ public class RankManager : MarkerBase
         // すでにゴールしている船の数だけ順位を加算
 		for (int i = 0; i < allShip.Count; i++) 
 		{
-			//if (!allShip[i].markerBase.IsGoal) allShip[i].rank += goaledShipNum;
+            if (allGoal && !callOnce)
+            {
+                // ゴール時の順位を保存
+                allShip[i].resultRank = allShip[i].rank;
+                BaseObjectSingleton<GameInstance>.Instance.Rank = allShip[i].resultRank;
+                callOnce = true;
+            }
         }
 	}
+
+    /// <summary>
+    /// @brief 指定した船の順位を取得する
+    /// </summary>
+    /// <param name="shipId">船の番号</param>
+    /// <returns>船の順位</returns>
+    public int GetResultRank(int shipId)
+    {
+        return allShip[shipId].resultRank;
+    }
 }
