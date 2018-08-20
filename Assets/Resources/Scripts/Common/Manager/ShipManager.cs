@@ -10,6 +10,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShipManager : BaseObjectSingleton<ShipManager> {
 
@@ -23,7 +24,7 @@ public class ShipManager : BaseObjectSingleton<ShipManager> {
     /// </summary>
     protected virtual void ShipInitialize()
     {
-        Singleton<ShipStates>.Instance.CameraMode = eCameraMode.TPS;
+       
     }
 
     private int HitMarker;
@@ -31,7 +32,4 @@ public class ShipManager : BaseObjectSingleton<ShipManager> {
 
     // 船のリストを作成
     private List<GameObject> ShipList = new List<GameObject>();
-
-    
-
 }
