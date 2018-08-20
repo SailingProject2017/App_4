@@ -32,6 +32,7 @@ public class BaseObjectUpdater : BaseObject
                 if (obj.IsPresence())
                     obj.OnFastUpdate();
             }
+
             foreach (var obj in BaseObjectList)
             {
                 if (obj.IsPresence())
@@ -54,14 +55,19 @@ public class BaseObjectUpdater : BaseObject
     /// </summary>
     void LateUpdate()
     {
+
         if (!BaseObjectSingleton<GameInstance>.Instance.IsPorse)
         {
+            Timer.Start();
             foreach (var obj in BaseObjectList)
             {
                 if (obj.IsPresence())
                     obj.OnLateUpdate();
             }
+            Debug.Log(Timer.Stop() + "ms");
+            Timer.Reset();
         }
+
     }
 
     /// <summary>
