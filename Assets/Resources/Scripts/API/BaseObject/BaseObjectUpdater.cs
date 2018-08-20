@@ -58,18 +58,15 @@ public class BaseObjectUpdater : BaseObject
 
         if (!BaseObjectSingleton<GameInstance>.Instance.IsPorse)
         {
-            Timer.Start();
             foreach (var obj in BaseObjectList)
             {
                 if (obj.IsPresence())
                     obj.OnLateUpdate();
             }
-            Debug.Log(Timer.Stop() + "ms");
-            Timer.Reset();
+
         }
 
     }
-
     /// <summary>
     /// @brief このソリューション唯一のFixedUpdate関数
     /// @note ここ以外でFixedUpdate関数は使わないでください

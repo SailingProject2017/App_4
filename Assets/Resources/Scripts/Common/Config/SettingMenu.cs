@@ -28,7 +28,7 @@ public class SettingMenu : BaseObject
         setting = settingPopup.GetComponent<PopupSetting>();
 
         // 初回のチュートリアル中は設定ボタンを表示しない
-        if(Singleton<TutorialState>.instance.TutorialStatus == eTutorial.eTutorial_End)
+        if(Singleton<TutorialState>.Instance.TutorialStatus == eTutorial.eTutorial_End)
             settingButton.SetActive(!activeMenuFlag);
         else
             settingButton.SetActive(activeMenuFlag);
@@ -47,7 +47,7 @@ public class SettingMenu : BaseObject
     /// </summary>
     public void ActiveMenu()
     {
-        if (Singleton<GameInstance>.instance.IsShipMove)
+        if (Singleton<GameInstance>.Instance.IsShipMove)
         {
             activeMenuFlag = ChengeBool(activeMenuFlag);
             settingButton.SetActive(!activeMenuFlag);

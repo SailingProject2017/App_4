@@ -35,7 +35,7 @@ public class ShipSwipe : BaseObject
     {
         if (BaseObjectSingleton<GameInstance>.Instance.IsSwipe)
         {
-            if (Singleton<GameInstance>.instance.IsShipMove)
+            if (Singleton<GameInstance>.Instance.IsShipMove)
             {
                 if (Input.touchCount == 1)
                 {

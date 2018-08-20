@@ -28,7 +28,7 @@ public class ShipSensor : BaseObject
     {
         if (BaseObjectSingleton<GameInstance>.Instance.IsGyro)
         {
-            if (Singleton<GameInstance>.instance.IsShipMove)
+            if (Singleton<GameInstance>.Instance.IsShipMove)
             {
                 base.OnUpdate();
                 this.acceleration = Input.acceleration * 2;

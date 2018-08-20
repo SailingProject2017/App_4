@@ -33,7 +33,7 @@ public class StageTimer : BaseObject {
     /// </summary>
     private void TimerStart()
     {
-        if (Singleton<GameInstance>.instance.IsShipMove &&
+        if (Singleton<GameInstance>.Instance.IsShipMove &&
             !timerStartFlag)
         {
             timeManager.TimerSwich();
@@ -46,7 +46,7 @@ public class StageTimer : BaseObject {
     /// </summary>
     private void TimerStop()
     {
-        if (Singleton<GameInstance>.instance.IsGoal)
+        if (Singleton<GameInstance>.Instance.IsGoal)
         {
             timeManager.TimerSwich();
             Delete(gameObject);
