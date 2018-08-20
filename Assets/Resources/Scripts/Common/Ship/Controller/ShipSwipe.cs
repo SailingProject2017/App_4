@@ -33,25 +33,27 @@ public class ShipSwipe : BaseObject
 
     public override void OnUpdate()
     {
-
-        if (Singleton<GameInstance>.instance.IsShipMove)
+        if (BaseObjectSingleton<GameInstance>.Instance.IsSwipe)
         {
-            if (Input.touchCount == 1)
+            if (Singleton<GameInstance>.instance.IsShipMove)
             {
-                //回転
-                Touch t1 = Input.GetTouch(0);
-                if (t1.phase == TouchPhase.Began)
+                if (Input.touchCount == 1)
                 {
-                    pos = t1.position;
-                    rot = obj.transform.rotation;
-                }
-                else if (t1.phase == TouchPhase.Moved || t1.phase == TouchPhase.Stationary)
-                {
-                    touchX = (t1.position.x - pos.x) / wid; //横移動量(-1<tx<1)
+                    //回転
+                    Touch t1 = Input.GetTouch(0);
+                    if (t1.phase == TouchPhase.Began)
+                    {
+                        pos = t1.position;
+                        rot = obj.transform.rotation;
+                    }
+                    else if (t1.phase == TouchPhase.Moved || t1.phase == TouchPhase.Stationary)
+                    {
+                        touchX = (t1.position.x - pos.x) / wid; //横移動量(-1<tx<1)
 
-                    obj.transform.rotation = rot;
-                    obj.transform.Rotate(new Vector3(45 * touchY, 45 * touchX, 0));
+                        obj.transform.rotation = rot;
+                        obj.transform.Rotate(new Vector3(45 * touchY, 45 * touchX, 0));
 
+                    }
                 }
             }
         }

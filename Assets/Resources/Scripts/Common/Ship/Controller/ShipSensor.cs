@@ -26,48 +26,15 @@ public class ShipSensor : BaseObject
     }
     public override void OnUpdate()
     {
-        if (Singleton<GameInstance>.instance.IsShipMove)
+        if (BaseObjectSingleton<GameInstance>.Instance.IsGyro)
         {
-            base.OnUpdate();
-            this.acceleration = Input.acceleration * 2;
+            if (Singleton<GameInstance>.instance.IsShipMove)
+            {
+                base.OnUpdate();
+                this.acceleration = Input.acceleration * 2;
 
-            transform.Rotate(0, this.acceleration.x, 0);
+                transform.Rotate(0, this.acceleration.x, 0);
+            }
         }
     }
-    /// <summary>
-    /// @brief センサー情報を取得し対象の船を傾ける
-    /// </summary>
-    //private void OnGUI()
-    //{
-    //    if (acceleration != null)
-    //    {
-    //        float x = Screen.width / 10;
-    //        float y = 0;
-    //        float w = Screen.width * 8 / 10;
-    //        float h = Screen.height / 20;
-
-    //        for (int i = 0; i < 3; i++)
-    //        {
-    //            y = Screen.height / 10 + h * i;
-    //            string text = string.Empty;
-
-    //            switch (i)
-    //            {
-    //                case 0://X
-    //                    text = string.Format("accel-X:{0}", System.Math.Round(this.acceleration.x, 3));
-    //                    break;
-    //                case 1://Y
-    //                    text = string.Format("accel-Y:{0}", System.Math.Round(this.acceleration.y, 3));
-    //                    break;
-    //                case 2://Z
-    //                    text = string.Format("accel-Z:{0}", System.Math.Round(this.acceleration.z, 3));
-    //                    break;
-    //                default:
-    //                    throw new System.InvalidOperationException();
-    //            }
-
-    //            /// テキストの更新
-    //            GUI.Label(new Rect(x, y, w, h), text, this.labelStyle);
-    //        }
-    //    }
 }

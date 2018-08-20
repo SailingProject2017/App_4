@@ -24,11 +24,19 @@ public class VolumeSlider : BaseObject {
     /// <summary>
     /// @brief BGM値が変化した際に呼ばれる関数
     /// </summary>
-    public void ValueChanged()
+    public void BGMValueChanged()
     {
-        BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxSEVolume = slider.value;
+        BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxSEVolume = slider.value * 0.1f;
         Singleton<SoundPlayer>.instance.PauseBGM();
         Singleton<SoundPlayer>.instance.PlayBGM();
     }
+    /// <summary>
+    /// @brief SE値が変化した際に呼ばれる関数
+    /// </summary>
+    public void SEValueChanged()
+    {
+        Singleton<SoundPlayer>.instance.PlaySE("PassedMarker");
+    }
+
 
 }
