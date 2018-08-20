@@ -38,6 +38,7 @@ public class NextScene : BaseObject
         //シーン破棄時に実行される関数をオブジェクト分だけ実行
         foreach (var obj in CurrentSceneObjectList)
         {
+            base.OnEnd();
             obj.OnEnd();
         }
         BaseObjectSingleton<GameInstance>.Instance.IsPopup = false; // ポップアップを閉じる
