@@ -37,13 +37,13 @@ public class SplashEffectPlayer : BaseObject {
 
     public void Start()
     {
-        splashParticle = this.GetComponent<ParticleSystem>();
-        splashParticle.Stop();
+        //splashParticle = this.GetComponent<ParticleSystem>();
+        //splashParticle.Stop();
     }
 
 	public void Update()
     {
-        PlaySplashEffect();
-        EndSplashEffect();
+        //PlaySplashEffect();
+        //EndSplashEffect();
     }
 }

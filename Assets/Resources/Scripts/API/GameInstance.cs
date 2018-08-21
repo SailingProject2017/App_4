@@ -48,9 +48,6 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         rank = 0;
         maxBGMVolume = 0.7f;
         maxSEVolume =  1.0f;
-
-        Application.targetFrameRate = 60;
-
     }
 
     #region 読み込むステージの判定
