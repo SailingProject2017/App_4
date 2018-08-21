@@ -93,10 +93,6 @@ public class ShipCamera : BaseObject
             Time.deltaTime * followSpeed
         ) + new Vector3(0, cameraHeight, 0);
 
-        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.FPS)
-        {
-            newRotation.x = 0;
-        }
         if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.TPS)
         {
             newRotation.x = 20;
@@ -113,12 +109,11 @@ public class ShipCamera : BaseObject
     public void ChangeCameraAngle(eCameraMode cameraMode)
     {
 
-        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.FPS)
+        if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.TPS)
         {
-            Camera.main.cullingMask &= ~layerMaskShip;// 非表示
-            shipCamera.transform.SetPosY(1);
-            shipCamera.transform.SetPosZ(60);
-            
+            Camera.main.cullingMask |= layerMaskShip; // 表示
+            shipCamera.transform.SetPosY(7);
+            shipCamera.transform.SetPosZ(69);
         }
         if (Singleton<ShipStates>.Instance.CameraMode == eCameraMode.GOAL)
         {
