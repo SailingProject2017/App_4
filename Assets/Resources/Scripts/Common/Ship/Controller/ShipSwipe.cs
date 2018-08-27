@@ -13,49 +13,79 @@ using System.Collections;
 public class ShipSwipe : BaseObject
 {
 
-    [SerializeField]
-    private GameObject obj;
-
-
-    private Vector2 pos;   // @brief タッチした座標
-    private Quaternion rot;// @brief タッチしたときの回転
-    private float wid, hei, diag;  // @brief スクリーンサイズ
-    private float touchX, touchY; // @brief タッチされた座標を格納
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        wid = Screen.width;
-        hei = Screen.height;
-        diag = Mathf.Sqrt(Mathf.Pow(wid, 2) + Mathf.Pow(hei, 2));
-    }
-
+    private bool isFlick;
+    private bool isClick;
+    private Vector3 touchStartPos;
+    private Vector3 touchEndPos;
 
     public override void OnUpdate()
     {
-        if (BaseObjectSingleton<GameInstance>.Instance.IsSwipe)
+        base.OnUpdate();
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (Singleton<GameInstance>.Instance.IsShipMove)
-            {
-                if (Input.touchCount == 1)
+
+            isFlick = true;
+            touchStartPos = new Vector3(Input.mousePosition.x,
+                        Input.mousePosition.y,
+                        Input.mousePosition.z);
+
+            Invoke("FlickOff", 0.2f);
+        }
+
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            touchEndPos = new Vector3(Input.mousePosition.x,
+                        Input.mousePosition.y,
+                        Input.mousePosition.z);
+
+
+            float directionX = (touchEndPos.x - touchStartPos.x) * 0.003f;
+            Debug.Log(directionX);
+                if (directionX >= 1.0f) directionX = 1.0f;
+                if (directionX <= -1.0f) directionX = -1.0f;
+
+
+                transform.Rotate(0, directionX, 0);
+
+
+
+                if (touchStartPos != touchEndPos)
                 {
-                    //回転
-                    Touch t1 = Input.GetTouch(0);
-                    if (t1.phase == TouchPhase.Began)
-                    {
-                        pos = t1.position;
-                        rot = obj.transform.rotation;
-                    }
-                    else if (t1.phase == TouchPhase.Moved || t1.phase == TouchPhase.Stationary)
-                    {
-                        touchX = (t1.position.x - pos.x) / wid; //横移動量(-1<tx<1)
-
-                        obj.transform.rotation = rot;
-                        obj.transform.Rotate(new Vector3(45 * touchY, 45 * touchX, 0));
-
-                    }
+                    ClickOff();
                 }
             }
+           
+        
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+           
         }
+    }
+    public void FlickOff()
+    {
+        isFlick = false;
+    }
+
+    public bool IsFlick()
+    {
+        return isFlick;
+    }
+
+
+    public void ClickOn()
+    {
+        isClick = true;
+        Invoke("ClickOff", 0.2f);
+    }
+
+    public bool IsClick()
+    {
+        return isClick;
+    }
+
+    public void ClickOff()
+    {
+        isClick = false;
     }
 }
