@@ -24,6 +24,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     private bool isPopup;      // @brief ポップアップを開くか閉じるか
     private bool isGyro;       // @brief ジャイロ操作のフラグ
     private bool isSwipe;      // @brief スワイプ操作のフラグ
+    private float sensitivty;  // @brief ジャイロの感度を格納する変数
     private int  rank;
 
     /* Tutorial関連 */
@@ -45,6 +46,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         isPopup = false;
         isGyro = true;
         IsSwipe = true;
+        sensitivty = 0.1f;
         rank = 0;
         maxBGMVolume = 0.7f;
         maxSEVolume =  1.0f;
@@ -188,6 +190,20 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     {
         set { isTutorialState = value; }
         get { return isTutorialState; }
+    }
+
+    #endregion
+
+    #region 感度変更
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief Sensitivtyの変数アクセサー
+    /// </summary>
+    public float Sensitivty
+    {
+        set { sensitivty = value; }
+        get { return sensitivty; }
     }
 
     #endregion

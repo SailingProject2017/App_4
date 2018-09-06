@@ -31,7 +31,7 @@ public class ShipSensor : BaseObject
             if (Singleton<GameInstance>.Instance.IsShipMove)
             {
                 base.OnUpdate();
-                this.acceleration = Input.acceleration * 2.5f;
+                this.acceleration = Input.acceleration * BaseObjectSingleton<GameInstance>.Instance.Sensitivty * 2.5f;
 
                 transform.Rotate(0, this.acceleration.x, 0);
             }
