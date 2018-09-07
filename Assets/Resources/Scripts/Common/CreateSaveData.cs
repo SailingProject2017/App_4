@@ -40,7 +40,6 @@ public static class CreateSaveData
     public static void NextTutorialState(eTutorial state)
     {
         Singleton<TutorialState>.Instance.TutorialStatus = state;
-        Debug.Log(message: Singleton<TutorialState>.Instance.TutorialStatus + "setNext");
     }
     #endregion
 

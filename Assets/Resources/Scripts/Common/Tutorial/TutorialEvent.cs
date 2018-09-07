@@ -79,6 +79,5 @@ public class TutorialEvent : BaseObject {
     {
         BaseObjectSingleton<GameInstance>.Instance.IsCountDown = true;
      
-        Debug.Log("flag:"+Singleton<GameInstance>.Instance.IsShipMove);
     }
 }

@@ -50,6 +50,14 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         rank = 0;
         maxBGMVolume = 0.7f;
         maxSEVolume =  1.0f;
+
+        // 解像度の変更　端末のアス比からアス比を計算
+        float screenRate = (float)1024 / Screen.height;
+        if (screenRate > 1) screenRate = 1;
+        int width = (int)(Screen.width * screenRate);
+        int height = (int)(Screen.height * screenRate);
+        Screen.SetResolution(width, height, true, 15);
+
     }
 
     #region 読み込むステージの判定

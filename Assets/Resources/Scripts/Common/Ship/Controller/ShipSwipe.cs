@@ -21,27 +21,27 @@ public class ShipSwipe : BaseObject
     public override void OnUpdate()
     {
         base.OnUpdate();
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (BaseObjectSingleton<GameInstance>.Instance.IsSwipe)
         {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
 
-            isFlick = true;
-            touchStartPos = new Vector3(Input.mousePosition.x,
-                        Input.mousePosition.y,
-                        Input.mousePosition.z);
+                isFlick = true;
+                touchStartPos = new Vector3(Input.mousePosition.x,
+                            Input.mousePosition.y,
+                            Input.mousePosition.z);
 
-            Invoke("FlickOff", 0.2f);
-        }
+                Invoke("FlickOff", 0.2f);
+            }
 
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            touchEndPos = new Vector3(Input.mousePosition.x,
-                        Input.mousePosition.y,
-                        Input.mousePosition.z);
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                touchEndPos = new Vector3(Input.mousePosition.x,
+                            Input.mousePosition.y,
+                            Input.mousePosition.z);
 
 
-            float directionX = (touchEndPos.x - touchStartPos.x) * 0.003f;
-            Debug.Log(directionX);
+                float directionX = (touchEndPos.x - touchStartPos.x) * 0.003f;
                 if (directionX >= 1.0f) directionX = 1.0f;
                 if (directionX <= -1.0f) directionX = -1.0f;
 
@@ -55,11 +55,12 @@ public class ShipSwipe : BaseObject
                     ClickOff();
                 }
             }
-           
-        
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-           
+
+
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+
+            }
         }
     }
     public void FlickOff()

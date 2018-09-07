@@ -107,7 +107,6 @@ public class RankManager : MarkerBase
 		for (int i = 0; i < allPlayerShipObject.Count; i++)
 		{
 			allShip.Add(new ShipObject(allPlayerShipObject[i], 0.0f, 1, allPlayerShipObject[i].GetComponent<MarkerColliderTrigger>()));
-			Debug.Log(allShip[i]);
 		}
 
 		// その後ろに敵の処理

@@ -21,7 +21,6 @@ public class TapEffectPlayer : BaseObject {
     {
         if (Input.GetMouseButtonDown(0) && !Singleton<GameInstance>.Instance.IsShipMove)
         {
-            Debug.Log("Click!");
             var pos = camera.ScreenToWorldPoint(Input.mousePosition + camera.transform.forward * 5);
             // エフェクトの再生
             BaseObjectSingleton<EffectManager>.Instance.PlayEffect("Tap", pos, Quaternion.Euler(90 - camera.transform.localScale.x, 0, 0));
