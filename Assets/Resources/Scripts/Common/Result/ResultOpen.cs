@@ -35,7 +35,7 @@ public class ResultOpen : BaseObject
             if (Singleton<GameInstance>.Instance.IsGoal == true)
             {
 
-                Singleton<GameInstance>.Instance.IsGoal = false;
+
                 if (SceneManager.GetActiveScene().name == "InTutorial")
                 {
                     result.Open();

@@ -25,12 +25,12 @@ public class CreateTutorialText : CanvasBase {
 
     public override void OnUpdate()
     {
-        if (Singleton<TutorialState>.Instance.TutorialStatus != eTutorial.eTutorial_End)
+        if (Singleton<SaveDataInstance>.Instance.TutorialStatus != eTutorial.eTutorial_End)
         {
             if (!isCallOnce)
             {
                 // チュートリアルのステートに対応したテキストをCanvas内に生成する
-                NewCanvasInGameObject(tutorialText[(int)Singleton<TutorialState>.Instance.TutorialStatus]);
+                NewCanvasInGameObject(tutorialText[(int)Singleton<SaveDataInstance>.Instance.TutorialStatus]);
                 isCallOnce = !isCallOnce;
             }
             if (BaseObjectSingleton<GameInstance>.Instance.IsTutorialState)

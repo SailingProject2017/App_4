@@ -15,11 +15,13 @@ public class MarkerColliderTrigger : MarkerBase
 
 
 
+
 	protected override void MarkerInitialize()
 	{
 		base.MarkerInitialize();
 		MoveMakerPoint();
 		currentMarker = 0;
+        Singleton<GameInstance>.Instance.IsGoal = false;  
 	}
     
     private void MoveMakerPoint()
@@ -41,8 +43,7 @@ public class MarkerColliderTrigger : MarkerBase
             // goalタグのオブジェクトに接触したときに走る命令
             if (other.tag == "goal")
             {
-                Singleton<GameInstance>.Instance.IsGoal = true;             // ゲーム全体で管理しているフラグ
-                //BaseObjectSingleton<GameInstance>.Instance.IsGoal = true;             // ゲーム全体で管理しているフラグ
+                Singleton<GameInstance>.Instance.IsGoal = true;  
                 BaseObjectSingleton<GameInstance>.Instance.IsPopup = true;  // ポップアップを開ける状態にする
 
                 isGoal = true;                                              // ランクで管理しているフラグ
