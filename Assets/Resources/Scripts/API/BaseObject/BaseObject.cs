@@ -7,7 +7,6 @@
 *********************************************************************************************
 * Copyright © 2017 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,7 +68,6 @@ public class BaseObject : MonoBehaviour
     /// <summary>
     /// @brief 消去時実行関数が一度だけ呼ばれることを保証するための変数
     /// </summary>
-   　//private bool callOnce;
 
     private BaseObject owner;
 
@@ -111,13 +109,34 @@ public class BaseObject : MonoBehaviour
     /// @brief フレーム毎に、アニメーションがレンダリングされる前に実行される関数
     /// @note  この関数の呼び出し回数はプロセッサに依存します
     /// </summary>
-    public virtual void OnUpdate() { return; }
+    public virtual void OnUpdate() {
+
+        Timer.Start();
+
+        
+
+
+
+        return;
+
+
+
+    }
 
     /// <summary>
     /// @brief Update()が呼ばれた後に実行されるUpdate関数
     /// @note  オブジェクトのカメラ追従などに使用してください
     /// </summary>
-    public virtual void OnLateUpdate() { return; }
+    public virtual void OnLateUpdate() {
+
+        var hoge = Timer.Stop();
+        if(hoge != 0)
+        Debug.Log(Timer.Stop() + Owner.ToString());
+        Timer.Reset();
+
+
+        return;
+    }
 
     /// <summary>
     /// @brief 物理挙動の更新の直前に固定フレームレートで呼ばれる更新関数

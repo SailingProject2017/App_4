@@ -21,7 +21,11 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     private bool isPorse;      // @brief ポーズ中かどうか判別する変数
     private bool isCountDown;  // @brief カウントダウンを始めるかどうか判別する変数
     private bool isGoal;       // @brief ゴールしたかの確認
+    private bool isPopup;      // @brief ポップアップを開くか閉じるか
+    private bool isGyro;       // @brief ジャイロ操作のフラグ
+    private bool isSwipe;      // @brief スワイプ操作のフラグ
     private int  rank;
+    private float sensitivty;
 
     /* Tutorial関連 */
     private bool isTutorialState; // @brief チュートリアルが変わったかどうかの確認
@@ -39,11 +43,20 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         isCountDown = false;
         isGoal = false;
         isTutorialState = false;
+        isPopup = false;
+        isGyro = true;
+        IsSwipe = true;
         rank = 0;
-        maxBGMVolume = 1.0f;
-        maxSEVolume = 1.0f;
+        Sensitivty = 0.1f;
+        maxBGMVolume = 0.7f;
+        maxSEVolume =  1.0f;
 
-        Application.targetFrameRate = 30;
+        // 解像度の変更　端末のアス比からアス比を計算
+        float screenRate = (float)1024 / Screen.height;
+        if (screenRate > 1) screenRate = 1;
+        int width = (int)(Screen.width * screenRate);
+        int height = (int)(Screen.height * screenRate);
+        Screen.SetResolution(width, height, true, 15);
 
     }
 
@@ -116,6 +129,49 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     #endregion
 
+    #region ポップアップの判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isPopupの変数アクセサー
+    /// @none  true 開く false 閉じる
+    /// </summary>
+    public bool IsPopup
+    {
+        set { isPopup = value; }
+        get { return isPopup; }
+    }
+
+    #endregion
+
+    #region ジャイロ操作の判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isGyroの変数アクセサー
+    /// </summary>
+    public bool IsGyro
+    {
+        set { isGyro = value; }
+        get { return isGyro; }
+    }
+
+    #endregion
+
+    #region スワイプ操作の判定
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isSwipeの変数アクセサー
+    /// </summary>
+    public bool IsSwipe
+    {
+        set { isSwipe = value; }
+        get { return isSwipe; }
+    }
+
+    #endregion
+
     #region ゴール時のランク
     /********************************************************************************************/
 
@@ -146,6 +202,20 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     #endregion
 
+
+    #region 加速度
+    /********************************************************************************************/
+
+    /// <summary>
+    /// @brief isTutorialStateの変数アクセサー
+    /// </summary>
+    public float Sensitivty
+    {
+        set { sensitivty = value; }
+        get { return sensitivty; }
+    }
+
+    #endregion
     #region サウンド関連
     /********************************************************************************************/
 

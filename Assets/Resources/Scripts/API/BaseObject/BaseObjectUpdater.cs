@@ -32,6 +32,7 @@ public class BaseObjectUpdater : BaseObject
                 if (obj.IsPresence())
                     obj.OnFastUpdate();
             }
+
             foreach (var obj in BaseObjectList)
             {
                 if (obj.IsPresence())
@@ -54,6 +55,7 @@ public class BaseObjectUpdater : BaseObject
     /// </summary>
     void LateUpdate()
     {
+
         if (!BaseObjectSingleton<GameInstance>.Instance.IsPorse)
         {
             foreach (var obj in BaseObjectList)
@@ -61,9 +63,10 @@ public class BaseObjectUpdater : BaseObject
                 if (obj.IsPresence())
                     obj.OnLateUpdate();
             }
-        }
-    }
 
+        }
+
+    }
     /// <summary>
     /// @brief このソリューション唯一のFixedUpdate関数
     /// @note ここ以外でFixedUpdate関数は使わないでください

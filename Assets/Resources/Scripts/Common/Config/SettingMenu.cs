@@ -10,22 +10,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class SettingMenu : BaseObject
 {
-    [SerializeField] private GameObject settingMenu;    // メニューを出すボタン
-    [SerializeField] private GameObject settingButten;  // メニュー
-    [SerializeField] private bool activeMenu;           // メニューの表示非表示のフラグ
+    [SerializeField] private GameObject settingButton;    // @brief メニューを出すボタン
+    [SerializeField] private GameObject settingPopup; // brief settingのインスタンス化
+    private PopupSetting setting; // @brief 設定用ポップアップ
+    private bool activeMenuFlag;           // @brief メニューの表示非表示のフラグ
+
 
     /// <summary>
     /// @brief 変数の初期化
     /// </summary>
     private void Start()
     {
-        activeMenu = false;
-        settingMenu.SetActive(activeMenu);
-        settingButten.SetActive(!activeMenu);
         BaseObjectSingleton<GameInstance>.Instance.IsPorse = false;
+        activeMenuFlag = false;
+        setting = settingPopup.GetComponent<PopupSetting>();
+
+        // 初回のチュートリアル中は設定ボタンを表示しない
+        if(Singleton<TutorialState>.Instance.TutorialStatus == eTutorial.eTutorial_End)
+            settingButton.SetActive(!activeMenuFlag);
+        else
+            settingButton.SetActive(activeMenuFlag);
     }
 
     /// <summary>
@@ -41,13 +47,24 @@ public class SettingMenu : BaseObject
     /// </summary>
     public void ActiveMenu()
     {
-        if (Singleton<GameInstance>.instance.IsShipMove)
+        if (Singleton<GameInstance>.Instance.IsShipMove)
         {
-            activeMenu = ChengeBool(activeMenu);
-            settingMenu.SetActive(activeMenu);
-            settingButten.SetActive(!activeMenu);
+            activeMenuFlag = ChengeBool(activeMenuFlag);
+            settingButton.SetActive(!activeMenuFlag);
+            settingPopup.SetActive(activeMenuFlag);
+            
             // ポーズフラグの切り替え 設定画面を開いているときはポーズ中 閉じればプレイ中の状態
             BaseObjectSingleton<GameInstance>.Instance.IsPorse = !BaseObjectSingleton<GameInstance>.Instance.IsPorse;
-        }
+
+            // ポップアップの開閉
+            if (activeMenuFlag)
+            {
+                setting.Open();
+            }
+            else
+            {
+                setting.Close();
+            }
+        }   
     }
 }

@@ -21,7 +21,7 @@ public class ResultButton : BaseObject {
         // 子のボタンコンポーネントを取得
         button = GetComponentsInChildren<Button>();
 
-        if(Singleton<TutorialState>.instance.TutorialStatus != eTutorial.eTutorial_End)
+        if(Singleton<SaveDataInstance>.Instance.TutorialStatus != eTutorial.eTutorial_End)
         {
             // 配列内のボタン外部機能を停止する
             for (int i = 0; i < button.Length; i++)

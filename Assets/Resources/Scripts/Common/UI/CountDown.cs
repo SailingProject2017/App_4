@@ -22,6 +22,9 @@ public class CountDown : BaseObject
     void Start()
     {
         countDownText.text = "";
+        Singleton<SoundPlayer>.Instance.PlayBGM("ModeSelect", 0, true);
+        Singleton<SoundPlayer>.Instance.PauseBGM();
+
     }
 
     public override void OnUpdate()
@@ -33,14 +36,14 @@ public class CountDown : BaseObject
             if (!isCallOnce)
             {
                 StartCoroutine(CountDownCoroutine());
-                Singleton<ShipStates>.instance.ShipState = eShipState.STOP;
+                Singleton<ShipStates>.Instance.ShipState = eShipState.STOP;
                 BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
                 isCallOnce = !isCallOnce;
             }
             else
             {
                 // 船の移動許可
-                Singleton<GameInstance>.instance.IsShipMove = true;
+                Singleton<GameInstance>.Instance.IsShipMove = true;
                 BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
             }
         }
@@ -59,26 +62,27 @@ public class CountDown : BaseObject
 
         // 3
         countDownText.text = "3";
-        Singleton<SoundPlayer>.instance.PlaySE("0");
+        Singleton<SoundPlayer>.Instance.PlaySE("0");
         yield return new WaitForSeconds(1.0f);
 
         // 2
         countDownText.text = "2";
-        Singleton<SoundPlayer>.instance.PlaySE("0");
+        Singleton<SoundPlayer>.Instance.PlaySE("0");
         yield return new WaitForSeconds(1.0f);
 
         // 1
         countDownText.text = "1";
-        Singleton<SoundPlayer>.instance.PlaySE("0");
+        Singleton<SoundPlayer>.Instance.PlaySE("0");
         yield return new WaitForSeconds(1.0f);
 
         // GO
         countDownText.text = "GO!";
-        Singleton<SoundPlayer>.instance.PlaySE("4");
+        Singleton<SoundPlayer>.Instance.PlaySE("4");
 
         // 船の移動許可
-        Singleton<GameInstance>.instance.IsShipMove = true;
+        Singleton<GameInstance>.Instance.IsShipMove = true;
         BaseObjectSingleton<GameInstance>.Instance.IsCountDown = false;
+        Singleton<SoundPlayer>.Instance.PlayBGM();
         yield return new WaitForSeconds(1.0f);
 
         //　非表示にする

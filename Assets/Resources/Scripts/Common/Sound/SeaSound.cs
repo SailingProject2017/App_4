@@ -15,7 +15,7 @@ public class SeaSound : BaseObject
     void Start()
     {
         //fadeTime = 1.0f;
-        Singleton<SoundPlayer>.instance.PlayBGM("Sea", fadeTime, true);
+        Singleton<SoundPlayer>.Instance.PlayBGM("Sea", fadeTime, true);
 
     }
 
@@ -23,7 +23,7 @@ public class SeaSound : BaseObject
     {
         base.OnUpdate();
 
-        Singleton<SoundPlayer>.instance.Update();
+        Singleton<SoundPlayer>.Instance.Update();
 
     }
 
@@ -31,7 +31,7 @@ public class SeaSound : BaseObject
     {
         if (!callOnce)
         {
-            Singleton<SoundPlayer>.instance.PlaySE("TitleButton");
+            Singleton<SoundPlayer>.Instance.PlaySE("TitleButton");
             callOnce = !callOnce;
         }
     }

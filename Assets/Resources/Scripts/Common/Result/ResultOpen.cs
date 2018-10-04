@@ -18,45 +18,50 @@ public class ResultOpen : BaseObject
     private GameObject resultPopup; // @brief Resultのインスタンス化
 
     private bool isCallOnse;
+    private PopupResult result;
 
     private void Start()
     {
         isCallOnse = false;
+        result = resultPopup.GetComponent<PopupResult>();
     }
 
-    public void Update()
+    public override void OnUpdate()
     {
-        //base.OnUpdate();
+        base.OnUpdate();
 
-        if (!isCallOnse)
+        if (!isCallOnse && BaseObjectSingleton<GameInstance>.Instance.IsPopup == true)
         {
-            if (Singleton<GameInstance>.instance.IsGoal == true)
+            if (Singleton<GameInstance>.Instance.IsGoal == true)
             {
 
-                Singleton<GameInstance>.instance.IsGoal = false;
+
                 if (SceneManager.GetActiveScene().name == "InTutorial")
                 {
-                    PopupResult result = resultPopup.GetComponent<PopupResult>();
                     result.Open();
                 }
                 else if(SceneManager.GetActiveScene().name == "InGame")
                 {
-                    Singleton<ShipStates>.instance.CameraMode = eCameraMode.GOAL;
+                    Singleton<ShipStates>.Instance.CameraMode = eCameraMode.GOAL;
+                    if(Singleton<ShipStates>.Instance.CameraMode == eCameraMode.GOAL)
                     StartCoroutine(InGameResult());
                 }
                 isCallOnse = true;
 
             }
         }
+
+        if (BaseObjectSingleton<GameInstance>.Instance.IsPopup == false)
+            result.Close();
+
     }
 
     public IEnumerator InGameResult()
     {
 
         yield return new WaitForSeconds(5.0f);
-        PopupResult result = resultPopup.GetComponent<PopupResult>();
         result.Open();
-        Singleton<GameInstance>.instance.IsShipMove = true;
+        Singleton<GameInstance>.Instance.IsShipMove = true;
 
     }
 }

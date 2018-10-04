@@ -15,11 +15,13 @@ public class MarkerColliderTrigger : MarkerBase
 
 
 
+
 	protected override void MarkerInitialize()
 	{
 		base.MarkerInitialize();
 		MoveMakerPoint();
 		currentMarker = 0;
+        Singleton<GameInstance>.Instance.IsGoal = false;  
 	}
     
     private void MoveMakerPoint()
@@ -38,21 +40,24 @@ public class MarkerColliderTrigger : MarkerBase
 	{
 		if (hitMarkerList[currentHitMarker].gameObject == other.gameObject)
 		{
-			// goalタグのオブジェクトに接触したときに走る命令
-			if (other.tag == "goal")
-			{
-				Singleton<GameInstance>.instance.IsGoal = true; // ゲーム全体で管理しているフラグ
-				isGoal = true;                                  // ランクで管理しているフラグ
-			}
-			// markerに当たったとき次のmarkerを指すようにする
-			else
-			{
-				currentHitMarker++;
-				MoveMakerPoint();
-                
-        // エフェクトの再生
-        BaseObjectSingleton<EffectManager>.Instance.PlayEffect("PassedMarker", other.transform.position, other.transform.rotation, other.transform.localScale);
-        }
+            // goalタグのオブジェクトに接触したときに走る命令
+            if (other.tag == "goal")
+            {
+                Singleton<GameInstance>.Instance.IsGoal = true;  
+                BaseObjectSingleton<GameInstance>.Instance.IsPopup = true;  // ポップアップを開ける状態にする
+
+                isGoal = true;                                              // ランクで管理しているフラグ
+                Singleton<SoundPlayer>.Instance.PlaySE("Goal");
+            }
+            // markerに当たったとき次のmarkerを指すようにする
+            else
+            {
+                currentHitMarker++;
+                MoveMakerPoint();
+                Singleton<SoundPlayer>.Instance.PlaySE("PassedMarker");
+                // エフェクトの再生
+                //BaseObjectSingleton<EffectManager>.Instance.PlayEffect("PassedMarker", other.transform.position, other.transform.rotation, other.transform.localScale);
+            }
 		}
         // わかりやすくするために別でif文かけてます
 	    if(other.gameObject == hitMarkerList[currentMarker].gameObject && other.tag != "goal")

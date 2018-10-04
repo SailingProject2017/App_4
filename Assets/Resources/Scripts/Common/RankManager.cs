@@ -53,7 +53,7 @@ public class RankManager : MarkerBase
 	{
 		base.MarkerInitialize();
 
-        Singleton<SoundPlayer>.instance.PlaySE("StartRase");
+        Singleton<SoundPlayer>.Instance.PlaySE("StartRase");
 
         	// ランク画像を処理しているスクリプトのコンポーネント取得
 		GameObject rank = GameObject.Find("rank");
@@ -107,7 +107,6 @@ public class RankManager : MarkerBase
 		for (int i = 0; i < allPlayerShipObject.Count; i++)
 		{
 			allShip.Add(new ShipObject(allPlayerShipObject[i], 0.0f, 1, allPlayerShipObject[i].GetComponent<MarkerColliderTrigger>()));
-			Debug.Log(allShip[i]);
 		}
 
 		// その後ろに敵の処理

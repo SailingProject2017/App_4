@@ -48,13 +48,13 @@ public class TitleTextAnimation : BaseObject
 
         if (animeType == eAnimeType.eTitle_Wind)
         {
-            movedPos.x = -150.0f;
-            me.rectTransform.localPosition = new Vector3(-1200.0f, 200.0f, 0.0f);
+            movedPos.x = 1300.0f;
+            me.rectTransform.localPosition = new Vector3(-2000.0f, 200.0f, 0.0f);
         }
         if (animeType == eAnimeType.eTitle_Raser)
         {
-            movedPos.x = 150.0f;
-            me.rectTransform.localPosition = new Vector3(1200.0f, 0.0f, 0.0f);
+            movedPos.x = -1300.0f;
+            me.rectTransform.localPosition = new Vector3(2000.0f, 0.0f, 0.0f);
         }
     }
 
