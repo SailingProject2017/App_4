@@ -13,12 +13,20 @@ public class GoalUI : BaseObject
 {
 
     [SerializeField]
-    private GameObject goalUI;  // @brief ゴール時のUI用変数
+    private Sprite maskUI;
+
+    [SerializeField]
+    private Sprite goalUI;
+
+    private SpriteRenderer spriteRenderer;
+
 
     // Use this for initialization
     void Start()
     {
-        goalUI.gameObject.SetActive(false);
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = maskUI;
+        Singleton<GameInstance>.Instance.IsGoal = false;
     }
 
     // Update is called once per frame
@@ -26,18 +34,9 @@ public class GoalUI : BaseObject
     {
         base.OnUpdate();
 
-
-        if (Singleton<GameInstance>.Instance.IsGoal)
+       if (Singleton<GameInstance>.Instance.IsGoal)
         {
-            goalUI.gameObject.SetActive(true);
-        }
-    }
-
-    public override void OnEnd()
-    {
-        base.OnEnd();
-        if (goalUI.gameObject == null) return;
-        goalUI.gameObject.SetActive(false);
-
+            spriteRenderer.sprite = goalUI;
+        } 
     }
 }

@@ -13,7 +13,12 @@ public class FPSRender : BaseObject
     private float fps;
     private int allObj;
 
-    public  void Update()
+    public void Start()
+    {
+        allObj = 0;
+    }
+
+    public override void OnUpdate()
     {
 
         timeleft -= Time.deltaTime;
@@ -27,6 +32,13 @@ public class FPSRender : BaseObject
         accum = 0;
         frames = 0;
         allObj = BaseObjectList.Count;
+    }
+
+    public override void OnEnd()
+    {
+        base.OnEnd();
+        allObj = 0;
+
     }
 
     private void OnGUI()

@@ -51,8 +51,8 @@ sealed public class AIControler : MarkerBase
 	private readonly Vector3 rotateL = new Vector3(0f, -1.5f, 0f);        // @brief 左旋回用変数
 	private readonly Vector3 rotateR = new Vector3(0f, 1.5f, 0f);         // @brief 右旋回用変数
 	private          float aISpeed = 20.0f;      // @brief AIの直進速度
-	private readonly float aITopSpeed = 21.0f;   // @brief AIの最大速度
-	private readonly float aITurnSpeed = 19.0f;  // @brief AIの旋回速度
+    private float aITopSpeed;   // @brief AIの最大速度
+    private float aITurnSpeed;  // @brief AIの旋回速度
 
 
 	/* マーカーの座標やリストについての宣言 */
@@ -73,6 +73,9 @@ sealed public class AIControler : MarkerBase
 		GetMarkerPoint();
 		GetNextTurnRad();
 		transform.rotation = Quaternion.Euler(0, turnDeg, 0);
+        aITopSpeed = Random.Range(19.0f, 21.0f);   // @brief AIの最大速度
+        aITurnSpeed = Random.Range(19.0f, 20.5f);  // @brief AIの旋回速度
+
 	}
 
 	/// <summary>

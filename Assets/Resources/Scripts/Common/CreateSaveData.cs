@@ -24,10 +24,10 @@ public static class CreateSaveData
     /// <returns>true 実行可 : false 実行不可</returns>
     public static bool DoTutorial(string path, eTutorial state)
     {
-        Singleton<TutorialState>.Instance = (TutorialState)LoadFromBinaryFile(path);
-        if (Singleton<TutorialState>.Instance.TutorialStatus == state)
+        Singleton<SaveDataInstance>.Instance = (SaveDataInstance)LoadFromBinaryFile(path);
+        if (Singleton<SaveDataInstance>.Instance.TutorialStatus == state)
         {
-            Debug.Log(Singleton<TutorialState>.Instance.TutorialStatus);
+            Debug.Log(Singleton<SaveDataInstance>.Instance.TutorialStatus);
             return true;
         }
         return false;
@@ -39,7 +39,7 @@ public static class CreateSaveData
     /// <param name="state"></param>
     public static void NextTutorialState(eTutorial state)
     {
-        Singleton<TutorialState>.Instance.TutorialStatus = state;
+        Singleton<SaveDataInstance>.Instance.TutorialStatus = state;
     }
     #endregion
 
@@ -52,26 +52,21 @@ public static class CreateSaveData
     /// <returns>復元されたオブジェクト</returns>
     public static object LoadFromBinaryFile(string path)
     {
+        // 指定したファイルがあるかどうか調べる
+        if (!System.IO.File.Exists(path))
+        {
+            // なければ生成
+           CreateBineryFile(path);
+        }
 
         FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
         BinaryFormatter bf = new BinaryFormatter();
-
-        if (fs.Length == 0)
-        {
-            Debug.Log("ファイル" + path + "が見つからないので作ります。");
-            Debug.Log("初回起動です");
-            fs.Close();
-            CreateBineryFile(path);
-            return null;
-        }
 
         //読み込んで逆シリアル化する
         object obj = bf.Deserialize(fs);
         fs.Close();
 
         return obj;
-
-
     }
 
     /// <summary>
@@ -84,12 +79,15 @@ public static class CreateSaveData
         FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
         BinaryFormatter bf = new BinaryFormatter();
 
-
         //シリアル化して書き込む
         bf.Serialize(fs, obj);
         fs.Close();
     }
 
+    /// <summary>
+    /// @brief ファイルの生成
+    /// </summary>
+    /// <param name="path">Path.</param>
     public static void CreateBineryFile(string path)
     {
         //　ファイルの生成
@@ -97,7 +95,7 @@ public static class CreateSaveData
         NextTutorialState(eTutorial.eTutorial_Null);
         fs.Close();
 
-        SaveToBinaryFile(Singleton<TutorialState>.Instance, path);
+        SaveToBinaryFile(Singleton<SaveDataInstance>.Instance, path);
     }
     #endregion
 }

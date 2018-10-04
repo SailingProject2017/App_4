@@ -42,7 +42,6 @@ public class NextScene : BaseObject
             obj.OnEnd();
         }
         BaseObjectSingleton<GameInstance>.Instance.IsPopup = false; // ポップアップを閉じる
-        Singleton<GameInstance>.Instance.IsGoal = false;
         SceneManager.SceneMove(nextScene); // SceneManagerを呼び出す 引数は次のシーン
     }
 
@@ -51,6 +50,6 @@ public class NextScene : BaseObject
     /// </summary>
     public void DispatchTutorialState()
     {
-        TutorialManager.Instance.NextTutorialState(Singleton<TutorialState>.Instance.TutorialStatus);
+        TutorialManager.Instance.NextTutorialState(Singleton<SaveDataInstance>.Instance.TutorialStatus);
     }
 }
