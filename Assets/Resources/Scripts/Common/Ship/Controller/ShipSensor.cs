@@ -26,12 +26,12 @@ public class ShipSensor : BaseObject
     }
     public override void OnUpdate()
     {
-        if (BaseObjectSingleton<GameInstance>.Instance.IsGyro)
+        if (Singleton<SaveDataInstance>.Instance.IsGyro)
         {
             if (Singleton<GameInstance>.Instance.IsShipMove)
             {
                 base.OnUpdate();
-                this.acceleration = Input.acceleration * BaseObjectSingleton<GameInstance>.Instance.Sensitivty * 2.5f;
+                this.acceleration = Input.acceleration * Singleton<SaveDataInstance>.Instance.Sensitivty * 2.5f;
 
                 transform.Rotate(0, this.acceleration.x, 0);
             }

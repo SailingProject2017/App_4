@@ -22,5 +22,6 @@ public class ReturnTitle : BaseObject
 	public void MoveScene()
 	{
 		SceneManager.LoadScene(returnScene);
+        BaseObjectSingleton<GameInstance>.Instance.IsPorse = false;
 	}
 }

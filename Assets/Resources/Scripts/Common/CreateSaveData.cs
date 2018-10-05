@@ -69,6 +69,40 @@ public static class CreateSaveData
         return obj;
     }
 
+    public static object LoadFromBinaryFile()
+    {
+
+        string path;
+
+        /// 全プラットフォーム対応
+        /// ただしAndroidのみ 4.4以上動作
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            path = Application.temporaryCachePath + ".xml";
+        }
+        else
+        {
+            path = Application.persistentDataPath + ".xml";
+        }
+
+
+        // 指定したファイルがあるかどうか調べる
+        if (!System.IO.File.Exists(path))
+        {
+            // なければ生成
+            CreateBineryFile(path);
+        }
+
+        FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+        BinaryFormatter bf = new BinaryFormatter();
+
+        //読み込んで逆シリアル化する
+        object obj = bf.Deserialize(fs);
+        fs.Close();
+
+        return obj;
+    }
+
     /// <summary>
     /// @brief オブジェクトの内容をファイルに保存する
     /// </summary>
@@ -84,6 +118,31 @@ public static class CreateSaveData
         fs.Close();
     }
 
+    public static void SaveToBinaryFile(object obj)
+    {
+
+        string path;
+
+        /// 全プラットフォーム対応
+        /// ただしAndroidのみ 4.4以上動作
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            path = Application.temporaryCachePath + ".xml";
+        }
+        else
+        {
+            path = Application.persistentDataPath + ".xml";
+        }
+
+        FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+        BinaryFormatter bf = new BinaryFormatter();
+
+        //シリアル化して書き込む
+        bf.Serialize(fs, obj);
+        fs.Close();
+    }
+
+
     /// <summary>
     /// @brief ファイルの生成
     /// </summary>
@@ -92,7 +151,12 @@ public static class CreateSaveData
     {
         //　ファイルの生成
         FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
-        NextTutorialState(eTutorial.eTutorial_Null);
+        NextTutorialState(eTutorial.eTutorial_End);
+        Singleton<SaveDataInstance>.Instance.MaxBGMVolume = 0.7f;
+        Singleton<SaveDataInstance>.Instance.MaxBGMVolume = 1.0f;
+        Singleton<SaveDataInstance>.Instance.IsGyro = true;
+        Singleton<SaveDataInstance>.Instance.ISSwipe = true;
+        Singleton<SaveDataInstance>.Instance.Sensitivty = 0.5f;
         fs.Close();
 
         SaveToBinaryFile(Singleton<SaveDataInstance>.Instance, path);

@@ -10,7 +10,7 @@
 * Copyright © 2017 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
 using System;
-
+using UnityEngine;
 [Serializable()]
 public class SaveDataInstance
 {
@@ -24,8 +24,54 @@ public class SaveDataInstance
     /// </summary>
     public eTutorial TutorialStatus
     {
-        set { tutorialState = value; }
+        set 
+        { 
+            tutorialState = value;
+            Debug.Log(tutorialState + "call state");
+        }
         get { return tutorialState; }
+    }
+
+
+
+    private bool isGyro;       // @brief ジャイロ操作のフラグ
+
+    public bool IsGyro
+    {
+        set { isGyro = value; }
+        get { return isGyro; }
+    }
+
+    private bool isSwipe;      // @brief スワイプ操作のフラグ
+
+    public bool ISSwipe
+    {
+        set { isSwipe = value; }
+        get { return isSwipe; }
+    }
+
+    private float sensitivty;
+
+    public float Sensitivty
+    {
+        set { sensitivty = value; }
+        get { return sensitivty; }
+    }
+
+    /* サウンド関連 */
+    private float maxBGMVolume;
+    private float maxSEVolume;
+
+    public float MaxBGMVolume
+    {
+        set { maxBGMVolume = value; }
+        get { return maxBGMVolume; }
+    }
+
+    public float MaxSEVolume
+    {
+        set { maxSEVolume = value; }
+        get { return maxSEVolume; }
     }
 }
 

@@ -245,7 +245,7 @@ class BGMPlayer
         if (source != null)
         {
             this.fadeInTime = fadeTime;
-            this.maxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume;
+            this.maxBGMVolume = Singleton<SaveDataInstance>.Instance.MaxBGMVolume;
             source.volume = this.maxBGMVolume;
             source.loop = toLoop;
             state.PlayBGM();
@@ -275,7 +275,7 @@ class BGMPlayer
         {
             state.Update();
 
-            this.maxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume;
+            this.maxBGMVolume = Singleton<SaveDataInstance>.Instance.MaxBGMVolume;
             source.volume = this.maxBGMVolume;
         }
     }

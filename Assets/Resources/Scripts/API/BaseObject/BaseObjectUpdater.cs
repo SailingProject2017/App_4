@@ -36,7 +36,11 @@ public class BaseObjectUpdater : BaseObject
             foreach (var obj in BaseObjectList)
             {
                 if (obj.IsPresence())
+                {
+                    obj.OnStartTimer();
                     obj.OnUpdate();
+                    obj.OnEndTimer();
+                }
             }
         }
         else

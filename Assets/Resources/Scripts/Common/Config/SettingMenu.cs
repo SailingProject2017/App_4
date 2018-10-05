@@ -28,7 +28,7 @@ public class SettingMenu : BaseObject
         setting = settingPopup.GetComponent<PopupSetting>();
 
         // 初回のチュートリアル中は設定ボタンを表示しない
-		if(Singleton<SaveDataInstance>.Instance.TutorialStatus == eTutorial.eTutorial_End)
+        if(Singleton<SaveDataInstance>.Instance.TutorialStatus == eTutorial.eTutorial_End)
             settingButton.SetActive(!activeMenuFlag);
         else
             settingButton.SetActive(activeMenuFlag);
