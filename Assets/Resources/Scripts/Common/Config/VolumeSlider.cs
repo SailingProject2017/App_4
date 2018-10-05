@@ -18,7 +18,11 @@ public class VolumeSlider : BaseObject {
     {
         slider = GetComponent<Slider>();
 
-        BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxSEVolume = slider.value;   
+        Singleton<SaveDataInstance>.Instance = (SaveDataInstance)CreateSaveData.LoadFromBinaryFile();
+
+        slider.value = (int)Singleton<SaveDataInstance>.Instance.MaxSEVolume * 10;
+
+        slider.value = (int)Singleton<SaveDataInstance>.Instance.MaxBGMVolume * 10;
     }
 
     /// <summary>
@@ -26,16 +30,19 @@ public class VolumeSlider : BaseObject {
     /// </summary>
     public void BGMValueChanged()
     {
-        BaseObjectSingleton<GameInstance>.Instance.MaxBGMVolume = BaseObjectSingleton<GameInstance>.Instance.MaxSEVolume = slider.value * 0.1f;
-        Singleton<SoundPlayer>.Instance.PauseBGM();
+        Singleton<SaveDataInstance>.Instance.MaxBGMVolume = slider.value * 0.1f;
+        Singleton<SoundPlayer>.Instance.PauseBGM();        
         Singleton<SoundPlayer>.Instance.PlayBGM();
+        CreateSaveData.SaveToBinaryFile(Singleton<SaveDataInstance>.Instance);
     }
     /// <summary>
     /// @brief SE値が変化した際に呼ばれる関数
     /// </summary>
     public void SEValueChanged()
     {
+        Singleton<SaveDataInstance>.Instance.MaxSEVolume = slider.value * 0.1f;
         Singleton<SoundPlayer>.Instance.PlaySE("PassedMarker");
+        CreateSaveData.SaveToBinaryFile(Singleton<SaveDataInstance>.Instance);
     }
 
 

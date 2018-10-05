@@ -16,12 +16,19 @@ using UnityEngine.UI;
 public class ControllerSetting : BaseObject
 {
 
+    private void Start()
+    {
+        Singleton<SaveDataInstance>.Instance = (SaveDataInstance)CreateSaveData.LoadFromBinaryFile();
+    }
+
     /// <summary>
     /// @brief ジャイロのフラグを切り替える
     /// </summary>
     public void GyroChanged()
     {
-        BaseObjectSingleton<GameInstance>.Instance.IsGyro = !BaseObjectSingleton<GameInstance>.Instance.IsGyro;
+        Singleton<SaveDataInstance>.Instance.IsGyro = !Singleton<SaveDataInstance>.Instance.IsGyro;
+        CreateSaveData.SaveToBinaryFile(Singleton<SaveDataInstance>.Instance);
+
     }
 
     /// <summary>
@@ -29,6 +36,7 @@ public class ControllerSetting : BaseObject
     /// </summary>
     public void SwipeChanged()
     {
-        BaseObjectSingleton<GameInstance>.Instance.IsSwipe = !BaseObjectSingleton<GameInstance>.Instance.IsSwipe;
+        Singleton<SaveDataInstance>.Instance.ISSwipe = !Singleton<SaveDataInstance>.Instance.ISSwipe;
+        CreateSaveData.SaveToBinaryFile(Singleton<SaveDataInstance>.Instance);
     }
 }

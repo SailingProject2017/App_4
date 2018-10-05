@@ -42,6 +42,9 @@ public class NextScene : BaseObject
             obj.OnEnd();
         }
         BaseObjectSingleton<GameInstance>.Instance.IsPopup = false; // ポップアップを閉じる
+        BaseObjectSingleton<GameInstance>.Instance.IsPorse = false; // ポーズ中であれば解除
+        Debug.Log(Singleton<SaveDataInstance>.Instance.TutorialStatus);
+
         SceneManager.SceneMove(nextScene); // SceneManagerを呼び出す 引数は次のシーン
     }
 

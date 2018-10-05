@@ -39,13 +39,14 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
         if(Singleton<SaveDataInstance>.Instance.TutorialStatus == eTutorial.eTutorial_Null)
         {
             //　チュートリアルの状態をモードセレクトのチュートリアルにして保存する
-            CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
+            //CreateSaveData.NextTutorialState(eTutorial.eTutorial_ModeSelect);
             CreateSaveData.SaveToBinaryFile(Singleton<SaveDataInstance>.Instance, fileName);
         }
 
 
         /* リリース用　チュートリアルにバグがあるためENDにしてリリースしています。　*/
         CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
+        CreateSaveData.SaveToBinaryFile(Singleton<SaveDataInstance>.Instance, fileName);
 
     }
 
@@ -103,7 +104,7 @@ public class TutorialManager : BaseObjectSingleton<TutorialManager>
                 break;
 
             default:
-
+                CreateSaveData.NextTutorialState(eTutorial.eTutorial_End);
                 break;
 
         }

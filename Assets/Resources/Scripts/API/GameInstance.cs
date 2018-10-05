@@ -24,7 +24,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     private bool isPopup;      // @brief ポップアップを開くか閉じるか
     private bool isGyro;       // @brief ジャイロ操作のフラグ
     private bool isSwipe;      // @brief スワイプ操作のフラグ
-    private int  rank;
+    private int rank;
     private float sensitivty;
 
     /* Tutorial関連 */
@@ -44,12 +44,8 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         isGoal = false;
         isTutorialState = false;
         isPopup = false;
-        isGyro = true;
-        IsSwipe = true;
         rank = 0;
-        Sensitivty = 0.1f;
-        maxBGMVolume = 0.7f;
-        maxSEVolume =  1.0f;
+
 
         // 解像度の変更　端末のアス比からアス比を計算
         float screenRate = (float)1024 / Screen.height;
@@ -77,7 +73,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     #region 船が動けるかの判定
     /********************************************************************************************/
-   
+
     /// <summary>
     /// @brief isShipMoveの変数アクセサー
     /// </summary>
@@ -90,7 +86,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     #region ポーズ判定
     /********************************************************************************************/
- 
+
     /// <summary>
     /// @brief isPorseの変数アクセサー
     /// </summary>
@@ -145,7 +141,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     #endregion
 
     #region ジャイロ操作の判定
-    /********************************************************************************************/
+    /********************************************************************************************
 
     /// <summary>
     /// @brief isGyroの変数アクセサー
@@ -159,7 +155,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     #endregion
 
     #region スワイプ操作の判定
-    /********************************************************************************************/
+    /********************************************************************************************
 
     /// <summary>
     /// @brief isSwipeの変数アクセサー
@@ -204,7 +200,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
 
     #region 加速度
-    /********************************************************************************************/
+    /********************************************************************************************
 
     /// <summary>
     /// @brief isTutorialStateの変数アクセサー
@@ -217,7 +213,7 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     #endregion
     #region サウンド関連
-    /********************************************************************************************/
+    /********************************************************************************************
 
     /// <summary>
     /// @brief maxBGMVolumeの変数アクセサー
@@ -246,9 +242,10 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
         }
         get { return maxSEVolume; }
     }
-
+    /********************************************************************************************/
     #endregion
 }
+
 
 public class Selectable<T>
 {
@@ -314,12 +311,11 @@ public class Selectable<T>
     private void OnChanged(T value)
     {
         var onChanged = changed;
-        if(onChanged == null)
+        if (onChanged == null)
         {
             return;
         }
         onChanged(value);
     }
+
 }
-
-

@@ -21,7 +21,7 @@ public class ShipSwipe : BaseObject
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (BaseObjectSingleton<GameInstance>.Instance.IsSwipe)
+        if (Singleton<SaveDataInstance>.Instance.ISSwipe)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {

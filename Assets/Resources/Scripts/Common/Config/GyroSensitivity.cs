@@ -20,7 +20,9 @@ public class GyroSensitivity : BaseObject {
     {
         slider = GetComponent<Slider>();
 
-        BaseObjectSingleton<GameInstance>.Instance.Sensitivty = slider.value;
+        Singleton<SaveDataInstance>.Instance = (SaveDataInstance)CreateSaveData.LoadFromBinaryFile();
+
+        slider.value = Singleton<SaveDataInstance>.Instance.Sensitivty * 10;
     }
 
     /// <summary>
@@ -28,6 +30,7 @@ public class GyroSensitivity : BaseObject {
     /// </summary>
     public void GyroSensitivityChange()
     {
-        BaseObjectSingleton<GameInstance>.Instance.Sensitivty = slider.value * 0.1f;
+        Singleton<SaveDataInstance>.Instance.Sensitivty = slider.value * 0.1f;
+        CreateSaveData.SaveToBinaryFile(Singleton<SaveDataInstance>.Instance);
     }
 }

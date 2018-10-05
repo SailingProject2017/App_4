@@ -146,6 +146,24 @@ public class BaseObject : MonoBehaviour
     /// </summary>
     protected virtual void OnRemoveList() { return; }
 
+    /// <summary>
+    /// Use Debug
+    /// </summary>
+    public virtual void OnStartTimer() 
+    {
+        //Timer.Start();
+    }
+
+    public virtual void OnEndTimer()
+    {
+      //  float hoge;
+        //hoge = Timer.Stop();
+        //if (hoge != 0)
+            //Debug.Log(hoge + Owner.ToString());
+        //Timer.Reset();
+    }
+
+
     #endregion
 
     #region 静的関数群
