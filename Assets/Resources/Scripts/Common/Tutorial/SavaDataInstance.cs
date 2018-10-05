@@ -12,7 +12,7 @@
 using System;
 
 [Serializable()]
-public class TutorialState
+public class SaveDataInstance
 {
     // @brief チュートリアルの状態を保持する変数
     private eTutorial tutorialState;
@@ -22,7 +22,7 @@ public class TutorialState
     /// @set    現在の状態を設定
     /// @get    現在の設定を出力
     /// </summary>
-    public eTutorial TutorialStatus 
+    public eTutorial TutorialStatus
     {
         set { tutorialState = value; }
         get { return tutorialState; }
@@ -35,7 +35,7 @@ public class TutorialState
 /// @brief チュートリアルの列挙体
 /// @note 初回チュートリアルの状態を列挙しています。
 /// </summary>
-public enum eTutorial 
+public enum eTutorial
 {
     eTutorial_ModeSelect,
     eTutorial_Straight,
