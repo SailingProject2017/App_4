@@ -23,43 +23,48 @@ public class ShipSwipe : BaseObject
         base.OnUpdate();
         if (Singleton<SaveDataInstance>.Instance.ISSwipe)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            //スタート時のフリック操作が利かない
+            if (Singleton<GameInstance>.Instance.IsShipMove)
             {
 
-                isFlick = true;
-                touchStartPos = new Vector3(Input.mousePosition.x,
-                            Input.mousePosition.y,
-                            Input.mousePosition.z);
-
-                Invoke("FlickOff", 0.2f);
-            }
-
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                touchEndPos = new Vector3(Input.mousePosition.x,
-                            Input.mousePosition.y,
-                            Input.mousePosition.z);
-
-
-                float directionX = (touchEndPos.x - touchStartPos.x) * 0.003f;
-                if (directionX >= 1.0f) directionX = 1.0f;
-                if (directionX <= -1.0f) directionX = -1.0f;
-
-
-                transform.Rotate(0, directionX, 0);
-
-
-
-                if (touchStartPos != touchEndPos)
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    ClickOff();
+
+                    isFlick = true;
+                    touchStartPos = new Vector3(Input.mousePosition.x,
+                                Input.mousePosition.y,
+                                Input.mousePosition.z);
+
+                    Invoke("FlickOff", 0.2f);
                 }
-            }
+
+                if (Input.GetKey(KeyCode.Mouse0))
+                {
+                    touchEndPos = new Vector3(Input.mousePosition.x,
+                                Input.mousePosition.y,
+                                Input.mousePosition.z);
 
 
-            if (Input.GetKeyUp(KeyCode.Mouse0))
-            {
+                    float directionX = (touchEndPos.x - touchStartPos.x) * 0.003f;
+                    if (directionX >= 1.0f) directionX = 1.0f;
+                    if (directionX <= -1.0f) directionX = -1.0f;
 
+
+                    transform.Rotate(0, directionX, 0);
+
+
+
+                    if (touchStartPos != touchEndPos)
+                    {
+                        ClickOff();
+                    }
+                }
+
+
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                {
+
+                }
             }
         }
     }
