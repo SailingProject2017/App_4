@@ -21,7 +21,7 @@ public class NextLineRenderer : MarkerBase {
     private LineRenderer lineRenderer; // @brief LineRendererを格納する
 
     /// <summary>
-    /// @brief マーカー
+    /// @brief 初期化
     /// </summary>
     protected override void MarkerInitialize()
     {
