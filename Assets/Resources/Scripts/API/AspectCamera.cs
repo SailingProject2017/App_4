@@ -10,6 +10,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AspectCamera : BaseObject {
 
@@ -19,18 +20,43 @@ public class AspectCamera : BaseObject {
     [SerializeField]
     private float aspectY = 9.0f;
 
-    private GameObject cameraObj; 
+    private GameObject cameraObj;
+    private Camera camera;
     
     protected override void OnAwake()
     {
         base.OnAwake();
+        SetUpAspect();
+    }
+
+    private void Start()
+    {
+        // デリゲートの登録
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    /// <summary>
+    /// @brief シーンが読み込まれる時に呼ばれるデリゲート
+    /// </summary>
+    private void OnSceneLoaded(Scene scene,LoadSceneMode mode)
+    {
+        SetUpAspect();
+    }
+    /// <summary>
+    /// @brief アスペクト比の初期化
+    /// </summary>
+    private void SetUpAspect()
+    {
+        Debug.Log("国士無双十三面");
         // カメラを指定
         cameraObj = GameObject.Find("Main Camera");
-        Camera camera = cameraObj.GetComponent<Camera>();
+        camera = cameraObj.GetComponent<Camera>();
 
         Rect rect = setAspect(aspectX, aspectY);
         camera.rect = rect;
+
     }
+    
     /// <summary>
     /// @brief サイズを取得し調整したサイズを返す
     /// </summary>
