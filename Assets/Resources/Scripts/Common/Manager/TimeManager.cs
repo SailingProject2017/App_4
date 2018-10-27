@@ -55,6 +55,12 @@ class TimeManager : BaseObject
 		onTimer = !onTimer;
 	}
 
+	public bool OnTimer
+    {
+        set { onTimer = value; }
+        get { return onTimer; }
+    }
+
 	/// <summary>
 	/// @brief タイマーがオンの時だけ更新します
 	/// </summary>
