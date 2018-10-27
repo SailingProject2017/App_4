@@ -44,7 +44,7 @@ public class RankManager : MarkerBase
     private bool allGoal;       // @brief 全ての船がゴールしたか
     private bool callOnce;      // @brief 一度だけ呼びたい関数に使う（他にいい方法あるかも）
 
-	private RankSpriteRender rankSpriteRender;  //brief コンポーネント取得先
+	private RankImageRender rankImageRender;  //brief コンポーネント取得先
 
     /// <summary>
     /// @brief MarkerBaseの実装
@@ -56,8 +56,8 @@ public class RankManager : MarkerBase
         Singleton<SoundPlayer>.Instance.PlaySE("StartRase");
 
         	// ランク画像を処理しているスクリプトのコンポーネント取得
-		GameObject rank = GameObject.Find("rank");
-		rankSpriteRender = rank.GetComponent<RankSpriteRender>();
+		GameObject rank = GameObject.Find("Rank");
+		rankImageRender = rank.GetComponent<RankImageRender>();
 
 		// マーカーの個数の初期化
 		currentMarker = 0;
@@ -68,7 +68,6 @@ public class RankManager : MarkerBase
 
         // 船オブジェクトの取得
 		GetShipObject();
-      
 	}
 
 
@@ -85,8 +84,8 @@ public class RankManager : MarkerBase
 
         // ゴールしている場合としていない場合で分岐
         // ship[0] は　player の番号
-        if (allShip[0].markerBase.IsGoal) rankSpriteRender.ChangeRankSprite(allShip[0].resultRank);
-        else                              rankSpriteRender.ChangeRankSprite(allShip[0].rank);
+        if (allShip[0].markerBase.IsGoal) rankImageRender.ChangeRankSprite(allShip[0].resultRank);
+        else                              rankImageRender.ChangeRankSprite(allShip[0].rank);
 	}
 
 	/// <summary>
