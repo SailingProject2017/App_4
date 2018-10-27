@@ -15,14 +15,14 @@ public class GetWindParam : BaseObject
     
     // 0~360まで
     [Range(0, 360)]
-    private float valueWind = 0;　   //@brief 風の方向
+    private float valueWind = 0;   //@brief 風の方向
 
     /// <summary>
     /// @brief 例外処理
     /// </summary>
-    private int random(object wind)
+    private float SetWindValue(object wind)
     {
-        throw new NotImplementedException();
+		return UnityEngine.Random.Range(-180, 180);
     }
 
     /// <summary>
