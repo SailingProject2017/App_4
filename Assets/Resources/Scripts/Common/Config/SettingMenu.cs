@@ -65,7 +65,7 @@ public class SettingMenu : BaseObject
             else
             {
                 setting.Close();
-                Singleton<SoundPlayer>.Instance.
+                Singleton<SoundPlayer>.Instance.PlayBGM();
             }
         }   
     }
