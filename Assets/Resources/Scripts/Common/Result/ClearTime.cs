@@ -23,19 +23,19 @@ public class ClearTime : BaseObject {
     private TimeManager timeManager; // @brief timeManagerObjectのスクリプトを格納する
     private int[] imageNum; // @brief 表示する画像の番号
     private int ii; // @brief 配列を参照するための変数
-    private int clearTime; // @brief クリア時間を格納する変数
+    private int millTime; // @brief クリア時間を格納する変数
+    private int minuteTime; // @brief 分以上のクリア時間を格納する変数
 
     /// <summary>
     /// @brief 初期化処理
     /// </summary>
     private void ClearTimeInitialize()
     {
-        timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
-        imageNum = new int[7];
-        clearTime = (int)(timeManager.MillTime * 1000);
+        timeManager = GameObject.Find("Timer").GetComponent<TimeManager>();
+        imageNum = new int[8];
+        millTime = (int)(timeManager.MillTime * 100);
+        minuteTime = (int)(timeManager.Minute / 10);
         ii = 0;
-        Debug.Log((int)timeManager.MillTime);
-        Debug.Log(clearTime);
     }
 
     /// <summary>
@@ -44,18 +44,26 @@ public class ClearTime : BaseObject {
     private void SetClearTime()
     {
         // 6桁の秒単位の記録と固定位置に「：」をセット
-        for(ii=0;ii<7;ii++)
+        for(ii=0;ii<8;ii++)
         {
-            if (ii == 3)
+            if (ii == 2 || ii == 5)
             {
                 imageNum[ii] = 10;
                 continue;
             }
-            imageNum[ii] = (clearTime % 10);
-            clearTime = (clearTime / 10);
-            Debug.Log(clearTime);
-            Debug.Log("clearTime");
-            if (clearTime == 0) break;
+            // 秒以下のセット用
+            if (ii < 6)
+            {
+                imageNum[ii] = (millTime % 10);
+                millTime = (millTime / 10);
+            }
+            // 分のセット用
+            else
+            {
+                imageNum[ii] = (minuteTime % 10);
+                minuteTime = (minuteTime / 10);
+
+            }
         }
     }
 
@@ -64,7 +72,7 @@ public class ClearTime : BaseObject {
     /// </summary>
     private void ClearTimeRender()
     {
-        for (ii = 0; ii < 7; ii++)
+        for (ii = 0; ii < 8; ii++)
         {
             //複製
             RectTransform timeImage = (RectTransform)New(clearTimeImage).transform;
@@ -73,7 +81,6 @@ public class ClearTime : BaseObject {
                 timeImage.localPosition.x - timeImage.sizeDelta.x * ii,
                 timeImage.localPosition.y);
             timeImage.GetComponent<Image>().sprite = numSprite[imageNum[ii]];
-            Debug.Log(timeManager.MillTime);
         }
     }
 
