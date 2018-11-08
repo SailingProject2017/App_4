@@ -153,7 +153,7 @@ public static class CreateSaveData
         FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
         NextTutorialState(eTutorial.eTutorial_End);
         Singleton<SaveDataInstance>.Instance.MaxBGMVolume = 0.7f;
-        Singleton<SaveDataInstance>.Instance.MaxBGMVolume = 1.0f;
+        Singleton<SaveDataInstance>.Instance.MaxSEVolume = 1.0f;
         Singleton<SaveDataInstance>.Instance.IsGyro = true;
         Singleton<SaveDataInstance>.Instance.ISSwipe = true;
         Singleton<SaveDataInstance>.Instance.Sensitivty = 0.5f;

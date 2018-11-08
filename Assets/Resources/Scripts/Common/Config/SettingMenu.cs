@@ -59,11 +59,13 @@ public class SettingMenu : BaseObject
             // ポップアップの開閉
             if (activeMenuFlag)
             {
+				Singleton<SoundPlayer>.Instance.PauseBGM();
                 setting.Open();
             }
             else
             {
                 setting.Close();
+                Singleton<SoundPlayer>.Instance.PlayBGM();
             }
         }   
     }

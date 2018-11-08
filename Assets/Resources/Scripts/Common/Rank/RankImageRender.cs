@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class RankSpriteRender : BaseObject {
+public class RankImageRender : BaseObject {
 
     
-	SpriteRenderer mainSpriteRender;    // @brief SpriteRendererを格納する変数
+	private Image image;    // @brief SpriteRendererを格納する変数
 
     /* 使用するスプライトの変数 */
-	[SerializeField] private Sprite spriteRankFirst;
-    [SerializeField] private Sprite spriteRankSecond;
-    [SerializeField] private Sprite spriteRankThird;
-    [SerializeField] private Sprite spriteRankFource;
+	[SerializeField] private Sprite sourceRankFirst;
+	[SerializeField] private Sprite sourceRankSecond;
+	[SerializeField] private Sprite sourceRankThird;
+	[SerializeField] private Sprite sourceRankFource;
+
+
 
     /// <summary>
     /// @brief BaseObjectの実装
@@ -19,7 +22,8 @@ public class RankSpriteRender : BaseObject {
 	protected override void OnAwake()
 	{
 		base.OnAwake();
-		mainSpriteRender = GetComponent<SpriteRenderer>();
+		image = GetComponent<Image>();
+
 	}
  
     /// <summary>
@@ -31,19 +35,20 @@ public class RankSpriteRender : BaseObject {
         switch (rank)
         {
             case 1:
-                mainSpriteRender.sprite = spriteRankFirst;
+				image.sprite = sourceRankFirst;
+
                 break;
 
             case 2:
-                mainSpriteRender.sprite = spriteRankSecond;
+				image.sprite = sourceRankSecond;
                 break;
 
             case 3:
-                mainSpriteRender.sprite = spriteRankThird;
+				image.sprite = sourceRankThird;
                 break;
 
             case 4:
-                mainSpriteRender.sprite = spriteRankFource;
+				image.sprite = sourceRankFource;
                 break;  
         }
     }

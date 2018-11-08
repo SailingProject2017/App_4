@@ -29,7 +29,7 @@ public enum SCENES
 }
 
 // SceneManagerがUnityの予約語として登録されているため独自のnamespaceを作成
-namespace Scene
+namespace SceneManagement
 {
     public static class SceneManager
     {

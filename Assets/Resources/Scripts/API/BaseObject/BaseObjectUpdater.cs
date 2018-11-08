@@ -37,9 +37,7 @@ public class BaseObjectUpdater : BaseObject
             {
                 if (obj.IsPresence())
                 {
-                    obj.OnStartTimer();
                     obj.OnUpdate();
-                    obj.OnEndTimer();
                 }
             }
         }

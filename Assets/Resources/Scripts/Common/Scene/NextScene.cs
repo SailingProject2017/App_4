@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Scene;
+using SceneManagement;
 
 public class NextScene : BaseObject
 {

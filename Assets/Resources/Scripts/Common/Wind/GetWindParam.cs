@@ -17,6 +17,7 @@ public class GetWindParam : BaseObject
     
     private float windForce = 0; // @brief 風の強さ
    
+
     /// <summary>
     /// @brief 風の方向を計算するアクセサー
     /// </summary>
@@ -24,6 +25,7 @@ public class GetWindParam : BaseObject
     {
         set { windForce = value; }
         get { return windForce; }
+
     }
 
     /// <summary>

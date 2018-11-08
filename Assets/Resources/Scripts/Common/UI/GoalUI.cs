@@ -8,24 +8,23 @@
 * Copyright © 2018 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GoalUI : BaseObject
 {
-
-    [SerializeField]
-    private Sprite maskUI;
-
-    [SerializeField]
-    private Sprite goalUI;
-
-    private SpriteRenderer spriteRenderer;
-
+    
+	[SerializeField] private Sprite maskUI;
+    
+    [SerializeField] private Sprite goalUI;
+    
+    private Image image;
+    
 
     // Use this for initialization
     void Start()
     {
-        spriteRenderer = this.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = maskUI;
+        image = this.GetComponent<Image>();
+		image.sprite = maskUI;
         Singleton<GameInstance>.Instance.IsGoal = false;
     }
 
@@ -36,7 +35,7 @@ public class GoalUI : BaseObject
 
        if (Singleton<GameInstance>.Instance.IsGoal)
         {
-            spriteRenderer.sprite = goalUI;
+			image.sprite = goalUI;
         } 
     }
 }

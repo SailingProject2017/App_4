@@ -15,6 +15,7 @@ class TimeManager : BaseObject
 {
 	[SerializeField] private bool onTimer;      // @brief タイマーの更新フラグ
 	[SerializeField] private float millTime;    // @brief 経過時間
+    [SerializeField] private int minute;     // @brief 分
 
 	/// <summary>
 	/// @get タイマーの経過時間（ミリ秒）を取得する
@@ -23,6 +24,11 @@ class TimeManager : BaseObject
 	{
 		get { return millTime; }
 	}
+
+    public int Minute
+    {
+        get { return minute; }
+    }
 
 	/// <summary>
 	/// @brief TimerResetを呼び出します。
@@ -38,6 +44,7 @@ class TimeManager : BaseObject
 	public void ResetTimer()
 	{
 		millTime = 0;
+        minute = 0;
 	}
 
 	/// <summary>
@@ -48,12 +55,24 @@ class TimeManager : BaseObject
 		onTimer = !onTimer;
 	}
 
+	public bool OnTimer
+    {
+        set { onTimer = value; }
+        get { return onTimer; }
+    }
+
 	/// <summary>
 	/// @brief タイマーがオンの時だけ更新します
 	/// </summary>
 	public override void OnUpdate()
 	{
 		if (onTimer) { millTime += Time.deltaTime; }
+
+        if(millTime>= 60f)
+        {
+            minute++;
+            millTime = millTime - 60;
+        }
 	}
 }
 
