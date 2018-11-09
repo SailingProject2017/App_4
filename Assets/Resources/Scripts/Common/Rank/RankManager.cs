@@ -39,7 +39,7 @@ public class RankManager : MarkerBase
 	private          List<GameObject> allPlayerShipObject = new List<GameObject>();     // @brief 自機を格納するgameobject型のリスト
 	private          List<GameObject> allEnemyShipObject  = new List<GameObject>();     // @brief 敵機を格納するgameobject型のリスト   
 	private GameObject parentAllShipName;                                               // @brief 船オブジェクトの親のおbジェクトを格納する用の変数
-
+    
 	private int goaledShipNum;  // @brief すでにゴールした船の総数
     private bool allGoal;       // @brief 全ての船がゴールしたか
     private bool callOnce;      // @brief 一度だけ呼びたい関数に使う（他にいい方法あるかも）
@@ -82,10 +82,12 @@ public class RankManager : MarkerBase
 
 		CalcRank();
 
-        // ゴールしている場合としていない場合で分岐
-        // ship[0] は　player の番号
-        if (allShip[0].markerBase.IsGoal) rankImageRender.ChangeRankSprite(allShip[0].resultRank);
-        else                              rankImageRender.ChangeRankSprite(allShip[0].rank);
+		// ゴールしている場合としていない場合で分岐
+		// ship[0] は　player の番号
+		if (allShip[0].markerBase.IsGoal)
+			rankImageRender.ChangeRankSprite(allShip[0].resultRank);
+		else
+			rankImageRender.ChangeRankSprite(allShip[0].rank);
 	}
 
 	/// <summary>
@@ -126,7 +128,7 @@ public class RankManager : MarkerBase
 		for (int i = 0; i < allShip.Count; i++)
 		{
 			// ゴールしている場合、リスト外参照でエラーになるため
-                        // 計算せずに次のリストを参照する
+            // 計算せずに次のリストを参照する
 			if (allShip[i].markerBase.IsGoal) continue;
 
 			// ピタゴラスの定理

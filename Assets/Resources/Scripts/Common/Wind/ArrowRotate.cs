@@ -13,18 +13,22 @@ using UnityEngine;
 
 public class ArrowRotate : BaseObject
 {
-    [SerializeField]
     private GameObject shipObj; // @brief 自分の船の情報
-
-    [SerializeField]
+ 
     private GetWindParam windParam; // @brief 風の情報
 
-    public override void OnUpdate()
+	private void Start()
+	{
+		shipObj = GameObjectExtension.Find("Player");
+		windParam = gameObject.GetComponent<GetWindParam>();
+	}
+
+	public override void OnUpdate()
     {
         base.OnUpdate();
 
         // valueWindの値分回転
-        transform.eulerAngles = new Vector3(0, windParam.ValueWind - shipObj.transform.eulerAngles.y, 0);
+        transform.eulerAngles = new Vector3(0, windParam.ValueWind - shipObj.transform.eulerAngles.y + 180, 0);
     }
 }
    

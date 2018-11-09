@@ -13,6 +13,22 @@ using UnityEngine;
 
 public static class GameObjectExtension
 {
+    /// <summary>
+    /// @brief エラー処理を含めたFind関数
+    /// </summary>
+    /// <returns>Hierarchu上のゲームオブジェクト</returns>
+    public static GameObject Find(string obj)
+	{
+		GameObject gameObject = GameObject.Find(obj);
+        if(gameObject == null)
+		{
+			Debug.LogError("<color=red>" + obj + "が見つかりません。名前が間違っているか、Hierarchyに存在しません。</color>");
+			return null;
+		}
+
+		return gameObject;
+	}
+
     /// <summary> 
     /// @brief 親や子オブジェクトも含めた範囲から指定のコンポーネントを取得する 
     /// </summary> 

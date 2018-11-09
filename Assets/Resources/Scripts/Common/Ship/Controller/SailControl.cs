@@ -11,26 +11,51 @@ using UnityEngine;
 
 public class SailControl : BaseObject {
 
-    [SerializeField]
+
     private GameObject player;          // @brief 船オブジェクトを格納する変数
-    [SerializeField]
     private GameObject sail;            // @brief 船のセールオブジェクトを格納する変数
+	private GameObject human;
+	private GameObject moveCircle;
+	private ShipController shipController;
+	private GetWindParam windVec;
     
-    private float windRotate;   // @brief スクリプトインスタンス
-    
+
 	private float sailRotate;
+
+	[SerializeField]
+	private float minSpeed;
+
+    [SerializeField]
+	private float maxSpeed;
+
+	private float constantValue;
 
     private void Start()
     {
-        //　風のベクトルをランダムで取得
-		windRotate = Random.Range(-180, 180);
-		windRotate = 0f;
+    
+		player = GameObjectExtension.Find("Player");
+		sail = GameObjectExtension.Find("Sail");
+		human = GameObjectExtension.Find("Human");
+		moveCircle = GameObjectExtension.Find("Circle");
+		shipController = gameObject.GetComponent<ShipController>();
+		windVec = GameObjectExtension.Find("UIWind").GetComponent<GetWindParam>();
+
+
+		minSpeed = 10;
+		maxSpeed = 60;
+
+		constantValue = (maxSpeed - minSpeed) / 180;
+
+		CircleChangeRotate();
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-		SailRotate(windRotate, player.transform.localEulerAngles.y);     
+		constantValue = (maxSpeed - minSpeed) / 180;
+		SailRotate(windVec.ValueWind, player.transform.localEulerAngles.y);
+		CircleMove();
+
     }
 
     /// <summary>
@@ -40,21 +65,33 @@ public class SailControl : BaseObject {
     /// <param name="playerRotate"> プレイヤーが進行しているベクトルの方向 </param>
     private void SailRotate(float windVector, float playerRotate)
     {
-
+  
+		playerRotate -= 180;
 
 		if(playerRotate >= windVector + 45)
 		{
 			sailRotate = 10 + ((playerRotate - 45) * 0.5925f);
+			shipController.Speed = Mathf.Abs(10 + ((playerRotate - 45) * constantValue));
 		}
 		if (playerRotate <= windVector - 45)
         {
 			sailRotate = -10 + ((playerRotate + 45) * 0.5925f);
+			shipController.Speed = Mathf.Abs(10 + ((playerRotate - 45) * constantValue));
         }
-        
-		sail.transform.eulerAngles = new Vector3(0, sailRotate, 0);
+     
+		sail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
+
     }
 
+    public void CircleMove()
+	{
+		moveCircle.transform.position = player.transform.position;
+	}
 
+    public void CircleChangeRotate()
+	{
+		moveCircle.transform.eulerAngles = new Vector3(90, windVec.ValueWind * -1, 0);
+	}
 
     /* セールの角度を算出する計算式について */
 

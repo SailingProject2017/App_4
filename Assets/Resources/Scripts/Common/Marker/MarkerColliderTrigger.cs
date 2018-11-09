@@ -10,18 +10,18 @@
 using UnityEngine;
 public class MarkerColliderTrigger : MarkerBase
 {
-    [SerializeField]
+
     private GameObject markerSign; // @brief 今目指すべきマーカーを示す矢印
-
-
-
 
 	protected override void MarkerInitialize()
 	{
 		base.MarkerInitialize();
+		markerSign = GameObjectExtension.Find("yajirusi");
 		MoveMakerPoint();
 		currentMarker = 0;
+
         Singleton<GameInstance>.Instance.IsGoal = false;  
+
 	}
     
     private void MoveMakerPoint()

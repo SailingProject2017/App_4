@@ -14,15 +14,19 @@ using UnityEngine;
 public class CreateStageObject : BaseObject
 {
 
-    [SerializeField]
-    private GameObject[] StageObject; // 生成をしたいステージを格納する配列
+	private List<GameObject> StageObject = new List<GameObject>(); // 生成をしたいステージを格納する配列
 
     /// <summary>
     /// @brief ステージの初期化関数
     /// </summary>
     private void StageInitialize()
     {
-        //StageObject = new GameObject[8];
+		StageObject.Add((GameObject)Resources.Load("Prefabs/Stage/Tutorial_Accele"));
+		StageObject.Add((GameObject)Resources.Load("Prefabs/Stage/Tutorial_Curve"));
+		StageObject.Add((GameObject)Resources.Load("Prefabs/Stage/SampleStage1"));
+		StageObject.Add((GameObject)Resources.Load("Prefabs/Stage/Stage_Easy"));
+		StageObject.Add((GameObject)Resources.Load("Prefabs/Stage/Stage_Normal"));
+		StageObject.Add((GameObject)Resources.Load("Prefabs/Stage/Stage_Hard"));
     }
 
     /// <summary>
@@ -33,7 +37,8 @@ public class CreateStageObject : BaseObject
     {
         if(New(StageObject[(int)eStageType]) == null)
         {
-            New(StageObject[(int)eStageType.eTutorialStage_Straight]);
+			New(StageObject[(int)eStageType.eTutorialStage_Straight]);
+			Debug.LogError("<color=red>" + eStageType + "が参照できません。パスが間違っていないか確認してください。</color>");
         }
     }
 

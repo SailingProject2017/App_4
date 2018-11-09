@@ -12,8 +12,15 @@ using UnityEngine;
 public class ShipController : BaseObject
 {
     [SerializeField]
-    private float moveSpeed = 20.0f; // @brief プレイヤーの進むスピード
+    private float moveSpeed; // @brief プレイヤーの進むスピード
 
+    public float Speed
+	{
+		set { moveSpeed = value; }
+		get { return moveSpeed; }
+	}
+
+   
     public void Start()
     {
         Singleton<ShipStates>.Instance.ShipState = eShipState.START;

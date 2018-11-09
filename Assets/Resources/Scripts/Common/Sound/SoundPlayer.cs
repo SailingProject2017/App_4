@@ -95,6 +95,35 @@ public class SoundPlayer
         return true;
     }
 
+	public bool PlaySE(string seName, float volume)
+    {
+
+        if (audioClips.ContainsKey(seName) == false)
+        {
+            return false;
+        }
+
+        AudioClipInfo info = audioClips[seName];
+
+        //なければロード
+        if (info.clip == null)
+            info.clip = (AudioClip)Resources.Load(info.resourceName);
+
+        if (soundPlayerObj == null)
+        {
+            soundPlayerObj = new GameObject("SoundPlayer");
+            audioSource = soundPlayerObj.AddComponent<AudioSource>();
+        }
+
+        //ボリュームの設定
+        audioSource.volume = volume;
+        audioSource.loop = false;
+        //再生
+        audioSource.PlayOneShot(info.clip);
+
+        return true;
+    }
+
     public void PlayBGM(string bgmName, float fadeTime, bool isLoop)
     {
         // 現在のBGMを消去

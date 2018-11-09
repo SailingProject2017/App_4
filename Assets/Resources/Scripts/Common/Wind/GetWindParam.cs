@@ -13,15 +13,21 @@ using System.Collections;
 
 public class GetWindParam : BaseObject
 {
-    private float valueWind = 0;    // @brief 風の方向
+	private float valueWind;    // @brief 風の方向
     
     private float windForce = 0; // @brief 風の強さ
-   
 
-    /// <summary>
-    /// @brief 風の方向を計算するアクセサー
-    /// </summary>
-    public float WindForce
+
+	protected override void OnAwake()
+	{
+		base.OnAwake();
+		valueWind = 0;
+	}
+
+	/// <summary>
+	/// @brief 風の方向を計算するアクセサー
+	/// </summary>
+	public float WindForce
     {
         set { windForce = value; }
         get { return windForce; }
