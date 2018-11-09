@@ -24,7 +24,7 @@ public class ResultRankRender : BaseObject {
     /// </summary>
     private void ResultRankInitialize()
     {
-        rankManagerScript = GameObject.Find("RankManager").GetComponent<RankManager>();
+        rankManagerScript = GameObject.Find("GameInfo").GetComponent<RankManager>();
     }
 
     /// <summary>

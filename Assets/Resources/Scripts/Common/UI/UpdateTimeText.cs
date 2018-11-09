@@ -34,7 +34,10 @@ public class UpdateTimeText : BaseObject
     /// </summary>
     public void UpdateText()
     {
-        text.text = timeManager.Minute.ToString("00") + "." + timeManager.MillTime.ToString("0#.##");
+        // 常に上位の桁を表示するように参考演算で表示を変更
+        text.text = (timeManager.MillTime > 10) ? timeManager.Minute.ToString("00") + "." + timeManager.MillTime.ToString("F2") :
+            timeManager.Minute.ToString("00") + "." + "0" + timeManager.MillTime.ToString("F2");
+
 
     }
 

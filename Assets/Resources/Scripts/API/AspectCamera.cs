@@ -47,7 +47,6 @@ public class AspectCamera : BaseObject {
     /// </summary>
     private void SetUpAspect()
     {
-        Debug.Log("国士無双十三面");
         // カメラを指定
         cameraObj = GameObject.Find("Main Camera");
         camera = cameraObj.GetComponent<Camera>();

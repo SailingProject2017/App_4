@@ -9,20 +9,23 @@
 **********************************************************************************************/
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class GetWindParam : BaseObject
 {
+    private float valueWind = 0;    // @brief 風の方向
     
-    // 0~360まで
-    [Range(0, 360)]
-    private float valueWind = 0;   //@brief 風の方向
+    private float windForce = 0; // @brief 風の強さ
+   
 
     /// <summary>
-    /// @brief 例外処理
+    /// @brief 風の方向を計算するアクセサー
     /// </summary>
-    private float SetWindValue(object wind)
+    public float WindForce
     {
-		return UnityEngine.Random.Range(-180, 180);
+        set { windForce = value; }
+        get { return windForce; }
+
     }
 
     /// <summary>
@@ -34,18 +37,19 @@ public class GetWindParam : BaseObject
         set
         {
             // 風向きを0~360の中に指定する
-            if(value > 360)
+            if (value > 180)
             {
-                valueWind = value - 360;
+                valueWind = value - 180;
             }
-            else if (value < 0)
+            else if (value < -180)
             {
-                valueWind = 360 - value;
+                valueWind = 180 - value;
             }
             else
             {
                 valueWind = value;
             }
+
         }
     }
 }
