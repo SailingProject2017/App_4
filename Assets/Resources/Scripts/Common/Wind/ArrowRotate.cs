@@ -1,15 +1,17 @@
-﻿/*********************************************************************************************
-* @brief      yajorusiを動かす仮プログラム
+﻿/**********************************************************************************************/
+/*@file       ArrowRotate.cs
 *********************************************************************************************
-* @author     Reina Sawai
+* @brief      風向きを表すUIを回転させるスクリプト
 *********************************************************************************************
-* Copyright © 2018 Reina Sawai All Rights Reserved.
+* @author     Yuta Takatsu & Reina Sawai
+*********************************************************************************************
+* Copyright © 2018 Yuta Takatsu & Reina Sawai All Rights Reserved.
 **********************************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class YajirusiRotate : BaseObject
+public class ArrowRotate : BaseObject
 {
     [SerializeField]
     private GameObject shipObj; // @brief 自分の船の情報
@@ -21,7 +23,6 @@ public class YajirusiRotate : BaseObject
     {
         base.OnUpdate();
 
-        Debug.Log("回転");
         // valueWindの値分回転
         transform.eulerAngles = new Vector3(0, windParam.ValueWind - shipObj.transform.eulerAngles.y, 0);
     }
