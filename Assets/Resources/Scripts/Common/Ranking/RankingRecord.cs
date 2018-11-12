@@ -21,18 +21,16 @@ public class RankingRecord : BaseObject
     [SerializeField]
     private List<Text> testText;
     [SerializeField]
-    private List<float> testRecodeList;
+    private List<int> testRecodeList;
 
-    //定数
     private const string fileDirectory = "Assets/Resources/Scripts/Common/Ranking";                //@brief 読み取るファイルのフォルダ名
     private const string fileName = "RankingData";          //@brief 読み取るファイル名
     private const string fileExtension = "csv";             //@brief ファイルの拡張子
     private const string charaCode = "UTF-8";               //@brief ファイルの文字コード
     private const int outputRecodeNum = 4;                  //@brief ファイルに出力する記録数
 
-    //変数
     private Sort rankingSort;                               //@brief ソートを行うための変数
-    private List<float> recodeList;                         //@brief 読み込んだタイムを格納するリスト
+    private List<int> recodeList;                         //@brief 読み込んだタイムを格納するリスト
     private string inputFileName;                           //@brief 読み込むファイルの階層と名前
 
 
@@ -43,16 +41,14 @@ public class RankingRecord : BaseObject
         /// <summary>
         /// @brief リストを受け取り挿入ソートを行う
         /// </summary>
-        /// <param name="first">左端の要素番号</param>
-        /// <param name="last">右端の要素番号</param>
         /// <param name="list">要素を持つリスト</param>
-        public void InsertSort(int first, int last, List<float> list) 
+        public void InsertSort(List<int> list) 
         {
             
             for(int i = 1; i < list.Count; i++) 
             {
 
-                float temp = list[i];
+                int temp = list[i];
 
                 if(list[i - 1] > temp) 
                 {
@@ -79,14 +75,14 @@ public class RankingRecord : BaseObject
     private void Start()
     {
         rankingSort = new Sort();
-        recodeList = new List<float>();
+        recodeList = new List<int>();
         inputFileName = fileDirectory  + "/" + fileName + "." + fileExtension;
 
         //テスト
         OutRecord(testRecodeList, true);
-        InRecord();
 
-        for(int i = 0; i < recodeList.Count; i++) {
+        for(int i = 0; i < recodeList.Count; i++)
+        {
 
             if(i > testText.Count - 1) {
                 break;
@@ -102,18 +98,18 @@ public class RankingRecord : BaseObject
     /// </summary>
     /// <param name="recode">タイムが格納されたリスト</param>
     /// <param name="isSort">trueでソートを実行。falseでは実行しない</param>
-    public void OutRecord(List<float> recode, bool isSort) 
+    public void OutRecord(List<int> recode, bool isSort) 
     {
 
         if(isSort) 
         {         
             //出力する前に昇順ソートを行う
-            RankingSort(recode);
+            RankingCreate(recode);
         }
 
         StreamWriter sw = new StreamWriter(@inputFileName, false, Encoding.GetEncoding(charaCode));
-      
-        for(int i = 0; i < recode.Count; i++) 
+
+        for(int i = 0; i < recodeList.Count; i++) 
         {
 
             //上位4位までを記録
@@ -121,11 +117,11 @@ public class RankingRecord : BaseObject
                 break;
             }
 
-            string[] tempStr = { recode[i].ToString() };
+            string[] tempStr = { recodeList[i].ToString() };
             string wrStr = string.Join(",", tempStr);
             sw.WriteLine(wrStr);
 
-            Debug.Log("Out " + i + ":" + recode[i]);
+            Debug.Log("Out " + i + ":" + recodeList[i]);
 
         }
 
@@ -154,7 +150,7 @@ public class RankingRecord : BaseObject
         while((tempLine = sr.ReadLine()) != null)
         {
             
-            recodeList.Add(float.Parse(tempLine));
+            recodeList.Add(int.Parse(tempLine));
             
         }
 
@@ -168,7 +164,7 @@ public class RankingRecord : BaseObject
     private void InitRecode()
     {
 
-        List<float> temp = new List<float>() { 300, 360, 420, 480 };
+        List<int> temp = new List<int>() { 300, 360, 420, 480 };
         OutRecord(temp, false);
 
     }
@@ -177,7 +173,7 @@ public class RankingRecord : BaseObject
     /// @brief 受けとった記録と読み込んだ記録を合わせランキングデータを作成
     /// </summary>
     /// <param name="recode">タイムを格納したリスト</param>
-    private void RankingSort(List<float> recode)
+    private void RankingCreate(List<int> recode)
     {
         
         //記録を読み込む
@@ -188,12 +184,11 @@ public class RankingRecord : BaseObject
         {
 
             recodeList.Add(recode[i]);
-            Debug.Log(i + ":" + recodeList[i]);
 
         }
 
         //ソートを行う
-        rankingSort.InsertSort(0, recodeList.Count - 1, recodeList);
+        rankingSort.InsertSort(recodeList);
 
     }
 
