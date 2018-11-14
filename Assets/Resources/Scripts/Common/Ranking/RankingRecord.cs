@@ -19,19 +19,36 @@ public class RankingRecord : BaseObject
 
     //テスト用
     [SerializeField]
-    private List<Text> testText;
+    private List<float> testRecodeList;
+    private List<RankingData> testRankigData;
+    //ここまで
+
+    public struct RankingData 
+    {
+        public int rankData;
+        public float timeData;
+
+        public RankingData(int rank, float time) 
+        {
+            rankData = rank;
+            timeData = time;
+        }
+    }
+
     [SerializeField]
-    private List<int> testRecodeList;
+    private List<Text> objectRankText;
+    [SerializeField]
+    private List<Text> objectTimeText;
 
     private const string fileDirectory = "Assets/Resources/Scripts/Common/Ranking";                //@brief 読み取るファイルのフォルダ名
-    private const string fileName = "RankingData";          //@brief 読み取るファイル名
-    private const string fileExtension = "csv";             //@brief ファイルの拡張子
-    private const string charaCode = "UTF-8";               //@brief ファイルの文字コード
-    private const int outputRecodeNum = 4;                  //@brief ファイルに出力する記録数
+    private const string fileName = "RankingData";                                                 //@brief 読み取るファイル名
+    private const string fileExtension = "csv";                                                    //@brief ファイルの拡張子
+    private const string charaCode = "UTF-8";                                                      //@brief ファイルの文字コード
+    private const int outputRecodeNum = 4;                                                         //@brief ファイルに出力する記録数
 
-    private Sort rankingSort;                               //@brief ソートを行うための変数
-    private List<int> recodeList;                         //@brief 読み込んだタイムを格納するリスト
-    private string inputFileName;                           //@brief 読み込むファイルの階層と名前
+    private Sort rankingSort;                                                                      //@brief ソートを行うための変数
+    private List<RankingData> rankingData;                                                         //@brief ランキングのリスト
+    private string inputFileName;                                                                  //@brief 読み込むファイルの階層と名前
 
 
     #region ソートを行うクラス
@@ -42,13 +59,13 @@ public class RankingRecord : BaseObject
         /// @brief リストを受け取り挿入ソートを行う
         /// </summary>
         /// <param name="list">要素を持つリスト</param>
-        public void InsertSort(List<int> list) 
+        public void InsertSort(List<float> list) 
         {
             
             for(int i = 1; i < list.Count; i++) 
             {
 
-                int temp = list[i];
+                float temp = list[i];
 
                 if(list[i - 1] > temp) 
                 {
@@ -75,21 +92,66 @@ public class RankingRecord : BaseObject
     private void Start()
     {
         rankingSort = new Sort();
-        recodeList = new List<int>();
+        rankingData = new List<RankingData>();
         inputFileName = fileDirectory  + "/" + fileName + "." + fileExtension;
 
         //テスト
-        OutRecord(testRecodeList, true);
+        RankingCreate(testRecodeList);
+        InRecord();
+        //ここまで
 
-        for(int i = 0; i < recodeList.Count; i++)
+        TextWrite();
+
+    }
+
+    /// <summary>
+    /// @brief 受けとった記録と読み込んだ記録を合わせランキングデータを作成
+    /// </summary>
+    /// <param name="recode">タイムを格納したリスト</param>
+    public void RankingCreate(List<float> recode) 
+    {
+
+        //記録を読み込む
+        InRecord();
+
+        List<float> tempRecodeList = new List<float>();
+        //受け取った記録と読み込んだ記録を合わせる
+        for(int i = 0; i < recode.Count; i++) 
         {
+            tempRecodeList.Add(recode[i]);
+        }
+        for(int i = 0; i < rankingData.Count; i++) 
+        {
+            tempRecodeList.Add(rankingData[i].timeData);
+        }
 
-            if(i > testText.Count - 1) {
+        //ソートを行う
+        rankingSort.InsertSort(tempRecodeList);
+
+        //順位付けを行う
+        rankingData.Clear();
+        int rank = 1;
+        for(int i = 0; i < 4; i++)
+        {
+            //書き込み用データに追加
+            rankingData.Add(new RankingData(rank, tempRecodeList[i]));
+
+            //順位ずらしは3位まで
+            if(i > tempRecodeList.Count - 1) 
+            {
                 break;
             }
-            testText[i].text = recodeList[i].ToString();
+
+            //タイムが異なる場合順位をずらす
+            if(tempRecodeList[i] != tempRecodeList[i + 1])
+            {
+                rank++;
+            }
 
         }
+
+        //記録を書き込む
+        OutRecord();
 
     }
 
@@ -98,31 +160,20 @@ public class RankingRecord : BaseObject
     /// </summary>
     /// <param name="recode">タイムが格納されたリスト</param>
     /// <param name="isSort">trueでソートを実行。falseでは実行しない</param>
-    public void OutRecord(List<int> recode, bool isSort) 
+    private void OutRecord() 
     {
-
-        if(isSort) 
-        {         
-            //出力する前に昇順ソートを行う
-            RankingCreate(recode);
-        }
-
         StreamWriter sw = new StreamWriter(@inputFileName, false, Encoding.GetEncoding(charaCode));
 
-        for(int i = 0; i < recodeList.Count; i++) 
+        //見出し部分の書き込み
+        sw.WriteLine("Rank,Time");
+        
+        for(int i = 0; i < outputRecodeNum; i++) 
         {
+            string rankStr = rankingData[i].rankData.ToString();
+            string timeStr = rankingData[i].timeData.ToString();
+            string wrStr = rankStr + "," + timeStr;
 
-            //上位4位までを記録
-            if(i > outputRecodeNum - 1) {
-                break;
-            }
-
-            string[] tempStr = { recodeList[i].ToString() };
-            string wrStr = string.Join(",", tempStr);
             sw.WriteLine(wrStr);
-
-            Debug.Log("Out " + i + ":" + recodeList[i]);
-
         }
 
         sw.Close();
@@ -132,7 +183,7 @@ public class RankingRecord : BaseObject
     /// <summary>
     /// @brief csvを読み取りタイムを格納する
     /// </summary>
-    public void InRecord()
+    private void InRecord()
     {
 
         //ファイルが存在しなかった場合の処理
@@ -147,10 +198,16 @@ public class RankingRecord : BaseObject
         StreamReader sr = new StreamReader(@inputFileName, Encoding.GetEncoding(charaCode));
         string tempLine;
 
+        //見出し部分は除外
+        tempLine = sr.ReadLine();
         while((tempLine = sr.ReadLine()) != null)
         {
+            RankingData tempData = new RankingData();
+            string[] tempStr = tempLine.Split(',');
+            tempData.rankData = int.Parse(tempStr[0]);
+            tempData.timeData = float.Parse(tempStr[1]);
             
-            recodeList.Add(int.Parse(tempLine));
+            rankingData.Add(tempData);
             
         }
 
@@ -164,31 +221,26 @@ public class RankingRecord : BaseObject
     private void InitRecode()
     {
 
-        List<int> temp = new List<int>() { 300, 360, 420, 480 };
-        OutRecord(temp, false);
+        //初期データの作成
+        for(int i = 0; i < outputRecodeNum; i++)
+        {
+            rankingData.Add(new RankingData((i+1), 300 + (60 * i)));
+        }
+
+        OutRecord();
 
     }
 
-    /// <summary>
-    /// @brief 受けとった記録と読み込んだ記録を合わせランキングデータを作成
-    /// </summary>
-    /// <param name="recode">タイムを格納したリスト</param>
-    private void RankingCreate(List<int> recode)
+    private void TextWrite()
     {
-        
-        //記録を読み込む
-        InRecord();
 
-        //受け取った記録を読み込んだ記録に合わせる
-        for(int i = 0; i < recode.Count; i++)
+        string[] rank = { "st","nd","rd","th" };
+
+        for(int i = 0; i < outputRecodeNum; i++) 
         {
-
-            recodeList.Add(recode[i]);
-
+            objectRankText[i].text = rankingData[i].rankData.ToString() + rank[rankingData[i].rankData - 1];
+            objectTimeText[i].text = rankingData[i].timeData.ToString();
         }
-
-        //ソートを行う
-        rankingSort.InsertSort(recodeList);
 
     }
 
