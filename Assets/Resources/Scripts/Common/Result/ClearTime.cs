@@ -34,7 +34,7 @@ public class ClearTime : BaseObject {
         timeManager = GameObject.Find("Timer").GetComponent<TimeManager>();
         imageNum = new int[8];
         millTime = (int)(timeManager.MillTime * 100);
-        minuteTime = (int)(timeManager.Minute / 10);
+        minuteTime = (int)timeManager.Minute;
         ii = 0;
     }
 
@@ -61,6 +61,7 @@ public class ClearTime : BaseObject {
             else
             {
                 imageNum[ii] = (minuteTime % 10);
+                Debug.Log(imageNum[ii]);
                 minuteTime = (minuteTime / 10);
 
             }
