@@ -29,7 +29,7 @@ public class RankingRecord : BaseObject
         public float timeData;  //@brief タイム
 
         /// <summary>
-        /// コンストラクタ
+        /// @brief 受け取った順位とタイムを変数に格納する
         /// </summary>
         /// <param name="rank">順位</param>
         /// <param name="time">タイム</param>
@@ -45,15 +45,15 @@ public class RankingRecord : BaseObject
     [SerializeField]
     private List<Text> objectTimeText;
 
-    private const string FILE_DIRECTORY = "Assets/Resources/Scripts/Common/Ranking";                //@brief 読み取るファイルのフォルダ名
-    private const string FILE_NAME = "RankingData";                                                 //@brief 読み取るファイル名
-    private const string FILE_EXTENTION = "csv";                                                    //@brief ファイルの拡張子
-    private const string CHARA_CODE = "UTF-8";                                                      //@brief ファイルの文字コード
-    private const int OUTPUT_RECODE_NUM = 4;                                                        //@brief ファイルに出力する記録数
+    private const string FILE_DIRECTORY = "Assets/Resources/Data/Ranking";   //@brief 読み取るファイルのフォルダ名
+    private const string FILE_NAME = "RankingData";                          //@brief 読み取るファイル名
+    private const string FILE_EXTENTION = "csv";                             //@brief ファイルの拡張子
+    private const string CHARA_CODE = "UTF-8";                               //@brief ファイルの文字コード
+    private const int OUTPUT_RECODE_NUM = 4;                                 //@brief ファイルに出力する記録数
 
-    private Sort rankingSort;                                                                      //@brief ソートを行うための変数
-    private List<RankingData> rankingData;                                                         //@brief ランキングのリスト
-    private string inputFileName;                                                                  //@brief 読み込むファイルの階層と名前
+    private Sort rankingSort;                                                //@brief ソートを行うための変数
+    private List<RankingData> rankingData;                                   //@brief ランキングのリスト
+    private string inputFileName;                                            //@brief 読み込むファイルの階層と名前
 
 
     #region ソートを行うクラス
