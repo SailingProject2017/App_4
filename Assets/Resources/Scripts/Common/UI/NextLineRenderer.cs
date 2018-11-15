@@ -10,6 +10,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NextLineRenderer : MarkerBase {
 
@@ -19,6 +20,10 @@ public class NextLineRenderer : MarkerBase {
     private GameObject playerObject;   // @brief プレイヤーを格納する
     private MarkerBase markerBase;     // @brief MarkerBaseを格納する
     private LineRenderer lineRenderer; // @brief LineRendererを格納する
+    [SerializeField]
+    private Material[] material;       // @brief Materialを格納する
+    [SerializeField]
+    private int rendererLine;          // @brief 描画するLineを指定
 
     /// <summary>
     /// @brief 初期化
@@ -26,6 +31,8 @@ public class NextLineRenderer : MarkerBase {
     protected override void MarkerInitialize()
     {
         base.MarkerInitialize();
+
+
 
         playerObject = GameObject.Find("Player");
         markerBase = playerObject.GetComponent<MarkerBase>();
@@ -36,7 +43,6 @@ public class NextLineRenderer : MarkerBase {
         goalPosition = hitMarkerList[markerBase.CurrentMarker].gameObject.transform.position;
         yondPosition = hitMarkerList[markerBase.CurrentMarker + 1].gameObject.transform.position;
     }
-
     /// <summary>
     ///  @brief 更新処理
     /// </summary>
@@ -54,17 +60,30 @@ public class NextLineRenderer : MarkerBase {
     /// <summary>
     /// @brief 線の描画
     /// </summary>
-    private void StraightLineRenderer()
+    private void StraightLineRenderer(int _rendererLine)
     {
-        lineRenderer.SetPosition(0, startPosition);
-        lineRenderer.SetPosition(1, goalPosition);
-        lineRenderer.SetPosition(2, yondPosition);
+        lineRenderer.SetVertexCount(2);
+
+
+        if (_rendererLine == 0 && Singleton<GameInstance>.Instance.IsShipMove)
+        {
+            lineRenderer.material = material[0];
+            lineRenderer.SetPosition(0, startPosition);
+            lineRenderer.SetPosition(1, goalPosition);
+
+        }
+        else if (_rendererLine == 1 && Singleton<GameInstance>.Instance.IsShipMove)
+        {
+            lineRenderer.material = material[1];
+            lineRenderer.SetPosition(0, goalPosition);
+            lineRenderer.SetPosition(1, yondPosition);
+        }
     }
 
     public override void OnUpdate()
     {
         StraightLineUpdate();
-        StraightLineRenderer();
+        StraightLineRenderer(rendererLine);
         
         if(Singleton<GameInstance>.Instance.IsGoal)
         {
