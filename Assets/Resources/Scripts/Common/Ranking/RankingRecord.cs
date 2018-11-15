@@ -12,22 +12,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System.IO;
-using UnityEngine.UI;       //テスト
+using UnityEngine.UI;
 
 public class RankingRecord : BaseObject
 {
-
     //テスト用
-    [SerializeField]
+    /*[SerializeField]
     private List<float> testRecodeList;
-    private List<RankingData> testRankigData;
+    private List<RankingData> testRankigData;*/
     //ここまで
 
+    //@brief ファイルに出力するための構造体
     public struct RankingData 
     {
-        public int rankData;
-        public float timeData;
+        public int rankData;    //@brief 順位
+        public float timeData;  //@brief タイム
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="rank">順位</param>
+        /// <param name="time">タイム</param>
         public RankingData(int rank, float time) 
         {
             rankData = rank;
@@ -40,11 +45,11 @@ public class RankingRecord : BaseObject
     [SerializeField]
     private List<Text> objectTimeText;
 
-    private const string fileDirectory = "Assets/Resources/Scripts/Common/Ranking";                //@brief 読み取るファイルのフォルダ名
-    private const string fileName = "RankingData";                                                 //@brief 読み取るファイル名
-    private const string fileExtension = "csv";                                                    //@brief ファイルの拡張子
-    private const string charaCode = "UTF-8";                                                      //@brief ファイルの文字コード
-    private const int outputRecodeNum = 4;                                                         //@brief ファイルに出力する記録数
+    private const string FILE_DIRECTORY = "Assets/Resources/Scripts/Common/Ranking";                //@brief 読み取るファイルのフォルダ名
+    private const string FILE_NAME = "RankingData";                                                 //@brief 読み取るファイル名
+    private const string FILE_EXTENTION = "csv";                                                    //@brief ファイルの拡張子
+    private const string CHARA_CODE = "UTF-8";                                                      //@brief ファイルの文字コード
+    private const int OUTPUT_RECODE_NUM = 4;                                                        //@brief ファイルに出力する記録数
 
     private Sort rankingSort;                                                                      //@brief ソートを行うための変数
     private List<RankingData> rankingData;                                                         //@brief ランキングのリスト
@@ -93,13 +98,14 @@ public class RankingRecord : BaseObject
     {
         rankingSort = new Sort();
         rankingData = new List<RankingData>();
-        inputFileName = fileDirectory  + "/" + fileName + "." + fileExtension;
+        inputFileName = FILE_DIRECTORY  + "/" + FILE_NAME + "." + FILE_EXTENTION;
 
         //テスト
-        RankingCreate(testRecodeList);
-        InRecord();
+        //RankingCreate(testRecodeList);
         //ここまで
 
+        //データを書き込んでおく
+        InRecord();
         TextWrite();
 
     }
@@ -162,12 +168,12 @@ public class RankingRecord : BaseObject
     /// <param name="isSort">trueでソートを実行。falseでは実行しない</param>
     private void OutRecord() 
     {
-        StreamWriter sw = new StreamWriter(@inputFileName, false, Encoding.GetEncoding(charaCode));
+        StreamWriter sw = new StreamWriter(@inputFileName, false, Encoding.GetEncoding(CHARA_CODE));
 
         //見出し部分の書き込み
         sw.WriteLine("Rank,Time");
         
-        for(int i = 0; i < outputRecodeNum; i++) 
+        for(int i = 0; i < OUTPUT_RECODE_NUM; i++) 
         {
             string rankStr = rankingData[i].rankData.ToString();
             string timeStr = rankingData[i].timeData.ToString();
@@ -195,7 +201,7 @@ public class RankingRecord : BaseObject
             return;
         }
 
-        StreamReader sr = new StreamReader(@inputFileName, Encoding.GetEncoding(charaCode));
+        StreamReader sr = new StreamReader(@inputFileName, Encoding.GetEncoding(CHARA_CODE));
         string tempLine;
 
         //見出し部分は除外
@@ -203,7 +209,7 @@ public class RankingRecord : BaseObject
         while((tempLine = sr.ReadLine()) != null)
         {
             RankingData tempData = new RankingData();
-            string[] tempStr = tempLine.Split(',');
+            string[] tempStr = tempLine.Split(',');         //順位とタイムで分割
             tempData.rankData = int.Parse(tempStr[0]);
             tempData.timeData = float.Parse(tempStr[1]);
             
@@ -222,7 +228,7 @@ public class RankingRecord : BaseObject
     {
 
         //初期データの作成
-        for(int i = 0; i < outputRecodeNum; i++)
+        for(int i = 0; i < OUTPUT_RECODE_NUM; i++)
         {
             rankingData.Add(new RankingData((i+1), 300 + (60 * i)));
         }
@@ -231,15 +237,28 @@ public class RankingRecord : BaseObject
 
     }
 
+    /// <summary>
+    /// //@brief ランキングのデータをテキストに代入する
+    /// </summary>
     private void TextWrite()
     {
 
         string[] rank = { "st","nd","rd","th" };
 
-        for(int i = 0; i < outputRecodeNum; i++) 
+        for(int i = 0; i < OUTPUT_RECODE_NUM; i++) 
         {
             objectRankText[i].text = rankingData[i].rankData.ToString() + rank[rankingData[i].rankData - 1];
-            objectTimeText[i].text = rankingData[i].timeData.ToString();
+
+            float time = rankingData[i].timeData;
+            string[] unit = new string[] 
+            {
+                Mathf.Floor((Mathf.Floor(time)) / 60).ToString(),       //分
+                (Mathf.Floor(time) % 60).ToString("00"),                //秒
+                ((time - Mathf.Floor(time)) * 1000).ToString("000"),    //ミリ秒
+            };
+
+            objectTimeText[i].text = unit[0] + ":" + unit[1] + "." + unit[2];
+            Debug.Log(unit[0] + "分 : " + unit[1] + "秒" + unit[2] + "ミリ秒");
         }
 
     }
