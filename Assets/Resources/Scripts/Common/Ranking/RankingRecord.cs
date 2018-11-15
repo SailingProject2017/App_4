@@ -16,11 +16,6 @@ using UnityEngine.UI;
 
 public class RankingRecord : BaseObject
 {
-    //テスト用
-    /*[SerializeField]
-    private List<float> testRecodeList;
-    private List<RankingData> testRankigData;*/
-    //ここまで
 
     //@brief ファイルに出力するための構造体
     public struct RankingData 
