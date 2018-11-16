@@ -45,7 +45,7 @@ public class SailControl : BaseObject {
 
 
 		minSpeed = 10;
-		maxSpeed = 60;
+		maxSpeed = 50;
 
 		constantValue = (maxSpeed - minSpeed) / 180;
 
@@ -61,13 +61,37 @@ public class SailControl : BaseObject {
 
     }
 
+	public override void OnFixedUpdate()
+	{
+		base.OnFixedUpdate();
 
-    /// <summary>
-    /// @brief 風と進行方向に対して最適な帆の角度を算出して移動させる
-    /// </summary>
+		if (shipController.Speed < curMaxSpeed)
+        {
+            shipController.Speed += 3 * Time.deltaTime;
+
+            // TODO
+			// shipController.Speed += getWindParam.WindForce * Time.deltaTime; が本当は使いたい
+            // 実装されたら変えてくれ
+        }
+
+        if (shipController.Speed > curMaxSpeed)
+        {
+            shipController.Speed -= 3 * Time.deltaTime;
+        }
+
+        if (!Singleton<GameInstance>.Instance.IsShipMove)
+        {
+            shipController.Speed = 20;
+        }
+	}
+
+
+	/// <summary>
+	/// @brief 風と進行方向に対して最適な帆の角度を算出して移動させる
+	/// </summary>
 	/// <param name="windVector"> 風のベクトルの方向 </param>
-    /// <param name="playerRotate"> プレイヤーが進行しているベクトルの方向 </param>
-    private void SailRotate(float windVector, float playerRotate)
+	/// <param name="playerRotate"> プレイヤーが進行しているベクトルの方向 </param>
+	private void SailRotate(float windVector, float playerRotate)
     {
   
 		playerRotate -= 180;
@@ -77,6 +101,7 @@ public class SailControl : BaseObject {
 			sailRotate = 10 + ((playerRotate - ableMoveDegree) * (80 / (180 - ableMoveDegree)));
 			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * constantValue));
 		}
+
 		if (playerRotate <= windVector - ableMoveDegree)
         {
 			sailRotate = -10 + ((playerRotate + ableMoveDegree) * 0.5925f);
@@ -85,18 +110,7 @@ public class SailControl : BaseObject {
      
 		sail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
 
-		if (shipController.Speed < curMaxSpeed)
-        {
-			shipController.Speed += 5;
 
-            // TODO
-			// shipController.Speed += getWindParam.WindForce が本当は使いたい
-            // 実装されたら変えてくれ
-        }
-		if (shipController.Speed > curMaxSpeed)
-        {
-			shipController.Speed -= 5;
-        }
     }
 
     public void CircleMove()
