@@ -15,6 +15,9 @@ using UnityEngine;
 
 public sealed class AITestScript : MarkerBase {
 
+
+#region 変数宣言
+
 	private List<Vector2> markerPos;
 	private List<GameObject> AIMarkerList;
 
@@ -23,6 +26,9 @@ public sealed class AITestScript : MarkerBase {
 	private GameObject myHuman;
 	private GetWindParam getWindParam;
     
+	private readonly Vector3 rotateL = new Vector3(0f, -1.5f, 0f);        // @brief 左旋回用変数
+    private readonly Vector3 rotateR = new Vector3(0f, 1.5f, 0f);         // @brief 右旋回用変数
+
 	private float AISpeed;
 	private float AITopSpeed;
 	private float sailRotate;
@@ -36,8 +42,8 @@ public sealed class AITestScript : MarkerBase {
 
 	private enum eAIStatus
 	{
-		eStright,
         eZIGUZAGU,
+        eTurn,
         eGoal,
         NULL
 
@@ -45,16 +51,18 @@ public sealed class AITestScript : MarkerBase {
 
 	private eAIStatus AIStatus;
 
+#endregion
+
 	/// <summary>
-    /// Markers the initialize.
-    /// </summary>
+	/// Markers the initialize.
+	/// </summary>
 	protected override void MarkerInitialize()
 	{
 		base.MarkerInitialize();
 
 		markerPos = new List<Vector2>();
 		AIMarkerList = new List<GameObject>();
-		AIMarkerList = GameObjectExtension.GetGameObject(markerObjName, DecAIStrength());
+		AIMarkerList = GameObjectExtension.GetGameObject(markerObjName, DecideAIStrength());
 
 
 		me = this.gameObject;
@@ -67,14 +75,14 @@ public sealed class AITestScript : MarkerBase {
 		currentMarker = 0;
 		currentHitMarker = 1;
 
+		AIStatus = eAIStatus.NULL;
+
 		GetMarkerVec2();
 
-		SailRotate(getWindParam.ValueWind, me.transform.localEulerAngles.y);
+		GetNextPoint();
 
-        if(AISpeed < 20)
-		{
-			AIStatus = eAIStatus.eZIGUZAGU;
-		}
+		SailRotate(getWindParam.ValueWind, me.transform.localEulerAngles.y);
+        
 	}
 
     /// <summary>
@@ -86,32 +94,48 @@ public sealed class AITestScript : MarkerBase {
 
         // セールをまげつつ速度の計算
 		SailRotate(getWindParam.ValueWind, me.transform.localEulerAngles.y);
-
- 	
 	
 	}
-
-    /// <summary>
-    /// Gets the marker vec2.
-    /// </summary>
-    private void GetMarkerVec2()
+    
+	public override void OnFixedUpdate()
 	{
-		for (int i = 0; i < AIMarkerList.Count; i++)
+		base.OnFixedUpdate();
+
+		ShipMove();
+        
+        switch (AIStatus)
 		{
-			markerPos.Add(new Vector2(AIMarkerList[i].transform.position.x,
-									  AIMarkerList[i].transform.position.z));
-		}     
+			case eAIStatus.eZIGUZAGU:
+				
+				break;
+
+			case eAIStatus.eTurn:
+				
+				ShipRotate(GetNextPoint());
+
+				break;
+
+			case eAIStatus.eGoal:
+
+				ShipRotate(GetNextPoint());
+				
+				break;
+
+			case eAIStatus.NULL:
+				
+				break;
+		}
 	}
 
-    /// <summary>
+	/// <summary>
     /// Decide the AI Strength.
     /// </summary>
     /// <returns>The AIS trength.</returns>
-	private string DecAIStrength()
-	{
-		string temp;
+    private string DecideAIStrength()
+    {
+        string temp;
 
-		switch ((int)Random.Range(0.0f, 3.0f))
+        switch ((int)Random.Range(0.0f, 3.0f))
         {
             case 0:
                 temp = "AIFast";
@@ -126,13 +150,40 @@ public sealed class AITestScript : MarkerBase {
                 break;
 
             default:
-                temp = "GameObject"; 
-                break;
+                temp = "GameObject";
+				Debug.LogWarning("<color=red>StageがAIに対応してません</color>");
+				break;
         }
 
-		return temp;
+        return temp;
+    }
+
+
+	/// <summary>
+	/// Gets the marker vec2.
+	/// </summary>
+	private void GetMarkerVec2()
+	{
+		for (int i = 0; i < AIMarkerList.Count; i++)
+		{
+			markerPos.Add(new Vector2(AIMarkerList[i].transform.position.x,
+									  AIMarkerList[i].transform.position.z));
+		}     
 	}
 
+    private float GetNextPoint()
+	{
+		myRadius = transform.localEulerAngles.y;
+        
+		turnRadius = Mathf.Atan2(markerPos[currentHitMarker].y - transform.position.y,
+								 markerPos[currentHitMarker].x - transform.position.x);
+
+		turnDegree = turnRadius * Mathf.Rad2Deg + 87;
+
+		return turnDegree;
+	}
+
+   
     /// <summary>
     /// Ships the move.
     /// </summary>
@@ -140,15 +191,21 @@ public sealed class AITestScript : MarkerBase {
 	{
 		if(AISpeed < AITopSpeed)
 		{
-			AISpeed += 3;
+			AISpeed += 3 * Time.deltaTime;
 
             // TODO
 			// AISPeed += getWindParam.WindForce が本当は使いたい
             // 実装されたら変えてくれ
 		}
+
         if(AISpeed > AITopSpeed)
 		{
-			AISpeed -= 3;
+			AISpeed -= 3 * Time.deltaTime;
+		}
+
+        if(!Singleton<GameInstance>.Instance.IsShipMove)
+		{
+			AISpeed = 20;
 		}
 
 		// 進む
@@ -183,9 +240,22 @@ public sealed class AITestScript : MarkerBase {
 		AITopSpeed = temp;
 	}
 
-    private void ShipRotate()
+    /// <summary>
+    /// Ships the rotate.
+    /// </summary>
+    private void ShipRotate(float turnDeg)
 	{
-		
+		// 左
+		if(Mathf.DeltaAngle(myRadius, turnDeg) < 0)
+		{
+			transform.Rotate(rotateL);
+		}
+
+        // 右
+		else if(Mathf.DeltaAngle(myRadius, turnDeg) > 1)
+		{
+			transform.Rotate(rotateR);
+		}
 	}
 
 	/// <summary>
@@ -202,16 +272,18 @@ public sealed class AITestScript : MarkerBase {
             {
                 isGoal = true;
                 currentHitMarker = 1;
+				AIStatus = eAIStatus.eGoal;
             }
             else
             {
                 currentHitMarker += 1;
+				AIStatus = eAIStatus.eTurn;
             }
         }
 
 		if (other.gameObject == AIMarkerList[currentMarker].gameObject && other.tag != "goal")
         {
-            // 現在通ったマーカーの総数を計算
+            // 現在通ったブイの総数を計算
             currentMarker++;
         }
     }
