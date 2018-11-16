@@ -46,8 +46,8 @@ public class SailControl : BaseObject {
 
 		minSpeed = 10;
 		maxSpeed = 60;
-
-		constantValue = (maxSpeed - minSpeed) / 180;
+        
+		constantValue = (maxSpeed - minSpeed) / 80;
 
 		CircleChangeRotate();
     }
@@ -55,7 +55,7 @@ public class SailControl : BaseObject {
     public override void OnUpdate()
     {
         base.OnUpdate();
-		constantValue = (maxSpeed - minSpeed) / 180;
+		constantValue = (maxSpeed - minSpeed) / 80;
 		SailRotate(windVec.ValueWind, player.transform.localEulerAngles.y);
 		CircleMove();
 
@@ -71,16 +71,17 @@ public class SailControl : BaseObject {
     {
   
 		playerRotate -= 180;
+        
 
 		if(playerRotate >= windVector + ableMoveDegree)
 		{
 			sailRotate = 10 + ((playerRotate - ableMoveDegree) * (80 / (180 - ableMoveDegree)));
-			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * constantValue));
+			curMaxSpeed = Mathf.Abs(10 + (sailRotate * constantValue));
 		}
 		if (playerRotate <= windVector - ableMoveDegree)
         {
-			sailRotate = -10 + ((playerRotate + ableMoveDegree) * 0.5925f);
-			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * constantValue));
+			sailRotate = -10 + ((playerRotate + ableMoveDegree) * (80 / (180 - ableMoveDegree)));
+			curMaxSpeed = Mathf.Abs(-10 + (sailRotate * constantValue));
         }
      
 		sail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
@@ -112,18 +113,18 @@ public class SailControl : BaseObject {
     /* セールの角度を算出する計算式について */
 
     // 風向きを0°とする
-	// 船が風向きに対して進める角度は、ableMoveDgree ~ 180° : -ableMoveDgree° ~ -180° である。
-    // 自艇の角度が45°の時、セールの角度は10°である
+	// 船が風向きに対して進める角度は、ableMoveDegree ~ 180° : -ableMoveDegree° ~ -180° である。
+	// 自艇の角度がableMoveDegree°の時、セールの角度は10°である
 	// 自艇の角度が180°の時、セールの角度は90°である
-    // この時、自艇の角度1°大きくなるたびにセールの角度は0.5925大きくなる
+	// この時、自艇の角度1°大きくなるたびにセールの角度は(80 / (180 - ableMoveDegree))づつ大きくなる
     //
     // よって、自艇の角度から、セールの角度を求める式は、
     // 自艇の角度をx、セールの角度をyとする
     //
 	// 自艇の角度xが、x < ableMoveDgree ではない時
-	// y =  10 + ((x - ableMoveDgree) * 0.5925)
+	// y =  10 + ((x - ableMoveDgree) * (80 / (180 - ableMoveDegree)))
 	// 自艇の角度xが、x < -ableMoveDgree ではない時
-	// y = -10 + ((x + ableMoveDgree) * 0.5925)
+	// y = -10 + ((x + ableMoveDgree) * (80 / (180 - ableMoveDegree)))
     // となる
 
 
