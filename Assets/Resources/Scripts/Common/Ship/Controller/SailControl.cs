@@ -9,9 +9,8 @@
 ************************************************************************/
 using UnityEngine;
 
-public class SailControl : BaseObject {
-
-
+public class SailControl : BaseObject {    
+    
     private GameObject player;          // @brief 船オブジェクトを格納する変数
     private GameObject sail;            // @brief 船のセールオブジェクトを格納する変数
 	private GameObject human;
@@ -24,11 +23,15 @@ public class SailControl : BaseObject {
 
 	[SerializeField]
 	private float minSpeed;
-
+    
     [SerializeField]
 	private float maxSpeed;
 
 	private float constantValue;
+
+	private const float ableMoveDegree = 45f;
+
+	private float curMaxSpeed;
 
     private void Start()
     {
@@ -58,6 +61,7 @@ public class SailControl : BaseObject {
 
     }
 
+
     /// <summary>
     /// @brief 風と進行方向に対して最適な帆の角度を算出して移動させる
     /// </summary>
@@ -68,19 +72,31 @@ public class SailControl : BaseObject {
   
 		playerRotate -= 180;
 
-		if(playerRotate >= windVector + 45)
+		if(playerRotate >= windVector + ableMoveDegree)
 		{
-			sailRotate = 10 + ((playerRotate - 45) * 0.5925f);
-			shipController.Speed = Mathf.Abs(10 + ((playerRotate - 45) * constantValue));
+			sailRotate = 10 + ((playerRotate - ableMoveDegree) * (80 / (180 - ableMoveDegree)));
+			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * constantValue));
 		}
-		if (playerRotate <= windVector - 45)
+		if (playerRotate <= windVector - ableMoveDegree)
         {
-			sailRotate = -10 + ((playerRotate + 45) * 0.5925f);
-			shipController.Speed = Mathf.Abs(10 + ((playerRotate - 45) * constantValue));
+			sailRotate = -10 + ((playerRotate + ableMoveDegree) * 0.5925f);
+			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * constantValue));
         }
      
 		sail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
 
+		if (shipController.Speed < curMaxSpeed)
+        {
+			shipController.Speed += 5;
+
+            // TODO
+			// shipController.Speed += getWindParam.WindForce が本当は使いたい
+            // 実装されたら変えてくれ
+        }
+		if (shipController.Speed > curMaxSpeed)
+        {
+			shipController.Speed -= 5;
+        }
     }
 
     public void CircleMove()
@@ -96,7 +112,7 @@ public class SailControl : BaseObject {
     /* セールの角度を算出する計算式について */
 
     // 風向きを0°とする
-	// 船が風向きに対して進める角度は、45° ~ 180° : -45° ~ -180° である。
+	// 船が風向きに対して進める角度は、ableMoveDgree ~ 180° : -ableMoveDgree° ~ -180° である。
     // 自艇の角度が45°の時、セールの角度は10°である
 	// 自艇の角度が180°の時、セールの角度は90°である
     // この時、自艇の角度1°大きくなるたびにセールの角度は0.5925大きくなる
@@ -104,10 +120,10 @@ public class SailControl : BaseObject {
     // よって、自艇の角度から、セールの角度を求める式は、
     // 自艇の角度をx、セールの角度をyとする
     //
-    // 自艇の角度xが、x < 45 ではない時
-	// y =  10 + ((x - 45) * 0.5925)
-	// 自艇の角度xが、x < -45 ではない時
-	// y = -10 + ((x + 45) * 0.5925)
+	// 自艇の角度xが、x < ableMoveDgree ではない時
+	// y =  10 + ((x - ableMoveDgree) * 0.5925)
+	// 自艇の角度xが、x < -ableMoveDgree ではない時
+	// y = -10 + ((x + ableMoveDgree) * 0.5925)
     // となる
 
 
