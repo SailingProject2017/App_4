@@ -19,7 +19,7 @@ public sealed class AITestScript : MarkerBase
     #region 変数宣言
         
     private Vector2 myPos;                  // @brief 自身の場所
-    private Vector2 myZIGUZAGUPos;          // @brief ジグザグ開始時の自身の場所
+    private Vector3 myZIGUZAGUPos;          // @brief ジグザグ開始時の自身の場所
     
     private List<Vector2> markerPos;        // @brief マーカーの場所
 	private List<GameObject> AIMarkerList;  // @brief AIが通るマーカーのコンポーネント
@@ -29,9 +29,9 @@ public sealed class AITestScript : MarkerBase
     private GameObject myHuman;             // @brief 自分のヒトコンポーネント
 	private GetWindParam getWindParam;      // @brief 風のベクトル
 
-    private readonly Vector3 rotateL = new Vector3(0f, -1.5f, 0f);        // @brief 左旋回用変数
-    private readonly Vector3 rotateR = new Vector3(0f, 1.5f, 0f);         // @brief 右旋回用変数
-
+    private readonly Vector3 rotateL = new Vector3(0f, -0.05f, 0f);        // @brief 左旋回用変数
+    private readonly Vector3 rotateR = new Vector3(0f, 0.05f, 0f);         // @brief 右旋回用変数
+	[SerializeField]
     private float AISpeed;                  // @brief 現在のスピード
 	private float AITopSpeed;               // @brief 出せる最高速度
 	private float sailRotate;               // @brief セールの角度
@@ -41,9 +41,8 @@ public sealed class AITestScript : MarkerBase
 	private float turnDegree;               // @brief 次のマーカーまでの度数
 
     private float markerDistance;           // @brief ブイから次のブイまでの距離
-	private float currentDistance;          // @brief 自身から次のブイまでの現在の距離
     
-	private const float ableMoveDegree = 15f; // @brief 自身が進める角度
+	private readonly float ableMoveDegree = 15f; // @brief 自身が進める角度
      
     /// <summary>
     /// @beief AIがどの状態で進んでいるか
@@ -79,9 +78,10 @@ public sealed class AITestScript : MarkerBase
         eLast,
         NULL
     }
-
+	[SerializeField]
 	private eAIStatus AIStatus;     // @beief 現在のAIの状態
-    private eAISequence AISequence; // @brief 現在のジグザグのシーケンス
+	[SerializeField]
+     private eAISequence AISequence; // @brief 現在のジグザグのシーケンス
 
     #endregion
     
@@ -102,7 +102,6 @@ public sealed class AITestScript : MarkerBase
         // コンポーネントの取得
 		me = this.gameObject;
 		mySail = me.transform.Find("Sail").gameObject;
-		myHuman = me.transform.Find("Human").gameObject;
 		getWindParam = GameObjectExtension.Find("UIWind").GetComponent<GetWindParam>();
         
         // 変数の初期化
@@ -114,7 +113,6 @@ public sealed class AITestScript : MarkerBase
         AISequence = eAISequence.NULL;
        
 		GetMarkerVec2();
-        currentDistance = Distance(myPos, markerPos[currentHitMarker]);
 
 		NextPointDeg();
 		SailRotate(getWindParam.ValueWind, me.transform.localEulerAngles.y);
@@ -144,17 +142,15 @@ public sealed class AITestScript : MarkerBase
 	{
 		base.OnFixedUpdate();
 
-		ShipMove();
+
 
 		switch (AIStatus)
 		{
 			case eAIStatus.eZIGUZAGU:
-                
 				MoveTypeZIGUZAGU(NextPointDeg());
 				break;
 
 			case eAIStatus.eTurn:
-
 				ShipRotate(NextPointDeg());
 				break;
 
@@ -164,8 +160,10 @@ public sealed class AITestScript : MarkerBase
 				break;
 
 			case eAIStatus.NULL:
+
                 break;
 		}
+        ShipMove();
 	}
 
     #endregion
@@ -204,13 +202,13 @@ public sealed class AITestScript : MarkerBase
         return temp;
     }
 
-
+    
     /// <summary>
 	/// @brief 使うコンポーネントの座標をVector2型にしてリスト化
 	/// </summary>
     private void GetMarkerVec2()
 	{
-        myPos = new Vector2(transform.position.x, transform.position.z);
+        myPos = new Vector2(me.transform.position.x, me.transform.position.z);
         
 		for (int i = 0; i < AIMarkerList.Count; i++)
 		{
@@ -227,12 +225,12 @@ public sealed class AITestScript : MarkerBase
     /// <returns> 次のブイのラジアン値 </returns>
     private float NextPointDeg()
 	{
-		myRadius = transform.localEulerAngles.y;
+		myRadius = me.transform.localEulerAngles.y;
 
-        turnRadius = Mathf.Atan2(markerPos[currentHitMarker].y - transform.position.y,
-								 markerPos[currentHitMarker].x - transform.position.x);
-
-		turnDegree = turnRadius * Mathf.Rad2Deg + 87;
+        turnRadius = Mathf.Atan2(markerPos[currentHitMarker].y - me.transform.position.z,
+								 markerPos[currentHitMarker].x - me.transform.position.x);
+        
+		turnDegree = (turnRadius * Mathf.Rad2Deg + 87) * -1;
 
 		return turnDegree;
 	}
@@ -247,12 +245,12 @@ public sealed class AITestScript : MarkerBase
         // 左
         if (Mathf.DeltaAngle(myRadius, turnDegree) < 0)
         {
-            return eAIMoveStatus.eLeft;           
+            return eAIMoveStatus.eRight;           
         }
         // 左
         else  if (Mathf.DeltaAngle(myRadius, turnDegree) > 1)
         {
-            return eAIMoveStatus.eRight;
+            return eAIMoveStatus.eLeft;
         }
 
         return eAIMoveStatus.NULL;
@@ -266,6 +264,9 @@ public sealed class AITestScript : MarkerBase
 	/// </summary>
     private void ShipMove()
 	{
+		if (Singleton<ShipStates>.Instance.ShipState == eShipState.STOP)
+			me.transform.position += me.transform.forward * -AISpeed * Time.deltaTime;
+		
 		if (AISpeed < AITopSpeed)
 		{
 			AISpeed += 3 * Time.deltaTime;
@@ -282,12 +283,13 @@ public sealed class AITestScript : MarkerBase
         if (!Singleton<GameInstance>.Instance.IsShipMove)
 		{
 			AISpeed = 20;
+			return;
 		}
+        
+		// 進む
+		me.transform.position += me.transform.forward * -AISpeed * Time.deltaTime;
 
-        // 進む
-        transform.position = transform.forward * -AISpeed * Time.deltaTime;
-
-        // 速度が遅かったらジグザグに走らせる
+		// 速度が遅かったらジグザグに走らせる
 		if (AITopSpeed < 30 && AIStatus != eAIStatus.eTurn)
 		{
             AIStatus = eAIStatus.eZIGUZAGU;
@@ -308,12 +310,12 @@ public sealed class AITestScript : MarkerBase
         if (rotate >= windVector + ableMoveDegree)
 		{
 			sailRotate = 10 + ((rotate - ableMoveDegree) * 80 / (180 - ableMoveDegree));
-			temp = Mathf.Abs(10 + ((rotate - ableMoveDegree) * (60 - 10) / 180));
+			temp = Mathf.Abs(10 + ((rotate - ableMoveDegree) * (50 - 10) / 180));
 		}
 		if (rotate <= windVector - ableMoveDegree)
 		{
 			sailRotate = 10 + ((rotate + ableMoveDegree) * 80 / (180 - ableMoveDegree));
-			temp = Mathf.Abs(10 + ((rotate - ableMoveDegree) * (60 - 10) / 180));
+			temp = Mathf.Abs(10 + ((rotate - ableMoveDegree) * (50 - 10) / 180));
 		}
 
 		mySail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
@@ -326,18 +328,20 @@ public sealed class AITestScript : MarkerBase
     /// </summary>
     private void ShipRotate(float turnDeg)
 	{
+		// 左
+        if (Mathf.DeltaAngle(myRadius, turnDegree) < 0)
+        {
+			me.transform.Rotate(rotateL);
+        }
         // 左
-        if (NextTurnDirection(turnDeg) == eAIMoveStatus.eLeft)
+        else if (Mathf.DeltaAngle(myRadius, turnDegree) > 1)
+        {
+			me.transform.Rotate(rotateR);
+        }
+		else
 		{
-			transform.Rotate(rotateL);
+			AIStatus = eAIStatus.NULL;
 		}
-
-        // 右
-        else if (NextTurnDirection(turnDeg) == eAIMoveStatus.eRight)
-		{
-			transform.Rotate(rotateR);
-		}
-        
 	}
 
     /// <summary>
@@ -346,30 +350,27 @@ public sealed class AITestScript : MarkerBase
     /// <param name="turnDegree"> 次のブイの角度 </param>
     private void MoveTypeZIGUZAGU(float turnDegree)
     {
-        // このフレームでのブイ目での距離
-        currentDistance = Distance(myPos, markerPos[currentHitMarker]);
-
         switch (AISequence)
         {
             case eAISequence.NULL:
                 // ジグザグの準備
                 AISequence = eAISequence.eSetUp;
-                markerDistance = Distance(myPos, markerPos[currentHitMarker]);
-                myZIGUZAGUPos = transform.position;
-                return;
+                markerDistance = Vector3.Distance(me.transform.position, markerPos[currentHitMarker]);
+                myZIGUZAGUPos = me.transform.position;
+				break;
                
             case eAISequence.eSetUp:
                 
                 // 最高速度が上がるまで船に角度をつける
-                if(AITopSpeed < 40)
+                if(AITopSpeed < 35)
                 {
                     if (NextTurnDirection(turnDegree) == eAIMoveStatus.eLeft)
                     {
-                        transform.Rotate(rotateL);
+						me.transform.Rotate(rotateL);
                     }
                     else
                     {
-                        transform.Rotate(rotateR);
+						me.transform.Rotate(rotateR);
                     }
                 }
                 
@@ -378,12 +379,12 @@ public sealed class AITestScript : MarkerBase
                     AISequence = eAISequence.eFirst;
                 }
 
-                return;
+                break;
                 
             case eAISequence.eFirst:
-                
+            
                 // マーカーまで半分走ったら次のシークエンス
-                if (Distance(myPos, myZIGUZAGUPos) > markerDistance * 0.5)
+                if (Vector3.Distance(me.transform.position, myZIGUZAGUPos) > markerDistance * 0.25)
                 {
                     AISequence = eAISequence.eSecond;
                 }
@@ -393,13 +394,14 @@ public sealed class AITestScript : MarkerBase
             case eAISequence.eSecond:
                 
                 // マーカーの方向に船の角度を戻して進む
-                if(NextTurnDirection(turnDegree) == eAIMoveStatus.NULL)
+				if(AIStatus == eAIStatus.NULL)
                 {
                     AISequence = eAISequence.eLast;
+					AIStatus = eAIStatus.eZIGUZAGU;
                 }
                 else
                 {
-                    ShipRotate(NextPointDeg());
+					AIStatus = eAIStatus.eTurn;
                 }
 
                 break;
@@ -436,7 +438,7 @@ public sealed class AITestScript : MarkerBase
     private void OnTriggerEnter(Collider other)
     {
         // 当たったゲームオブジェクトが、目的のマーカーの場所と一致した場合
-        if (other.gameObject == AIMarkerList[currentHitMarker].gameObject)
+        if (other.gameObject == hitMarkerList[currentHitMarker].gameObject)
         {
             // スタートとゴールが同じ場所にあった時にゴール判定にならないようにする処理
             if (other.tag == "goal")
@@ -454,7 +456,7 @@ public sealed class AITestScript : MarkerBase
         }
 
         // 当たったゲームオブジェクトが、目的のブイの場所と一致した場合
-	    if (other.gameObject == AIMarkerList[currentMarker].gameObject && other.tag != "goal")
+		if (other.gameObject == hitMarkerList[currentMarker].gameObject && other.tag != "goal")
         {
             // 現在通ったブイの総数を計算
             currentMarker++;
