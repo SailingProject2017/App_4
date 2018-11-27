@@ -32,7 +32,9 @@ public sealed class AITestScript : MarkerBase
     private readonly Vector3 rotateL = new Vector3(0f, -0.05f, 0f);        // @brief 左旋回用変数
     private readonly Vector3 rotateR = new Vector3(0f, 0.05f, 0f);         // @brief 右旋回用変数
 	[SerializeField]
-    private float AISpeed;                  // @brief 現在のスピード
+    private float AISpeed;    
+	// @brief 現在のスピード
+	[SerializeField]
 	private float AITopSpeed;               // @brief 出せる最高速度
 	private float sailRotate;               // @brief セールの角度
        
@@ -43,7 +45,7 @@ public sealed class AITestScript : MarkerBase
     private float markerDistance;           // @brief ブイから次のブイまでの距離
     
 	private readonly float ableMoveDegree = 15f; // @brief 自身が進める角度
-     
+
     /// <summary>
     /// @beief AIがどの状態で進んでいるか
     /// </summary>
@@ -63,6 +65,7 @@ public sealed class AITestScript : MarkerBase
     {
         eRight,
         eLeft,
+		eTurnEnd,
         NULL
     }
     
@@ -78,10 +81,12 @@ public sealed class AITestScript : MarkerBase
         eLast,
         NULL
     }
+
+	private eAIMoveStatus AIMoveStatus;
 	[SerializeField]
 	private eAIStatus AIStatus;     // @beief 現在のAIの状態
 	[SerializeField]
-     private eAISequence AISequence; // @brief 現在のジグザグのシーケンス
+    private eAISequence AISequence; // @brief 現在のジグザグのシーケンス
 
     #endregion
     
@@ -111,6 +116,7 @@ public sealed class AITestScript : MarkerBase
 
 		AIStatus = eAIStatus.NULL;
         AISequence = eAISequence.NULL;
+		AIMoveStatus = eAIMoveStatus.NULL;
        
 		GetMarkerVec2();
 
@@ -242,20 +248,43 @@ public sealed class AITestScript : MarkerBase
     /// <param name="turnDegree"> 次のブイの角度 </param>
     private eAIMoveStatus NextTurnDirection(float turnDegree)
     {
-        // 左
-        if (Mathf.DeltaAngle(myRadius, turnDegree) < 0)
-        {
-            return eAIMoveStatus.eRight;           
-        }
-        // 左
-        else  if (Mathf.DeltaAngle(myRadius, turnDegree) > 1)
-        {
-            return eAIMoveStatus.eLeft;
-        }
+		// 左
+		if (Mathf.DeltaAngle(myRadius, turnDegree) < 0)
+		{
+			return eAIMoveStatus.eRight;
+		}
+		else if (Mathf.DeltaAngle(myRadius, turnDegree) > 1)
+		{
+			return eAIMoveStatus.eLeft;
+		}
+		else
+		{
+			return eAIMoveStatus.NULL;
+		}
+	}
 
-        return eAIMoveStatus.NULL;
-        
-    }
+    private eAIMoveStatus SwitchTurning()
+	{
+
+		float windVector = getWindParam.ValueWind;
+
+
+		float rightRotate = Mathf.Abs(10 + (((mySail.transform.localEulerAngles.y + 15) - ableMoveDegree) * (50 - 10) / 180));
+		float leftRotate = Mathf.Abs(-10 + (((mySail.transform.localEulerAngles.y - 15) - ableMoveDegree) * (50 - 10) / 180));
+
+		if (leftRotate > rightRotate)
+		{
+			return eAIMoveStatus.eLeft;
+		}
+		if (leftRotate < rightRotate)
+		{
+			return eAIMoveStatus.eRight;
+		}
+
+
+		return eAIMoveStatus.NULL;
+		
+	}
 
     #region Ship and Sail Moving
 
@@ -290,9 +319,10 @@ public sealed class AITestScript : MarkerBase
 		me.transform.position += me.transform.forward * -AISpeed * Time.deltaTime;
 
 		// 速度が遅かったらジグザグに走らせる
-		if (AITopSpeed < 30 && AIStatus != eAIStatus.eTurn)
+		if (AITopSpeed < 31 && AIStatus != eAIStatus.eTurn && AISequence == eAISequence.NULL)
 		{
-            AIStatus = eAIStatus.eZIGUZAGU;
+			if (currentHitMarker > 1)
+				AIStatus = eAIStatus.eZIGUZAGU;
 		}
 	}
 
@@ -306,7 +336,7 @@ public sealed class AITestScript : MarkerBase
 		float temp = 10;
 
 		rotate -= 180;
-
+        
         if (rotate >= windVector + ableMoveDegree)
 		{
 			sailRotate = 10 + ((rotate - ableMoveDegree) * 80 / (180 - ableMoveDegree));
@@ -314,8 +344,8 @@ public sealed class AITestScript : MarkerBase
 		}
 		if (rotate <= windVector - ableMoveDegree)
 		{
-			sailRotate = 10 + ((rotate + ableMoveDegree) * 80 / (180 - ableMoveDegree));
-			temp = Mathf.Abs(10 + ((rotate - ableMoveDegree) * (50 - 10) / 180));
+			sailRotate = -10 + ((rotate + ableMoveDegree) * 80 / (180 - ableMoveDegree));
+			temp = Mathf.Abs(-10 + ((rotate - ableMoveDegree) * (50 - 10) / 180));
 		}
 
 		mySail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
@@ -326,96 +356,106 @@ public sealed class AITestScript : MarkerBase
     /// <summary>
     /// @brief 船の回転
     /// </summary>
-    private void ShipRotate(float turnDeg)
+	private bool ShipRotate(float turnDeg)
 	{
+		AIMoveStatus = eAIMoveStatus.NULL;
 		// 左
-        if (Mathf.DeltaAngle(myRadius, turnDegree) < 0)
+        if (Mathf.DeltaAngle(myRadius, turnDeg) < 0)
         {
 			me.transform.Rotate(rotateL);
+			AIMoveStatus = eAIMoveStatus.eLeft;
+			return false;
         }
         // 左
-        else if (Mathf.DeltaAngle(myRadius, turnDegree) > 1)
+        else if (Mathf.DeltaAngle(myRadius, turnDeg) > 1)
         {
 			me.transform.Rotate(rotateR);
+			AIMoveStatus = eAIMoveStatus.eRight;
+			return false;
         }
 		else
 		{
 			AIStatus = eAIStatus.NULL;
+			AIMoveStatus = eAIMoveStatus.eTurnEnd;
+			return true;
 		}
 	}
 
-    /// <summary>
-    /// @brief ジグザグに動く処理
-    /// </summary>
-    /// <param name="turnDegree"> 次のブイの角度 </param>
-    private void MoveTypeZIGUZAGU(float turnDegree)
-    {
-        switch (AISequence)
-        {
-            case eAISequence.NULL:
-                // ジグザグの準備
-                AISequence = eAISequence.eSetUp;
-                markerDistance = Vector3.Distance(me.transform.position, markerPos[currentHitMarker]);
-                myZIGUZAGUPos = me.transform.position;
+	/// <summary>
+	/// @brief ジグザグに動く処理
+	/// </summary>
+	/// <param name="turnDegree"> 次のブイの角度 </param>
+	private void MoveTypeZIGUZAGU(float turnDegree)
+	{
+		switch (AISequence)
+		{
+			case eAISequence.NULL:
+				// ジグザグの準備
+				AISequence = eAISequence.eSetUp;
+				markerDistance = Vector3.Distance(me.transform.position, markerPos[currentHitMarker]);
+				myZIGUZAGUPos = me.transform.position;
 				break;
-               
-            case eAISequence.eSetUp:
-                
-                // 最高速度が上がるまで船に角度をつける
-                if(AITopSpeed < 35)
-                {
-                    if (NextTurnDirection(turnDegree) == eAIMoveStatus.eLeft)
-                    {
+
+			case eAISequence.eSetUp:
+
+				// 最高速度が上がるまで船に角度をつける
+				if (AITopSpeed < 35)
+				{
+					if (SwitchTurning() == eAIMoveStatus.eLeft)
+					{
 						me.transform.Rotate(rotateL);
-                    }
-                    else
-                    {
+					}
+					else
+					{
 						me.transform.Rotate(rotateR);
-                    }
-                }
+					}
+				}
+
+				else
+				{
+					AISequence = eAISequence.eFirst;
+				}
+
+				break;
+
+			case eAISequence.eFirst:
+
+				// マーカーまで半分走ったら次のシークエンス
+				if (Vector3.Distance(me.transform.position, myZIGUZAGUPos) > markerDistance * 0.5)
+				{
+					AISequence = eAISequence.eSecond;
+					AIMoveStatus = eAIMoveStatus.NULL;
+				}
                 
+				break;
+
+			case eAISequence.eSecond:
+                       
+				if (Mathf.DeltaAngle(myRadius, turnDegree) < 0)
+                {
+                    me.transform.Rotate(rotateL);
+                }
+                // 左
+				else if (Mathf.DeltaAngle(myRadius, turnDegree) > 1)
+                {
+                    me.transform.Rotate(rotateR);
+                }
                 else
                 {
-                    AISequence = eAISequence.eFirst;
+					AISequence = eAISequence.eThird;
                 }
+      
+				break;
 
-                break;
-                
-            case eAISequence.eFirst:
-            
-                // マーカーまで半分走ったら次のシークエンス
-                if (Vector3.Distance(me.transform.position, myZIGUZAGUPos) > markerDistance * 0.25)
-                {
-                    AISequence = eAISequence.eSecond;
-                }
+			case eAISequence.eThird:
 
-                break;
-                
-            case eAISequence.eSecond:
-                
-                // マーカーの方向に船の角度を戻して進む
-				if(AIStatus == eAIStatus.NULL)
-                {
-                    AISequence = eAISequence.eLast;
-					AIStatus = eAIStatus.eZIGUZAGU;
-                }
-                else
-                {
-					AIStatus = eAIStatus.eTurn;
-                }
+				break;
 
-                break;
-                
-            case eAISequence.eThird:
-                AISequence = eAISequence.eLast;
-                break;
-                
-            case eAISequence.eLast:
-                AISequence = eAISequence.NULL;
-                AIStatus = eAIStatus.NULL;
-                break;
-        }
-    }
+			case eAISequence.eLast:
+				AISequence = eAISequence.NULL;
+				break;
+		}
+	}
 
     
     #endregion
@@ -452,6 +492,8 @@ public sealed class AITestScript : MarkerBase
                 // 現在通ったマーカーの総数を計算
                 currentHitMarker += 1;
 			    AIStatus = eAIStatus.eTurn;
+				if (currentHitMarker % 2 == 1 && AISequence != eAISequence.NULL)
+					AISequence = eAISequence.eLast;
             }
         }
 
