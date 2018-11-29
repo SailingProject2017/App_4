@@ -15,24 +15,24 @@ using UnityEngine.UI;
 
 public class ControllerSetting : BaseObject
 {
+
+
 	private Toggle toggle;
 
 	private void Start()
 	{
+		
 		toggle = this.GetComponent<Toggle>();
 
 		Singleton<SaveDataInstance>.Instance = (SaveDataInstance)CreateSaveData.LoadFromBinaryFile();
-
-        // このスクリプト入ってるのは親オブジェクトのcontrollerだから名前で指定はできないと思う
-        // いい案浮かばないからとりあえずコメントアウトで申し訳ない
-		//if (this.gameObject.name == "Gyro")
-		//{
-		//	toggle.isOn |= Singleton<SaveDataInstance>.Instance.IsGyro;
-		//}
-		//else
-		//{
-		//	toggle.isOn |= Singleton<SaveDataInstance>.Instance.ISSwipe;
-		//}
+		if (this.gameObject.name == "Gyro")
+		{
+			toggle.isOn = Singleton<SaveDataInstance>.Instance.IsGyro;
+		}
+		else
+		{
+			toggle.isOn = Singleton<SaveDataInstance>.Instance.ISSwipe;
+		}
 	}
 
     /// <summary>
