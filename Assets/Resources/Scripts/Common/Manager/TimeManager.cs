@@ -66,6 +66,8 @@ class TimeManager : BaseObject
 	/// </summary>
 	public override void OnUpdate()
 	{
+		if (Singleton<GameInstance>.Instance.IsGoal) onTimer = false;
+		
 		if (onTimer) { millTime += Time.deltaTime; }
 
         if(millTime>= 60f)

@@ -15,11 +15,22 @@ using UnityEngine.UI;
 
 public class ControllerSetting : BaseObject
 {
+	private Toggle toggle;
 
-    private void Start()
-    {
-        Singleton<SaveDataInstance>.Instance = (SaveDataInstance)CreateSaveData.LoadFromBinaryFile();
-    }
+	private void Start()
+	{
+		toggle = this.GetComponent<Toggle>();
+
+		Singleton<SaveDataInstance>.Instance = (SaveDataInstance)CreateSaveData.LoadFromBinaryFile();
+		if (this.gameObject.name == "Gyro")
+		{
+			toggle.isOn |= Singleton<SaveDataInstance>.Instance.IsGyro;
+		}
+		else
+		{
+			toggle.isOn |= Singleton<SaveDataInstance>.Instance.ISSwipe;
+		}
+	}
 
     /// <summary>
     /// @brief ジャイロのフラグを切り替える

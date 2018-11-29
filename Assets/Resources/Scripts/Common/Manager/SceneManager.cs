@@ -25,7 +25,8 @@ public enum SCENES
     ONLINE,
     INTUTORIAL,
     INGAME,
-    ONLINEBATTLE
+    ONLINEBATTLE,
+    SETTING
 }
 
 // SceneManagerがUnityの予約語として登録されているため独自のnamespaceを作成

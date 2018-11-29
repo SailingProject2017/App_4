@@ -8,7 +8,7 @@
 * Copyright © 2018 Shun Tsuchida All Rights Reserved.
 **********************************************************************************************/
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 public class SettingMenu : BaseObject
 {
@@ -32,6 +32,11 @@ public class SettingMenu : BaseObject
             settingButton.SetActive(!activeMenuFlag);
         else
             settingButton.SetActive(activeMenuFlag);
+
+        if(SceneManager.GetActiveScene().name == "Setting")
+		{
+			ActiveMenu();
+		}
     }
 
     /// <summary>
@@ -47,7 +52,7 @@ public class SettingMenu : BaseObject
     /// </summary>
     public void ActiveMenu()
     {
-        if (Singleton<GameInstance>.Instance.IsShipMove)
+		if (Singleton<GameInstance>.Instance.IsShipMove || SceneManager.GetActiveScene().name == "Setting")
         {
             activeMenuFlag = ChengeBool(activeMenuFlag);
             settingButton.SetActive(!activeMenuFlag);

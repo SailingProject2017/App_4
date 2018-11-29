@@ -48,8 +48,8 @@ sealed public class AIControler : MarkerBase
 
     private eAIStatus AIMovingType;     // @brief 状態の変更を表す
     
-	private readonly Vector3 rotateL = new Vector3(0f, -1.5f, 0f);        // @brief 左旋回用変数
-	private readonly Vector3 rotateR = new Vector3(0f, 1.5f, 0f);         // @brief 右旋回用変数
+	private readonly Vector3 rotateL = new Vector3(0f, -2f, 0f);        // @brief 左旋回用変数
+	private readonly Vector3 rotateR = new Vector3(0f, 2f, 0f);         // @brief 右旋回用変数
 	private          float aISpeed = 20.0f;      // @brief AIの直進速度
     private float aITopSpeed;   // @brief AIの最大速度
     private float aITurnSpeed;  // @brief AIの旋回速度

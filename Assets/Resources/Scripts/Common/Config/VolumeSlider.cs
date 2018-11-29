@@ -20,10 +20,15 @@ public class VolumeSlider : BaseObject {
 
         Singleton<SaveDataInstance>.Instance = (SaveDataInstance)CreateSaveData.LoadFromBinaryFile();
 
-        slider.value = (int)Singleton<SaveDataInstance>.Instance.MaxSEVolume * 10;
-
-        slider.value = (int)Singleton<SaveDataInstance>.Instance.MaxBGMVolume * 10;
-    }
+        if(gameObject.name == "SESlider")
+		{
+			slider.value = Singleton<SaveDataInstance>.Instance.MaxSEVolume * 10;
+		}
+		else
+		{
+			slider.value = Singleton<SaveDataInstance>.Instance.MaxBGMVolume * 10;
+		}
+	}
 
     /// <summary>
     /// @brief BGM値が変化した際に呼ばれる関数
