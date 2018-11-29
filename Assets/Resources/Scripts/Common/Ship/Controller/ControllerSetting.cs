@@ -22,14 +22,17 @@ public class ControllerSetting : BaseObject
 		toggle = this.GetComponent<Toggle>();
 
 		Singleton<SaveDataInstance>.Instance = (SaveDataInstance)CreateSaveData.LoadFromBinaryFile();
-		if (this.gameObject.name == "Gyro")
-		{
-			toggle.isOn |= Singleton<SaveDataInstance>.Instance.IsGyro;
-		}
-		else
-		{
-			toggle.isOn |= Singleton<SaveDataInstance>.Instance.ISSwipe;
-		}
+
+        // このスクリプト入ってるのは親オブジェクトのcontrollerだから名前で指定はできないと思う
+        // いい案浮かばないからとりあえずコメントアウトで申し訳ない
+		//if (this.gameObject.name == "Gyro")
+		//{
+		//	toggle.isOn |= Singleton<SaveDataInstance>.Instance.IsGyro;
+		//}
+		//else
+		//{
+		//	toggle.isOn |= Singleton<SaveDataInstance>.Instance.ISSwipe;
+		//}
 	}
 
     /// <summary>
