@@ -29,14 +29,15 @@ public sealed class AITestScript : MarkerBase
     private GameObject myHuman;             // @brief 自分のヒトコンポーネント
 	private GetWindParam getWindParam;      // @brief 風のベクトル
 
-    private readonly Vector3 rotateL = new Vector3(0f, -0.05f, 0f);        // @brief 左旋回用変数
-    private readonly Vector3 rotateR = new Vector3(0f, 0.05f, 0f);         // @brief 右旋回用変数
+	private Vector3 rotateL;        // @brief 左旋回用変数
+    private Vector3 rotateR;         // @brief 右旋回用変数
 	[SerializeField]
     private float AISpeed;    
 	// @brief 現在のスピード
 	[SerializeField]
 	private float AITopSpeed;               // @brief 出せる最高速度
 	private float sailRotate;               // @brief セールの角度
+	private float turnSpeed;
        
 	private float myRadius;                 // @brief 船が向いてる角度
 	private float turnRadius;               // @brief 次のマーカーまでのラジアン
@@ -44,7 +45,7 @@ public sealed class AITestScript : MarkerBase
 
     private float markerDistance;           // @brief ブイから次のブイまでの距離
     
-	private readonly float ableMoveDegree = 15f; // @brief 自身が進める角度
+	private readonly float ableMoveDegree = 10f; // @brief 自身が進める角度
 
     /// <summary>
     /// @beief AIがどの状態で進んでいるか
@@ -83,6 +84,7 @@ public sealed class AITestScript : MarkerBase
     }
 
 	private eAIMoveStatus AIMoveStatus;
+	private eAIMoveStatus tempStatus;
 	[SerializeField]
 	private eAIStatus AIStatus;     // @beief 現在のAIの状態
 	[SerializeField]
@@ -117,11 +119,12 @@ public sealed class AITestScript : MarkerBase
 		AIStatus = eAIStatus.NULL;
         AISequence = eAISequence.NULL;
 		AIMoveStatus = eAIMoveStatus.NULL;
-       
+        
 		GetMarkerVec2();
 
 		NextPointDeg();
 		SailRotate(getWindParam.ValueWind, me.transform.localEulerAngles.y);
+		ChangeShipTurnSpeed();
 
     }
     
@@ -139,6 +142,7 @@ public sealed class AITestScript : MarkerBase
         // セールをまげつつ速度の計算
         SailRotate(getWindParam.ValueWind, me.transform.localEulerAngles.y);
 
+		ChangeShipTurnSpeed();
     }
 
     /// <summary>
@@ -288,6 +292,17 @@ public sealed class AITestScript : MarkerBase
 
     #region Ship and Sail Moving
 
+
+    private void ChangeShipTurnSpeed()
+	{
+		turnSpeed = ((0.05f / 35) * AISpeed) - 15 + 0.05f;
+
+		//rotateL = new Vector3(0, -1 * turnSpeed, 0);
+		//rotateR = new Vector3(0, turnSpeed, 0);
+		rotateL = new Vector3(0, -0.05F, 0);
+		rotateR = new Vector3(0, 0.05F, 0);
+	}
+
     /// <summary>
 	/// @brief 船の直進処理
 	/// </summary>
@@ -333,18 +348,23 @@ public sealed class AITestScript : MarkerBase
     /// <param name="rotate"> 自身の角度 </param>
     private void SailRotate(float windVector, float rotate)
 	{
-		float temp = 10;
-
+		float temp = 15;
+        
 		rotate -= 180;
+
         
         if (rotate >= windVector + ableMoveDegree)
 		{
 			sailRotate = 10 + ((rotate - ableMoveDegree) * 80 / (180 - ableMoveDegree));
+			mySail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
 			temp = Mathf.Abs(10 + ((rotate - ableMoveDegree) * (50 - 10) / 180));
+			//temp = Mathf.Abs(15 + ((mySail.transform.localEulerAngles.y - 180 - ableMoveDegree) * 35 / 80));
 		}
 		if (rotate <= windVector - ableMoveDegree)
 		{
 			sailRotate = -10 + ((rotate + ableMoveDegree) * 80 / (180 - ableMoveDegree));
+			mySail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
+			//temp = Mathf.Abs(-15 + ((mySail.transform.localEulerAngles.y - 180 - ableMoveDegree) * 35 / 80));
 			temp = Mathf.Abs(-10 + ((rotate - ableMoveDegree) * (50 - 10) / 180));
 		}
 
@@ -380,7 +400,7 @@ public sealed class AITestScript : MarkerBase
 			return true;
 		}
 	}
-
+    
 	/// <summary>
 	/// @brief ジグザグに動く処理
 	/// </summary>
@@ -399,13 +419,31 @@ public sealed class AITestScript : MarkerBase
 			case eAISequence.eSetUp:
 
 				// 最高速度が上がるまで船に角度をつける
-				if (AITopSpeed < 35)
+				if (Mathf.Abs(me.transform.localEulerAngles.y - 180) < 30)
 				{
-					if (SwitchTurning() == eAIMoveStatus.eLeft)
+					// 一度曲がる方向が決まったら入らないようにする。
+					if (tempStatus == eAIMoveStatus.NULL)
+					{
+						if (SwitchTurning() == eAIMoveStatus.eLeft)
+						{
+							tempStatus = eAIMoveStatus.eLeft;
+
+						}
+						else if (SwitchTurning() == eAIMoveStatus.eRight)
+						{
+							tempStatus = eAIMoveStatus.eRight;
+
+						}
+						else
+						{
+							tempStatus = eAIMoveStatus.NULL;
+						}
+					}
+					if(tempStatus == eAIMoveStatus.eLeft)
 					{
 						me.transform.Rotate(rotateL);
 					}
-					else
+					else if(tempStatus == eAIMoveStatus.eRight)
 					{
 						me.transform.Rotate(rotateR);
 					}
@@ -452,6 +490,7 @@ public sealed class AITestScript : MarkerBase
 				break;
 
 			case eAISequence.eLast:
+				tempStatus = eAIMoveStatus.NULL;
 				AISequence = eAISequence.NULL;
 				break;
 		}
@@ -493,7 +532,7 @@ public sealed class AITestScript : MarkerBase
                 currentHitMarker += 1;
 			    AIStatus = eAIStatus.eTurn;
 				if (currentHitMarker % 2 == 1 && AISequence != eAISequence.NULL)
-					AISequence = eAISequence.eLast;
+					AISequence = eAISequence.NULL;
             }
         }
 
