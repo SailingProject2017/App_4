@@ -1,9 +1,9 @@
 ﻿/*********************************************************************************************/
-/*@file       AITestScript.cs
+/*@file       AIScript.cs
 *********************************************************************************************
 * @brief      AIの挙動を制御するクラス
 *********************************************************************************************
-* @note       継承不可
+* @note       歴代屈指のクソース。　改善するならステートごとにクラス作って管理した方がいい
 *********************************************************************************************
 * @author     Ryo Sugiyama
 *********************************************************************************************
@@ -13,7 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class AITestScript : MarkerBase
+public sealed class AIScript : MarkerBase
 {
 
     #region 変数宣言
@@ -29,15 +29,13 @@ public sealed class AITestScript : MarkerBase
     private GameObject myHuman;             // @brief 自分のヒトコンポーネント
 	private GetWindParam getWindParam;      // @brief 風のベクトル
 
-	private Vector3 rotateL;        // @brief 左旋回用変数
-    private Vector3 rotateR;         // @brief 右旋回用変数
-	[SerializeField]
-    private float AISpeed;    
-	// @brief 現在のスピード
-	[SerializeField]
+	private Vector3 rotateL;                // @brief 左旋回用変数    
+	private Vector3 rotateR;                // @brief 右旋回用変数
+
+    private float AISpeed;              	// @brief 現在のスピード
 	private float AITopSpeed;               // @brief 出せる最高速度
 	private float sailRotate;               // @brief セールの角度
-	private float turnSpeed;
+	private float turnSpeed;                // @brief 旋回速度
        
 	private float myRadius;                 // @brief 船が向いてる角度
 	private float turnRadius;               // @brief 次のマーカーまでのラジアン
@@ -83,12 +81,10 @@ public sealed class AITestScript : MarkerBase
         NULL
     }
 
-	private eAIMoveStatus AIMoveStatus;
-	private eAIMoveStatus tempStatus;
-	[SerializeField]
-	private eAIStatus AIStatus;     // @beief 現在のAIの状態
-	[SerializeField]
-    private eAISequence AISequence; // @brief 現在のジグザグのシーケンス
+	private eAIMoveStatus AIMoveStatus; // @brief AIの動作状態
+	private eAIMoveStatus tempStatus;   // @brief テンポラリステータス　
+	private eAIStatus AIStatus;         // @beief 現在のAIの全体の状態
+    private eAISequence AISequence;     // @brief 現在のジグザグのシーケンス
 
     #endregion
     
@@ -116,14 +112,21 @@ public sealed class AITestScript : MarkerBase
 		currentMarker = 0;
 		currentHitMarker = 1;
 
+        // ステートの初期化
 		AIStatus = eAIStatus.NULL;
         AISequence = eAISequence.NULL;
 		AIMoveStatus = eAIMoveStatus.NULL;
         
+        // 角度の取得
 		GetMarkerVec2();
 
+        // 取得した角度の初期化
 		NextPointDeg();
+
+        // セールの角度の初期化
 		SailRotate(getWindParam.ValueWind, me.transform.localEulerAngles.y);
+
+		// 旋回速度の初期化
 		ChangeShipTurnSpeed();
 
     }
@@ -142,6 +145,7 @@ public sealed class AITestScript : MarkerBase
         // セールをまげつつ速度の計算
         SailRotate(getWindParam.ValueWind, me.transform.localEulerAngles.y);
 
+        // 旋回速度の更新
 		ChangeShipTurnSpeed();
     }
 
@@ -152,8 +156,7 @@ public sealed class AITestScript : MarkerBase
 	{
 		base.OnFixedUpdate();
 
-
-
+        // ステート管理
 		switch (AIStatus)
 		{
 			case eAIStatus.eZIGUZAGU:
@@ -170,9 +173,9 @@ public sealed class AITestScript : MarkerBase
 				break;
 
 			case eAIStatus.NULL:
-
                 break;
 		}
+        // 船の移動処理
         ShipMove();
 	}
 
@@ -218,6 +221,7 @@ public sealed class AITestScript : MarkerBase
 	/// </summary>
     private void GetMarkerVec2()
 	{
+		// 取得
         myPos = new Vector2(me.transform.position.x, me.transform.position.z);
         
 		for (int i = 0; i < AIMarkerList.Count; i++)
@@ -227,7 +231,7 @@ public sealed class AITestScript : MarkerBase
 		}
     }
 
-    #endregion
+
 
     /// <summary>
     /// @brief 次のブイの角度を求める
@@ -240,6 +244,7 @@ public sealed class AITestScript : MarkerBase
         turnRadius = Mathf.Atan2(markerPos[currentHitMarker].y - me.transform.position.z,
 								 markerPos[currentHitMarker].x - me.transform.position.x);
         
+        // ラジアンから度数へ変換
 		turnDegree = (turnRadius * Mathf.Rad2Deg + 87) * -1;
 
 		return turnDegree;
@@ -257,16 +262,22 @@ public sealed class AITestScript : MarkerBase
 		{
 			return eAIMoveStatus.eRight;
 		}
+        // 右
 		else if (Mathf.DeltaAngle(myRadius, turnDegree) > 1)
 		{
 			return eAIMoveStatus.eLeft;
 		}
+        // それ以外
 		else
 		{
 			return eAIMoveStatus.NULL;
 		}
 	}
 
+    /// <summary>
+    /// @brief ジグザグの時、どっちに曲がったほうが早いのか判断する関数
+    /// </summary>
+    /// <returns> 進む方向 </returns>
     private eAIMoveStatus SwitchTurning()
 	{
 
@@ -285,22 +296,21 @@ public sealed class AITestScript : MarkerBase
 			return eAIMoveStatus.eRight;
 		}
 
-
 		return eAIMoveStatus.NULL;
-		
 	}
 
+	#endregion
+    
     #region Ship and Sail Moving
 
-
+    /// <summary>
+    /// @brief 船の速度に応じて旋回速度を変える
+    /// </summary>
     private void ChangeShipTurnSpeed()
 	{
-		turnSpeed = ((0.05f / 35) * AISpeed) - 15 + 0.05f;
-
-		//rotateL = new Vector3(0, -1 * turnSpeed, 0);
-		//rotateR = new Vector3(0, turnSpeed, 0);
-		rotateL = new Vector3(0, -0.05F, 0);
-		rotateR = new Vector3(0, 0.05F, 0);
+		turnSpeed = (0.05f / 35) * (AISpeed - 15) + 0.05f;
+		rotateL = new Vector3(0, -turnSpeed, 0);
+		rotateR = new Vector3(0, turnSpeed, 0);
 	}
 
     /// <summary>
@@ -324,6 +334,7 @@ public sealed class AITestScript : MarkerBase
 			AISpeed -= 3 * Time.deltaTime;
 		}
 
+        // カウントダウン中だったらスピード固定
         if (!Singleton<GameInstance>.Instance.IsShipMove)
 		{
 			AISpeed = 20;
@@ -348,28 +359,40 @@ public sealed class AITestScript : MarkerBase
     /// <param name="rotate"> 自身の角度 </param>
     private void SailRotate(float windVector, float rotate)
 	{
+		// 最低速度
 		float temp = 15;
         
+        // -180 ~ 180 の範囲にする
 		rotate -= 180;
 
-        
+        // 船の角度が正の数の時
         if (rotate >= windVector + ableMoveDegree)
 		{
 			sailRotate = 10 + ((rotate - ableMoveDegree) * 80 / (180 - ableMoveDegree));
 			mySail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
+
+            // 絶対値
 			temp = Mathf.Abs(10 + ((rotate - ableMoveDegree) * (50 - 10) / 180));
+
+            // 多分こっちの方がいいけどこのままで行くわ
 			//temp = Mathf.Abs(15 + ((mySail.transform.localEulerAngles.y - 180 - ableMoveDegree) * 35 / 80));
 		}
+		// 船の角度が負の数の時
 		if (rotate <= windVector - ableMoveDegree)
 		{
 			sailRotate = -10 + ((rotate + ableMoveDegree) * 80 / (180 - ableMoveDegree));
 			mySail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
-			//temp = Mathf.Abs(-15 + ((mySail.transform.localEulerAngles.y - 180 - ableMoveDegree) * 35 / 80));
+
+			// 絶対値
 			temp = Mathf.Abs(-10 + ((rotate - ableMoveDegree) * (50 - 10) / 180));
+
+			// 多分こっちの方がいいけどこのままで行くわ
+			//temp = Mathf.Abs(-15 + ((mySail.transform.localEulerAngles.y - 180 - ableMoveDegree) * 35 / 80));
 		}
 
 		mySail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
 
+        // 出せる最大の速度に代入
 		AITopSpeed = temp;
 	}
 
@@ -393,6 +416,7 @@ public sealed class AITestScript : MarkerBase
 			AIMoveStatus = eAIMoveStatus.eRight;
 			return false;
         }
+        // まっすぐ
 		else
 		{
 			AIStatus = eAIStatus.NULL;
@@ -439,6 +463,8 @@ public sealed class AITestScript : MarkerBase
 							tempStatus = eAIMoveStatus.NULL;
 						}
 					}
+
+                    // 実際に曲げる
 					if(tempStatus == eAIMoveStatus.eLeft)
 					{
 						me.transform.Rotate(rotateL);
@@ -448,7 +474,7 @@ public sealed class AITestScript : MarkerBase
 						me.transform.Rotate(rotateR);
 					}
 				}
-
+                // 次のシーケンスへ
 				else
 				{
 					AISequence = eAISequence.eFirst;
@@ -469,15 +495,17 @@ public sealed class AITestScript : MarkerBase
 
 			case eAISequence.eSecond:
                        
+                // 左
 				if (Mathf.DeltaAngle(myRadius, turnDegree) < 0)
                 {
                     me.transform.Rotate(rotateL);
                 }
-                // 左
+                // 右
 				else if (Mathf.DeltaAngle(myRadius, turnDegree) > 1)
                 {
                     me.transform.Rotate(rotateR);
                 }
+                // ブイに来たらそのまままっすぐ
                 else
                 {
 					AISequence = eAISequence.eThird;
@@ -486,10 +514,12 @@ public sealed class AITestScript : MarkerBase
 				break;
 
 			case eAISequence.eThird:
-
+                // 次のカーブまでこのままのシーケンスを保つ
+                // カーブが来たら次のシーケンスへ
 				break;
 
 			case eAISequence.eLast:
+				// 状態を初期化
 				tempStatus = eAIMoveStatus.NULL;
 				AISequence = eAISequence.NULL;
 				break;

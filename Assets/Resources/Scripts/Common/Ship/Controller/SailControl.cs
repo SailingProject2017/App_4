@@ -18,18 +18,12 @@ public class SailControl : BaseObject {
 	private ShipController shipController;
 	private GetWindParam windVec;
     
-
 	private float sailRotate;
-
-	[SerializeField]
+   
 	private float minSpeed;
-    
-    [SerializeField]
 	private float maxSpeed;
 
-	private float constantValue;
-
-	private const float ableMoveDegree = 45f;
+	private readonly float ableMoveDegree = 10f;
 
 	private float curMaxSpeed;
 
@@ -47,15 +41,12 @@ public class SailControl : BaseObject {
 		minSpeed = 10;
 		maxSpeed = 50;
 
-		constantValue = (maxSpeed - minSpeed) / 180;
-
 		CircleChangeRotate();
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-		constantValue = (maxSpeed - minSpeed) / 180;
 		SailRotate(windVec.ValueWind, player.transform.localEulerAngles.y);
 		CircleMove();
 
@@ -99,13 +90,13 @@ public class SailControl : BaseObject {
 		if(playerRotate >= windVector + ableMoveDegree)
 		{
 			sailRotate = 10 + ((playerRotate - ableMoveDegree) * (80 / (180 - ableMoveDegree)));
-			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * constantValue));
+			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * (50 - 10) / 180));
 		}
 
 		if (playerRotate <= windVector - ableMoveDegree)
         {
 			sailRotate = -10 + ((playerRotate + ableMoveDegree) * 0.5925f);
-			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * constantValue));
+			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * (50 - 10) / 180)));
         }
      
 		sail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
@@ -113,11 +104,17 @@ public class SailControl : BaseObject {
 
     }
 
+    /// <summary>
+    /// @brief 動ける範囲を見せてるUIの移動
+    /// </summary>
     public void CircleMove()
 	{
 		moveCircle.transform.position = player.transform.position;
 	}
 
+	/// <summary>
+    /// @brief 動ける範囲を見せてるUIの回転
+    /// </summary>
     public void CircleChangeRotate()
 	{
 		moveCircle.transform.eulerAngles = new Vector3(90, windVec.ValueWind * -1, 0);
