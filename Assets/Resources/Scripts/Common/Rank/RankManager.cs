@@ -113,7 +113,7 @@ public class RankManager : MarkerBase
 		// その後ろに敵の処理
 		for (int i = 0; i < allEnemyShipObject.Count; i++)
 		{
-			allShip.Add(new ShipObject(allEnemyShipObject[i],  0.0f, 1, allEnemyShipObject[i].GetComponent<AITestScript>()));
+			allShip.Add(new ShipObject(allEnemyShipObject[i],  0.0f, 1, allEnemyShipObject[i].GetComponent<AIScript>()));
 		}
 
 	}

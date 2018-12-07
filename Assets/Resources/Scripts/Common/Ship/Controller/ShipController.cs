@@ -9,7 +9,7 @@
 ************************************************************************/
 using UnityEngine;
 
-public class ShipController : BaseObject
+public class ShipController : PlayerBase
 {
     [SerializeField]
     private float moveSpeed; // @brief プレイヤーの進むスピード
@@ -20,21 +20,27 @@ public class ShipController : BaseObject
 		get { return moveSpeed; }
 	}
 
-   
-    public void Start()
-    {
+
+	public override void Initialize()
+	{
+		base.Initialize();
         Singleton<ShipStates>.Instance.ShipState = eShipState.START;
         Singleton<GameInstance>.Instance.IsShipMove = false;
     }
 
-    public override void OnFixedUpdate()
+	public override void UpdateByFrame()
+	{
+		base.UpdateByFrame();
+	}
+
+	public override void UpdateByFixed()
     {
-        base.OnFixedUpdate();
+		base.UpdateByFixed();
 
 
         if(Singleton<ShipStates>.Instance.ShipState == eShipState.STOP)
         {
-            transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+			gameObject.transform.position -= gameObject.transform.forward * moveSpeed * Time.deltaTime;
         }
 
         if (Singleton<GameInstance>.Instance.IsShipMove)
@@ -43,13 +49,13 @@ public class ShipController : BaseObject
             // 移動
             if (Input.GetKey("right"))
             {
-                transform.Rotate(0, 0.1f, 0);
+				gameObject.transform.Rotate(0, 0.1f, 0);
             }
             if (Input.GetKey("left"))
             {
-                transform.Rotate(0, -0.1f, 0);
+				gameObject.transform.Rotate(0, -0.1f, 0);
             }
-            transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+			gameObject.transform.position -= gameObject.transform.forward * moveSpeed * Time.deltaTime;
 
            
         }

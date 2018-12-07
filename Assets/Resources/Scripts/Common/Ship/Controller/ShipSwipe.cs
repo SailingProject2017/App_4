@@ -15,6 +15,7 @@ public class ShipSwipe : BaseObject
 
     private bool isFlick;
     private bool isClick;
+	MonoBehaviour time;
     private Vector3 touchStartPos;
     private Vector3 touchEndPos;
 
@@ -35,7 +36,7 @@ public class ShipSwipe : BaseObject
                                 Input.mousePosition.y,
                                 Input.mousePosition.z);
 
-                    Invoke("FlickOff", 0.2f);
+                    time.Invoke("FlickOff", 0.2f);
                 }
 
                 if (Input.GetKey(KeyCode.Mouse0))
