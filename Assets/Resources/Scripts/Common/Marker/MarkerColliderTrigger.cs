@@ -1,18 +1,21 @@
-﻿/**********************************************************************************************/
-/*@file       MarkerJuge.cs
+﻿/********************************************************************************************
+* @file       MarkerColliderTrigger.cs
 *********************************************************************************************
 * @brief      markerの当たった時の処理を扱う
 *********************************************************************************************
 * @author     Yuta Takatsu
 *********************************************************************************************
 * Copyright © 2018 Yuta Takatsu & Ryo Sugiyama All Rights Reserved.
-**********************************************************************************************/
+*********************************************************************************************/
 using UnityEngine;
 public class MarkerColliderTrigger : MarkerBase
 {
 
     private GameObject markerSign; // @brief 今目指すべきマーカーを示す矢印
 
+    /// <summary>
+    /// @brief 初期化
+    /// </summary>
 	protected override void MarkerInitialize()
 	{
 		base.MarkerInitialize();
@@ -24,9 +27,11 @@ public class MarkerColliderTrigger : MarkerBase
 
 	}
     
+    /// <summary>
+    /// @brief ポイントの移動
+    /// </summary>
     private void MoveMakerPoint()
     {         
-        // ポイントの移動
 		markerSign.transform.position = new Vector3(hitMarkerList[currentHitMarker].transform.position.x,
 		                                            hitMarkerList[currentHitMarker].transform.position.y + 11,
 		                                            hitMarkerList[currentHitMarker].transform.position.z);      
@@ -35,7 +40,7 @@ public class MarkerColliderTrigger : MarkerBase
     /// <summary>
     /// @brief あたり判定用メソッド
     /// </summary>
-    /// <param name="other"></param>
+    /// <param name="other">当たったゲームオブジェクト</param>
     public void OnTriggerEnter(Collider other)
 	{
 		if (hitMarkerList[currentHitMarker].gameObject == other.gameObject)

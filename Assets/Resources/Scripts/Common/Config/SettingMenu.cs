@@ -1,4 +1,4 @@
-﻿/**********************************************************************************************/
+﻿/********************************************************************************************/
 /*@file       SettingMenu.cs
 *********************************************************************************************
 * @brief      設定メニューの表示非表示
@@ -6,16 +6,16 @@
 * @author     Shun Tsuchida
 *********************************************************************************************
 * Copyright © 2018 Shun Tsuchida All Rights Reserved.
-**********************************************************************************************/
+*********************************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class SettingMenu : BaseObject
 {
-    [SerializeField] private GameObject settingButton;    // @brief メニューを出すボタン
-    [SerializeField] private GameObject settingPopup; // brief settingのインスタンス化
+    [SerializeField] private GameObject settingButton;  // @brief メニューを出すボタン
+    [SerializeField] private GameObject settingPopup;   // @brief settingのインスタンス化
     private PopupSetting setting; // @brief 設定用ポップアップ
-    private bool activeMenuFlag;           // @brief メニューの表示非表示のフラグ
+    private bool activeMenuFlag;  // @brief メニューの表示非表示のフラグ
 
 
     /// <summary>
@@ -49,8 +49,11 @@ public class SettingMenu : BaseObject
     {
         if (Singleton<GameInstance>.Instance.IsShipMove)
         {
+            // メニューをアクティブ化
             activeMenuFlag = ChengeBool(activeMenuFlag);
+            // メニューボタンを非アクティブ化
             settingButton.SetActive(!activeMenuFlag);
+            // メニューポップアップをアクティブ化
             settingPopup.SetActive(activeMenuFlag);
             
             // ポーズフラグの切り替え 設定画面を開いているときはポーズ中 閉じればプレイ中の状態

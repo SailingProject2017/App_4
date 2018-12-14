@@ -1,5 +1,5 @@
 ﻿/***********************************************************************/
-/*! @file   TitleShipAnimation.cs
+/*! @file   SailControl.cs
 *************************************************************************
 *   @brief  風と進行方向に対して最適な帆の角度を算出して移動させるクラス
 *************************************************************************
@@ -12,23 +12,23 @@ using UnityEngine;
 public class SailControl : BaseObject {
 
 
-    private GameObject player;          // @brief 船オブジェクトを格納する変数
-    private GameObject sail;            // @brief 船のセールオブジェクトを格納する変数
-	private GameObject human;
-	private GameObject moveCircle;
-	private ShipController shipController;
-	private GetWindParam windVec;
+    private GameObject player;              // @brief 船オブジェクトを格納する変数
+    private GameObject sail;                // @brief 船のセールオブジェクトを格納する変数
+	private GameObject human;               // @brief 人オブジェクトを格納する変数
+	private GameObject moveCircle;          // @brief 
+	private ShipController shipController;  // @brief 
+	private GetWindParam windVec;           // @brief 
     
 
-	private float sailRotate;
+	private float sailRotate;     // @brief 
 
 	[SerializeField]
-	private float minSpeed;
+	private float minSpeed;       // @brief 
 
     [SerializeField]
-	private float maxSpeed;
+	private float maxSpeed;       // @brief 
 
-	private float constantValue;
+	private float constantValue;  // @brief 
 
     private void Start()
     {
@@ -83,11 +83,17 @@ public class SailControl : BaseObject {
 
     }
 
+    /// <summary>
+    /// @brief 
+    /// </summary>
     public void CircleMove()
 	{
 		moveCircle.transform.position = player.transform.position;
 	}
 
+    /// <summary>
+    /// @brief 
+    /// </summary>
     public void CircleChangeRotate()
 	{
 		moveCircle.transform.eulerAngles = new Vector3(90, windVec.ValueWind * -1, 0);

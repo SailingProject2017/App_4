@@ -1,10 +1,10 @@
-﻿/**********************************************************************************************/
-/*@file       RankManager.cs
-*********************************************************************************************
+﻿/**********************************************************************************************
+*@file       RankManager.cs
+***********************************************************************************************
 * @brief      レース中の順位を判断するスクリプト
-*********************************************************************************************
+***********************************************************************************************
 * @author     Ryo Sugiyama
-*********************************************************************************************
+***********************************************************************************************
 * Copyright © 2018 Ryo Sugiyama All Rights Reserved.
 **********************************************************************************************/
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ public class RankManager : MarkerBase
         public int resultRank;          // @brief ゴール時のランク
         public MarkerBase markerBase;   // @brief Player,Enemy両方で使うcurrentMarkerの基底クラス
 
+        // コンストラクタ
 		public ShipObject(GameObject ship, float distance, int rank, MarkerBase markerBase)
 		{
 			this.ship = ship;
@@ -48,6 +49,7 @@ public class RankManager : MarkerBase
 
     /// <summary>
     /// @brief MarkerBaseの実装
+    /// @note 初期化
     /// </summary>
 	protected override void MarkerInitialize()
 	{
@@ -55,7 +57,7 @@ public class RankManager : MarkerBase
 
         Singleton<SoundPlayer>.Instance.PlaySE("StartRase");
 
-        	// ランク画像を処理しているスクリプトのコンポーネント取得
+        // ランク画像を処理しているスクリプトのコンポーネント取得
 		GameObject rank = GameObject.Find("Rank");
 		rankImageRender = rank.GetComponent<RankImageRender>();
 
@@ -124,7 +126,7 @@ public class RankManager : MarkerBase
     /// </summary>
 	private void DistanceShipToMarker()
 	{
-		
+		// 存在する船の数繰り返す
 		for (int i = 0; i < allShip.Count; i++)
 		{
 			// ゴールしている場合、リスト外参照でエラーになるため
@@ -152,6 +154,7 @@ public class RankManager : MarkerBase
         // ゴールしている船を数える
 		for (int i = 0; i < allShip.Count; i++)
 		{
+
             if (allShip[i].markerBase.IsGoal)
             {
                 goaledShipNum++;

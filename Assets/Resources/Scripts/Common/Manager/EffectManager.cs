@@ -4,6 +4,8 @@
 *   @brief  エフェクトを管理するスクリプト
 *************************************************************************
 *   @author Tsuyoshi Takaguchi
+*************************************************************************
+*   Copyright © 2018 Tsuyoshi Takaguchi All Rights Reserved.
 ************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -42,7 +44,7 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
     private void EffectInitialize()
     {
         effectClips = new Dictionary<string, EffectInfo>();
-   
+        // エフェクトのセット
         effectClips.Add("Tap", new EffectInfo("TapEffect", effectObject[(int)eEffectType.eTap_Effect]));
         effectClips.Add("PassedMarker", new EffectInfo("PassedMarkerEffect", effectObject[(int)eEffectType.ePassedMarker_Effect]));
     }
@@ -50,10 +52,10 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
     /// <summary>
     /// @brief エフェクトの再生関数
     /// </summary>
-    /// <param name="effectName"> エフェクトの名前 </param>
-    /// <param name="effectPosition"> 生成させる場所 </param>
-    /// <param name="effectRotate"> 生成させる場所の角度 </param>
-    /// <param name="effectScale"> 生成される大きさ </param>
+    /// <param name="effectName">    エフェクトの名前    </param>
+    /// <param name="effectPosition">生成させる場所      </param>
+    /// <param name="effectRotate">  生成させる角度      </param>
+    /// <param name="effectScale">   生成させる大きさ：引数なしの場合はそのまま</param>
     public void PlayEffect(string effectName, Vector3 effectPosition, Quaternion effectRotate, Vector3? effectScale = null)
     {
         if(effectClips.ContainsKey(effectName) == false)
@@ -62,7 +64,7 @@ public class EffectManager : BaseObjectSingleton<EffectManager> {
         }
         // エフェクトオブジェクトを生成し一定時間後に削除する
         Destroy(spawnObject = Instantiate(effectClips[effectName].effectObject, effectPosition, effectRotate), 1.2f);
-        // 生成されたエフェクトの大きさを変更
+        // 大きさが指定されていたら生成されたエフェクトの大きさを変更
         if (effectScale != null)
         {
             spawnObject.transform.localScale = (Vector3)effectScale;

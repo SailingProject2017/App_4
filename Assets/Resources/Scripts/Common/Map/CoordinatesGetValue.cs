@@ -1,9 +1,11 @@
-﻿/***************************************************************/
-/*!@file CoordinatesGetValue.cs
- ***************************************************************
- * @briefミニマップでマーカーのアイコン表示と座標の格納
- * *************************************************************
- * @author Reina Sawai
+﻿/***************************************************************
+*! @file CoordinatesGetValue.cs
+****************************************************************
+* @brief ミニマップでマーカーのアイコン表示と座標の格納
+****************************************************************
+* @author Reina Sawai
+****************************************************************
+* Copyright © 2017 Reina Sawai All Rights Reserved.
 ****************************************************************/
 using System;
 using System.Collections;
@@ -22,11 +24,11 @@ public class CoordinatesGetValue : MarkerBase
 	protected override void MarkerInitialize()
 	{
 		base.MarkerInitialize();
-
+        // 存在するマーカーを検索
 		for (int i = 0; i < markerList.Count; i++)
 		{
 			Debug.Log(markerList[i].name);
-			tmpPos.Add(markerList[i].gameObject.transform.position);
+			tmpPos.Add(markerList[i].gameObject.transform.position); // マーカーの座標を格納
 			Debug.Log(tmpPos[i]);
 		}
 
@@ -47,6 +49,7 @@ public class CoordinatesGetValue : MarkerBase
 		// TransformExtension.SetPosY(icon.gameObject.transform, 10.0f);
 	}
 
+    /* 当たり判定処理 */
 	private void OnTriggerEnter(Collider other)
 	{
 

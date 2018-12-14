@@ -3,9 +3,9 @@
 *************************************************************************
 *   @brief  タイトル用の船を生成するスクリプト
 *************************************************************************
-*   @author yuta takatsu
+*   @author Yuta Takatsu
 *************************************************************************
-*   Copyright © 2017 yuta takatsu All Rights Reserved.
+*   Copyright © 2017 Yuta Takatsu All Rights Reserved.
 ************************************************************************/
 using System.Collections;
 using System.Collections.Generic;

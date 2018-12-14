@@ -3,9 +3,9 @@
 *************************************************************************
 *   @brief  タイトルのアニメーションを制御するスクリプト
 *************************************************************************
-*   @author yuta takatsu
+*   @author Yuta Takatsu
 *************************************************************************
-*   Copyright © 2017 yuta takatsu All Rights Reserved.
+*   Copyright © 2017 Yuta Takatsu All Rights Reserved.
 ************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -59,7 +59,7 @@ public class TitleTextAnimation : BaseObject
     }
 
     /// <summary> 
-    /// movedPosの位置に2.0fで移動 
+    /// @brief movedPosの位置に2.0fで移動 
     /// </summary>
     void Start()
     {
@@ -75,12 +75,18 @@ public class TitleTextAnimation : BaseObject
         }
     }
 
+    /// <summary>
+    /// @brief 
+    /// </summary>
     public void Text()
     {    
         this.canvasGroup = this.GetComponent<CanvasGroup>();
         this.canvasGroup.DOFade(1.0f, this.durationSecondes).SetEase(this.easeType).SetLoops(-1, LoopType.Yoyo);
     }
 
+    /// <summary>
+    /// @brief 
+    /// </summary>
     public void TitleLog()
     {
         me.rectTransform.DOAnchorPosX(movedPos.x, 2.0f).SetEase(Ease.InOutBack);
