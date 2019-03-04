@@ -89,14 +89,14 @@ public class SailControl : BaseObject {
 
 		if(playerRotate >= windVector + ableMoveDegree)
 		{
-			sailRotate = 10 + ((playerRotate - ableMoveDegree) * (80 / (180 - ableMoveDegree)));
+			sailRotate = 10 + ((playerRotate - ableMoveDegree) * 0.5925f);
 			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * (50 - 10) / 180));
 		}
 
 		if (playerRotate <= windVector - ableMoveDegree)
         {
 			sailRotate = -10 + ((playerRotate + ableMoveDegree) * 0.5925f);
-			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * (50 - 10) / 180)));
+			curMaxSpeed = Mathf.Abs(-10 + ((playerRotate + ableMoveDegree) * (50 - 10) / 180));
         }
      
 		sail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
