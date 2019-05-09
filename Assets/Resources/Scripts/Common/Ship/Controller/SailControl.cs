@@ -75,8 +75,13 @@ public class SailControl : BaseObject {
 		}
 		if (playerRotate <= windVector - 45)
         {
+<<<<<<< HEAD
 			sailRotate = -10 + ((playerRotate + 45) * 0.5925f);
 			shipController.Speed = Mathf.Abs(10 + ((playerRotate - 45) * constantValue));
+=======
+			sailRotate = -10 + ((playerRotate + ableMoveDegree) * 0.5925f);
+			curMaxSpeed = Mathf.Abs(10 + ((playerRotate - ableMoveDegree) * (50 - 10) / 180));
+>>>>>>> origin/Player
         }
      
 		sail.transform.localEulerAngles = new Vector3(0, sailRotate, 0);
