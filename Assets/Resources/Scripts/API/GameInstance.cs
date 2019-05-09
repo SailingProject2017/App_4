@@ -24,16 +24,20 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     private bool isPopup;      // @brief ポップアップを開くか閉じるか
     private bool isGyro;       // @brief ジャイロ操作のフラグ
     private bool isSwipe;      // @brief スワイプ操作のフラグ
-    private int rank;
-    private float sensitivty;
+    private int rank;          // @brief プレイヤーのランク
+    private float sensitivty;  // @brief 加速度
 
     /* Tutorial関連 */
     private bool isTutorialState; // @brief チュートリアルが変わったかどうかの確認
 
     /* サウンド関連 */
-    private float maxBGMVolume;
-    private float maxSEVolume;
+    private float maxBGMVolume;  // @brief BGMの音量
+    private float maxSEVolume;   // @brief SEの音量
 
+    /// <summary>
+    /// @brief BaseObjectの実装
+    /// @note 初期化処理
+    /// </summary>
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -61,8 +65,8 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     /// <summary>
     /// @brief  読み込むステージを判断する変数のアクセサー
-    /// @set    none
-    /// @get    入力されたデータを渡す
+    /// @set    読み込むステージタイプの更新
+    /// @get    読み込むステージタイプの取得
     /// </summary>
     public eStageType StageType
     {
@@ -76,7 +80,13 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     /// <summary>
     /// @brief isShipMoveの変数アクセサー
+    /// @set 船の動作状態を更新する
+    /// @get 船の動作状態を取得する
     /// </summary>
+    /// <value>
+	/// <c> true  </c> 動ける
+	/// <c> false </c> 動けない 
+	/// </value>
     public bool IsShipMove
     {
         set { isShipMove = value; }
@@ -89,7 +99,13 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     /// <summary>
     /// @brief isPorseの変数アクセサー
+    /// @set ポーズ状況を更新する
+    /// @get ポーズ状況を取得する
     /// </summary>
+    /// <value>
+	/// <c> true  </c> ポーズしている
+	/// <c> false </c> ポーズしていない 
+	/// </value>
     public bool IsPorse
     {
         set { isPorse = value; }
@@ -102,7 +118,13 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     /// <summary>
     /// @brief isCountDownの変数アクセサー
+    /// @set カウントダウンの開始状況を更新する
+    /// @get カウントダウンの開始状況を取得する
     /// </summary>
+    /// <value>
+	/// <c> true  </c> カウントダウンを始める
+	/// <c> false </c> カウントダウンを始めない
+	/// </value>
     public bool IsCountDown
     {
         set { isCountDown = value; }
@@ -116,7 +138,13 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     /// <summary>
     /// @brief isGoalの変数アクセサー
+    /// @set ゴール状況の更新
+    /// @get ゴール状況の取得
     /// </summary>
+    /// <value>
+	/// <c> true  </c> すでにゴールした
+	/// <c> false </c> まだゴールしてない  
+	/// </value>
     public bool IsGoal
     {
         set { isGoal = value; }
@@ -130,8 +158,13 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     /// <summary>
     /// @brief isPopupの変数アクセサー
-    /// @none  true 開く false 閉じる
+    /// @set ポップアップの開閉状況を更新する
+    /// @get ポップアップの開閉状況を取得する
     /// </summary>
+    /// <value>
+	/// <c> true  </c> ポップアップを開く
+	/// <c> false </c> ポップアップを閉じる
+	/// </value>
     public bool IsPopup
     {
         set { isPopup = value; }
@@ -172,9 +205,9 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
     /********************************************************************************************/
 
     /// <summary>
-    /// @brief  読み込むステージを判断する変数のアクセサー
-    /// @set    none
-    /// @get    入力されたデータを渡す
+    /// @brief  プレイヤーのランクのアクセサ
+    /// @set    プレイヤーのランクの更新
+    /// @get    プレイヤーのランクの取得
     /// </summary>
     public int Rank
     {
@@ -189,7 +222,13 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
     /// <summary>
     /// @brief isTutorialStateの変数アクセサー
+    /// @set チュートリアルの変更状況を更新する
+    /// @get チュートリアルの変更状況を取得する
     /// </summary>
+    /// <value>
+	/// <c> true  </c> 変わった
+	/// <c> false </c> 変わってない  
+	/// </value>
     public bool IsTutorialState
     {
         set { isTutorialState = value; }
@@ -249,13 +288,14 @@ public class GameInstance : BaseObjectSingleton<GameInstance>
 
 public class Selectable<T>
 {
-    private T _value; // 選択中の値
+    private T _value; // @brief 選択中の値
 
     /// <summary>
     /// @brief 値を取得または設定をする
-    /// @none  値の設定後にcahgedイベントが呼び出される
+    /// @note  値の設定後にcahgedイベントが呼び出される
+    /// @set 値の設定
+    /// @get 値の更新
     /// </summary>
-    /// <param></param>
     public T Value
     {
         get { return _value; }
@@ -268,7 +308,7 @@ public class Selectable<T>
 
     /// <summary>
     /// @brief 値が変更されたときに呼び出されます
-    /// @none  イベントを使用しなかった時のコンパイル時の警告を抑制する
+    /// @note  イベントを使用しなかった時のコンパイル時の警告を抑制する
     /// </summary>
 #pragma warning disable 0067
     public Action<T> changed;
@@ -284,7 +324,7 @@ public class Selectable<T>
 
     /// <summary>
     /// @brief 値を設定
-    /// @none  値の設定後にchangedイベントは呼び出されない
+    /// @note  値の設定後にchangedイベントは呼び出されない
     /// </summary>
     public void SetValueWithoutCallback(T value)
     {
@@ -293,7 +333,7 @@ public class Selectable<T>
 
     /// <summary>
     /// @brief 値を設定
-    /// @none 値が変更された場合のみchangedイベントを呼ぶ
+    /// @note 値が変更された場合のみchangedイベントを呼ぶ
     /// </summary>
     public void SetValueIfNotEqual(T value)
     {

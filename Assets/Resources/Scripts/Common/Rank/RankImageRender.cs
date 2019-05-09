@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/************************************************************************
+*!  @file   RankImageRender.cs
+*************************************************************************
+*   @brief  レース中の順位を表示する
+*************************************************************************
+*   @author Ryo Sugiyama
+*************************************************************************
+*   Copyright © 2018 Ryo Sugiyama All Rights Reserved.
+************************************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +30,7 @@ public class RankImageRender : BaseObject {
 
     /// <summary>
     /// @brief BaseObjectの実装
+    /// @note 初期化
     /// </summary>
 	protected override void OnAwake()
 	{
@@ -65,24 +75,31 @@ public class RankImageRender : BaseObject {
     
     /// <summary>
     /// @brief 順位変動時の回転アニメーションを再生する
+    /// @note  @author Tsuyoshi Takaguchi
     /// </summary>
     /// <param name="rank"> プレイヤーのランク </param>
     private void RankAnimation(int rank)
     {
+        // 順位が変わった瞬間、アニメーションを再生していない状態の処理
         if(prevRank != rank && 
            !rankAnimator.GetBool("animationFlag"))
         {
+            // アニメーションの再生を開始
             rankAnimator.SetBool("animationFlag", true);
+            // 記憶する順位を更新
             prevRank = rank;
         }
         
+        // アニメーション再生中
         if (rankAnimator.GetBool("animationFlag"))
         {
             animationCount++;
-            // 30はアニメーション再生時間
+            // 15はアニメーション再生時間
             if(animationCount >= 15)
             {
+                // アニメーションを再生していない状にする
                 rankAnimator.SetBool("animationFlag", false);
+                // カウントの初期化
                 animationCount = 0;
             }
         }

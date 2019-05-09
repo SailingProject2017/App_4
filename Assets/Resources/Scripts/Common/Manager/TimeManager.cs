@@ -5,7 +5,7 @@
 *********************************************************************************************
 * @note     2018-06-28 制作
 *********************************************************************************************
-* @author   Tsuchida Shun
+* @author   Shun Tsuchida
 *********************************************************************************************/
 
 using System.Collections;
@@ -25,6 +25,9 @@ class TimeManager : BaseObject
 		get { return millTime; }
 	}
 
+    /// <summary>
+    /// @get タイマーの経過時間 (分) を取得する
+    /// </summary>
     public int Minute
     {
         get { return minute; }
@@ -55,6 +58,11 @@ class TimeManager : BaseObject
 		onTimer = !onTimer;
 	}
 
+    /// <summary>
+    /// @brief タイマー更新フラグのアクセサ
+    /// @set フラグの更新
+    /// @get フラグの取得
+    /// </summary>
 	public bool OnTimer
     {
         set { onTimer = value; }
@@ -69,7 +77,7 @@ class TimeManager : BaseObject
 		if (Singleton<GameInstance>.Instance.IsGoal) onTimer = false;
 		
 		if (onTimer) { millTime += Time.deltaTime; }
-
+        // 分に変換
         if(millTime>= 60f)
         {
             minute++;

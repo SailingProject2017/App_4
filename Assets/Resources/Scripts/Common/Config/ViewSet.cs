@@ -15,10 +15,10 @@ using UnityEngine.UI;
 public class ViewSet : BaseObject
 {
 
-	[SerializeField] private bool onTPS;        // TPSのオンオフフラグ
-	[SerializeField] private Button TPSButton;  // TPSをオンにするためのボタン
-	[SerializeField] private bool onFPS;        // FPSのオンオフフラグ
-	[SerializeField] private Button FPSButton;  // FPSをオンにするためのボタン
+	[SerializeField] private bool onTPS;        // @brief TPSのオンオフフラグ
+	[SerializeField] private Button TPSButton;  // @brief TPSをオンにするためのボタン
+	[SerializeField] private bool onFPS;        // @brief FPSのオンオフフラグ
+	[SerializeField] private Button FPSButton;  // @brief FPSをオンにするためのボタン
 
 	/// <summary>
 	/// @brief TPS

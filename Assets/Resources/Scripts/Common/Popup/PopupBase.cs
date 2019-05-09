@@ -1,11 +1,11 @@
-/**************************************************************************************/
-/*! @file   PopupBase.cs
+/**************************************************************************************
+*! @file      PopupBase.cs
 ***************************************************************************************
-@brief      PopupWindowの基底クラス
+* @brief      PopupWindowの基底クラス
 ***************************************************************************************
-@author     yuta takatsu
+* @author     Yuta Takatsu
 ***************************************************************************************
-* Copyright © 2017 yuta takatsu All Rights Reserved.
+* Copyright © 2017 Yuta Takatsu All Rights Reserved.
 ***************************************************************************************/
 using UnityEngine;
 using UnityEngine.UI;
@@ -102,6 +102,11 @@ public class PopupBase : BaseObject
     }
 
     float time = float.NaN;
+
+    /// <summary>
+    /// @brief BaseObjectの実装
+    /// @note 初期化処理
+    /// </summary>
     protected override void OnAwake()
     {
         base.OnAwake();

@@ -32,8 +32,6 @@ public class NextLineRenderer : MarkerBase {
     {
         base.MarkerInitialize();
 
-
-
         playerObject = GameObject.Find("Player");
         markerBase = playerObject.GetComponent<MarkerBase>();
 
@@ -43,10 +41,11 @@ public class NextLineRenderer : MarkerBase {
         goalPosition = hitMarkerList[markerBase.CurrentMarker].gameObject.transform.position;
         yondPosition = hitMarkerList[markerBase.CurrentMarker + 1].gameObject.transform.position;
     }
+
     /// <summary>
     ///  @brief 更新処理
     /// </summary>
-    private void StraightLineUpdate()
+    private void NextLineUpdate()
     {
         startPosition = playerObject.transform.position;
         goalPosition = hitMarkerList[markerBase.CurrentMarker].gameObject.transform.position;
@@ -60,8 +59,9 @@ public class NextLineRenderer : MarkerBase {
     /// <summary>
     /// @brief 線の描画
     /// </summary>
-    private void StraightLineRenderer(int _rendererLine)
+    private void NextLineRenderer(int _rendererLine)
     {
+        // 線分の数を設定
         lineRenderer.SetVertexCount(2);
 
 
@@ -85,6 +85,7 @@ public class NextLineRenderer : MarkerBase {
         StraightLineUpdate();
         StraightLineRenderer(rendererLine);
         
+        // ゴールしたら消す
         if(Singleton<GameInstance>.Instance.IsGoal)
         {
             Delete(gameObject);

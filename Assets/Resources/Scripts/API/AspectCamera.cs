@@ -1,12 +1,12 @@
-﻿/**********************************************************************************************/
+﻿/********************************************************************************************/
 /*@file       AspectCamera.cs
 *********************************************************************************************
 * @brief      画面サイズを端末に応じて変更させるクラス
 *********************************************************************************************
-* @author     yuta takatsu
+* @author     Yuta Takatsu
 *********************************************************************************************
-* Copyright © 2018 yuta takatsu All Rights Reserved.
-**********************************************************************************************/
+* Copyright © 2018 Yuta Takatsu All Rights Reserved.
+*********************************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,15 +14,19 @@ using UnityEngine.SceneManagement;
 
 public class AspectCamera : BaseObject {
 
-    //比率を 16 / 9 で初期化
+    //比率を 16:9 で初期化
     [SerializeField]
-    private float aspectX = 16.0f;
+    private float aspectX = 16.0f; // @brief 画面の横比率(16で初期化)
     [SerializeField]
-    private float aspectY = 9.0f;
+    private float aspectY = 9.0f;  // @brief 画面の縦比率(9で初期化)
 
-    private GameObject cameraObj;
-    private Camera camera;
+    private GameObject cameraObj;  // @brief カメラオブジェクトを格納する
+    private Camera camera;         // @brief カメラのデータを格納する
     
+    /// <summary>
+    /// @brief BaseObjectの実装
+    /// @note 初期化処理
+    /// </summary>
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -42,6 +46,7 @@ public class AspectCamera : BaseObject {
     {
         SetUpAspect();
     }
+
     /// <summary>
     /// @brief アスペクト比の初期化
     /// </summary>
@@ -50,18 +55,18 @@ public class AspectCamera : BaseObject {
         // カメラを指定
         cameraObj = GameObject.Find("Main Camera");
         camera = cameraObj.GetComponent<Camera>();
-
+        // アスペクト比の初期化
         Rect rect = setAspect(aspectX, aspectY);
         camera.rect = rect;
 
     }
-    
+
     /// <summary>
     /// @brief サイズを取得し調整したサイズを返す
     /// </summary>
-    /// <param name="width"  横幅 
-    ///        name="height" 縦幅>
-    /// </param>
+    /// <param name="width">横幅</param>
+    /// <param name="height">縦幅</param>
+    /// <returns>調整後の画面サイズ</returns>
     private Rect setAspect(float width,float height)
     {
         // 目標の比率
@@ -73,6 +78,7 @@ public class AspectCamera : BaseObject {
         // 値の初期化
         Rect rect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
 
+        // 以下画面サイズの調整
         // 縦長の場合
         if (1.0f > heightAspect) {
             rect.x = 0;

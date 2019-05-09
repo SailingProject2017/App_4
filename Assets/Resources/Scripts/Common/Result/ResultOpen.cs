@@ -17,8 +17,8 @@ public class ResultOpen : BaseObject
     [SerializeField]
     private GameObject resultPopup; // @brief Resultのインスタンス化
 
-    private bool isCallOnse;
-    private PopupResult result;
+    private bool isCallOnse;        // @brief 
+    private PopupResult result;     // @brief PopupResultクラスの参照用
 
     private void Start()
     {

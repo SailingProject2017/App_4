@@ -1,10 +1,12 @@
-﻿/***********************************************************************/
+﻿/************************************************************************/
 /*! @file   TapEffectPlayer.cs
 *************************************************************************
 *   @brief  タップ時のエフェクトを再生する
 *************************************************************************
 *   @author Tsuyoshi Takaguchi
-************************************************************************/
+*************************************************************************
+*   Copyright © 2018 Tsuyoshi Takaguchi All Rights Reserved.
+*************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +23,7 @@ public class TapEffectPlayer : BaseObject {
     {
         if (Input.GetMouseButtonDown(0) && !Singleton<GameInstance>.Instance.IsShipMove)
         {
+            // カメラに映されるように座標を調整
             var pos = camera.ScreenToWorldPoint(Input.mousePosition + camera.transform.forward * 5);
             // エフェクトの再生
             BaseObjectSingleton<EffectManager>.Instance.PlayEffect("Tap", pos, Quaternion.Euler(90 - camera.transform.localScale.x, 0, 0));

@@ -20,8 +20,10 @@ public static class CreateSaveData
     /// <summary>
     /// @brief 指定されたチュートリアルを実行するか判断する関数
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns>true 実行可 : false 実行不可</returns>
+    /// <param name="path">ファイルパス</param>
+    /// <returns>
+    ///  true：実行可
+    /// false：実行不可</returns>
     public static bool DoTutorial(string path, eTutorial state)
     {
         Singleton<SaveDataInstance>.Instance = (SaveDataInstance)LoadFromBinaryFile(path);
@@ -36,7 +38,7 @@ public static class CreateSaveData
     /// <summary>
     /// @brief チュートリアルの情報を更新する
     /// </summary>
-    /// <param name="state"></param>
+    /// <param name="state">チュートリアルの情報</param>
     public static void NextTutorialState(eTutorial state)
     {
         Singleton<SaveDataInstance>.Instance.TutorialStatus = state;
@@ -46,7 +48,7 @@ public static class CreateSaveData
     #region バイナリファイルへのアクセサー
     /**********************************************************************************************/
     /// <summary>
-    /// @brief オブジェクトの内容をファイルから読み込み復元する
+    /// @brief オブジェクトの内容を指定したファイルから読み込み復元する
     /// </summary>
     /// <param name="path">読み込むファイル名</param>
     /// <returns>復元されたオブジェクト</returns>
@@ -69,6 +71,10 @@ public static class CreateSaveData
         return obj;
     }
 
+    /// <summary>
+    /// @brief オブジェクトの内容をファイルから読み込み復元する
+    /// </summary>
+    /// <returns>復元したオブジェクト</returns>
     public static object LoadFromBinaryFile()
     {
 

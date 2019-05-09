@@ -1,10 +1,12 @@
 ﻿/******************************************************
- * ! @file PopUpBackground
- * ****************************************************
- * @brief ポップアップが表示、非表示するスクリプト
- * ****************************************************
- * @author reina sawai
- ****************************************************/
+*! @file PopUpBackground.cs
+*******************************************************
+* @brief ポップアップが表示、非表示するスクリプト
+*******************************************************
+* @author Reina Sawai
+*******************************************************
+* Copyright © 2017 Reina Sawai All Rights Reserved.
+*******************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,16 +15,16 @@ using DG.Tweening;
 
 public class PopUpBackground : BaseObject
 {
-    /// <summary>
-    /// @brief ポップアップの開くボタンが押されたかどうか
-    /// </summary>
-    private bool isScreenTap;
+
+    private bool isScreenTap; // @brief ポップアップの開くボタンが押されたかどうか
+
     void Start()
     {
         isScreenTap = true; //@true 閉じている状態
         OnTap(); // @brief ボタンが押された時の処理 
 
     }
+
     /// <summary>
     /// @brief ボタンが押された時の処理 
     /// </summary>

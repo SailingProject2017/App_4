@@ -43,7 +43,7 @@ public class ClearTime : BaseObject {
     /// </summary>
     private void SetClearTime()
     {
-        // 6桁の秒単位の記録と固定位置に「：」をセット
+        // 6桁の記録と固定位置に「：」をセット(10を「：」として扱う)
         for(ii=0;ii<8;ii++)
         {
             if (ii == 2 || ii == 5)
@@ -75,7 +75,7 @@ public class ClearTime : BaseObject {
     {
         for (ii = 0; ii < 8; ii++)
         {
-            //複製
+            //座標をずらしながら、配列に記憶した記録を画像化して複製する
             RectTransform timeImage = (RectTransform)New(clearTimeImage).transform;
             timeImage.SetParent(this.transform, false);
             timeImage.localPosition = new Vector2(

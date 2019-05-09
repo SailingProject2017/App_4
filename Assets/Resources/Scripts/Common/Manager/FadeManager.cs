@@ -3,9 +3,9 @@
 *************************************************************************
 *   @brief  フェードの制御をするマネージャークラス
 *************************************************************************
-*   @author yuta takatsu
+*   @author Yuta Takatsu
 *************************************************************************
-*   Copyright © 2017 yuta takatsu All Rights Reserved.
+*   Copyright © 2017 Yuta Takatsu All Rights Reserved.
 ************************************************************************/
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,12 +28,14 @@ public class FadeManager : BaseObjectSingleton<FadeManager>
 
     public void Start()
     {
+        // 初期化
         fade.raycastTarget = false;
     }
 
     /// <summary>
     /// @brief フェードをさせるコルーチン呼び出し
     /// </summary>
+    /// <param name="scene">シーン番号</param>
     public void Load(int scene)
     {
         FadeManager.Instance.StartCoroutine(SceneLoad(scene));
@@ -42,6 +44,7 @@ public class FadeManager : BaseObjectSingleton<FadeManager>
     /// <summary>
     /// @brief フェードを行うコルーチン
     /// </summary>
+    /// <param name="scene">シーン番号</param>
     IEnumerator SceneLoad(int scene)
     {
         fade.raycastTarget = true;
@@ -55,8 +58,8 @@ public class FadeManager : BaseObjectSingleton<FadeManager>
         }
         fade.color = new Color(0, 0, 0, 1);
 
+        // 少し間をあけてシーンのロード
         yield return null;
-
         SceneManager.LoadScene(scene);
 
         // フェードアウト

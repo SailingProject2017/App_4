@@ -1,11 +1,11 @@
 ﻿/**************************************************************************************/
 /*! @file    Timer.cs
 ***************************************************************************************
-*@brief      デバッグ用クラス。関数処理の計測に使います。
+* @brief     デバッグ用クラス。関数処理の計測に使います。
 ***************************************************************************************
-*@author     Ryo Sugiyama
+* @author    Ryo Sugiyama
 ***************************************************************************************
-* Copyright  2018 Ryo Sugiyama All Rights Reserved.
+* Copyright © 2018 Ryo Sugiyama All Rights Reserved.
 ***************************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -14,10 +14,12 @@ using System.Diagnostics;
 
 public class Timer : BaseObject
 {
-    private static Stopwatch stopwatch = new Stopwatch();
+    // 処理時間を測定する準備
+    private static Stopwatch stopwatch = new Stopwatch();  // @brief Stopwatchクラスの格納
 
     /// <summary>
-    /// @brief 現在の処理時間の合計をfloatで各単位に変換したもの(上からミリ秒、秒)
+    /// @brief 現在の処理時間の合計をfloatでミリ秒単位に変換したもの
+    /// @get   現在の処理時間(ミリ秒単位)をfloatで取得する
     /// </summary>
     public static float TotalMilliseconds
     {
@@ -26,6 +28,10 @@ public class Timer : BaseObject
             return (float)stopwatch.Elapsed.TotalMilliseconds;
         }
     }
+    /// <summary>
+    /// @brief 現在の処理時間の合計をfloatで秒単位に変換したもの
+    /// @get   現在の処理時間(秒単位)をfloatで取得する
+    /// </summary>
     public static float TotalSeconds
     {
         get
@@ -34,7 +40,10 @@ public class Timer : BaseObject
         }
     }
 
-    //計測中かどうかのフラグ
+    /// <summary>
+    /// @brief 計測中かどうかのフラグ
+    /// @get   フラグを取得する
+    /// </summary>
     public static bool IsRunning 
     {
         get
@@ -44,7 +53,8 @@ public class Timer : BaseObject
     }
 
     /// <summary>
-    /// @brief 現在の処理時間の各単位だけをintで抜き出したもの(上からミリ秒、秒)
+    /// @brief 現在の処理時間のミリ秒単位だけをintで抜き出したもの
+    /// @get   現在の処理時間(ミリ秒単位)をintで取得する
     /// </summary>
     public static int Milliseconds {
         get 
@@ -53,6 +63,10 @@ public class Timer : BaseObject
         }
     }
 
+    /// <summary>
+    /// @brief 現在の処理時間の秒単位だけをintで抜き出したもの
+    /// @get   現在の処理時間(秒単位)をintで取得する
+    /// </summary>
     public static int Seconds 
     { 
         get
